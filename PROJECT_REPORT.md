@@ -92,20 +92,38 @@ Samarth Business is a zero-dependency, lightweight web platform built to solve t
 
 ---
 
+### Phase 7: Real Multi-Page Architecture & AI-Driven Budgeting
+- **Multi-Page Architecture:**
+  - `login.html`: Secure authentication gateway with a one-click **"⚡ Instant Demo Login"** button for evaluators.
+  - `dashboard.html`: Dedicated enterprise portal with authenticated user greeting, logout session management, and integrated services.
+  - `scheme-detail.html`: Dedicated deep-dive page triggered on tapping any scheme card, providing eligibility, document checklists, and application workflow.
+  - `index.html`: Smart entry router directing unauthenticated users to `login.html` and active sessions to `dashboard.html`.
+- **AI-Driven Dynamic Capital Budgeting:**
+  - Allows entrepreneurs to type their specific business trade (e.g. Retail Grocery, Cloud Kitchen, Fabrication, Garment Boutique).
+  - AI engine dynamically alters the capital allocation percentages (e.g., higher inventory for retail, higher machinery for manufacturing).
+  - Displays instant AI rationale explaining why specific allocations were chosen.
+- **Simplified 1-Page Bank DPR:**
+  - Streamlined Detailed Project Report layout removing bureaucratic clutter.
+  - Generates a concise 1-page financial breakdown with debt-to-equity ratio, means of finance, scheme linkage, and bank stamp lines.
+
+---
+
 ## 3. Technology Stack & Architecture
 
 | Layer | Technologies Used | Description |
 | :--- | :--- | :--- |
-| **Frontend Markup** | HTML5, Semantic Elements | Structured layout with accessible form inputs |
+| **Frontend Markup** | HTML5, Semantic Elements | Multi-page layout (`login.html`, `dashboard.html`, `scheme-detail.html`) |
 | **Styling** | CSS3 (Flexbox, Grid, Print Media Queries) | Responsive, mobile-first design with A4 print formatting |
-| **Logic & State** | Vanilla JavaScript (ES6+) | Event-driven UI, calculations, `localStorage` caching |
+| **Logic & State** | Vanilla JavaScript (ES6+) | Event-driven UI, AI trade models, `localStorage` caching & session management |
 | **Icons & Typography** | FontAwesome 6.5.1, Plus Jakarta Sans | High-resolution SVG icons and modern typography |
 | **Hosting & CI/CD** | GitHub Pages & GitHub Actions | Automated continuous deployment on git push |
 
 ---
 
 ## 4. Planned Roadmap (Upcoming Milestones)
+- [x] Multi-page app structure (`login.html`, `dashboard.html`, `scheme-detail.html`).
+- [x] AI-driven smart capital budgeting based on business trade.
+- [x] Simplified 1-page Bank DPR export.
 - [ ] Connect AI Assistant to live Google Gemini API backend.
 - [ ] Voice-to-Text input support using browser Web Speech API.
-- [ ] Automatic scheme recommendation filter triggering on profile category change.
-- [ ] PDF generation download shortcut button directly generating `.pdf` file.
+

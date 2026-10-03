@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Dashboard | Samarth Business (SIH26092)</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div>
+                <h2>Samarth<span>Business</span></h2>
+                <span class="sub-brand">Enterprise Dashboard • SIH26092</span>
+            </div>
+        </div>
+
+        <nav class="nav-links">
+            <a href="#schemes"><i class="fa-solid fa-landmark"></i> <span>Govt Schemes</span></a>
+            <a href="#fund-planner"><i class="fa-solid fa-calculator"></i> <span>AI Fund Planner</span></a>
+            <a href="#assistant"><i class="fa-solid fa-robot"></i> <span>AI Co-Pilot</span></a>
+            <a href="#business"><i class="fa-solid fa-wallet"></i> <span>Business Ledger</span></a>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- User Profile Greeting & Logout -->
+            <div class="user-greeting-badge">
+                <i class="fa-regular fa-circle-user"></i>
+                <span id="user-display-name">Ramesh Kumar</span>
+            </div>
+            <button id="open-dpr-nav-btn" class="btn btn-sm btn-secondary">
+                <i class="fa-solid fa-file-pdf" style="color: #e11d48;"></i> <span>Bank DPR</span>
+            </button>
+            <button id="logout-btn" class="btn btn-sm btn-outline-danger">
+                <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
+            </button>
+        </div>
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                <span>Smart India Hackathon • SIH26092 Enterprise Hub</span>
+            </div>
+
+            <h1>
+                Launch, Fund &<br>
+                <span class="gradient-text">Scale Your Business.</span>
+            </h1>
+
+            <p>
+                Explore collateral-free government schemes, ask AI to dynamically generate your working capital budget, and download bank-compliant 1-page Detailed Project Reports (DPR).
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#fund-planner" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-robot"></i> <span>AI Smart Budget Planner</span>
+                </a>
+                <a href="#schemes" class="btn btn-secondary btn-lg">
+                    <i class="fa-solid fa-landmark"></i> <span>Explore Schemes</span>
+                </a>
+            </div>
+
+            <div class="hero-highlights-strip">
+                <div class="strip-item"><i class="fa-solid fa-check-circle"></i> AI-Optimized Budgeting</div>
+                <div class="strip-item"><i class="fa-solid fa-check-circle"></i> 15% - 35% Govt Subsidies</div>
+                <div class="strip-item"><i class="fa-solid fa-check-circle"></i> Simplified Bank DPR</div>
+            </div>
+        </div>
+
+        <div class="hero-dashboard-preview">
+            <div class="preview-header">
+                <div class="window-dots">
+                    <span></span><span></span><span></span>
+                </div>
+                <span class="preview-title"><i class="fa-solid fa-circle-check" style="color: var(--emerald);"></i> Live Business Readiness</span>
+            </div>
+
+            <div class="preview-cards">
+                <div class="p-card stat-blue">
+                    <div class="p-card-header">
+                        <span>SCHEME ELIGIBILITY</span>
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h4>PMEGP & Mudra Loan Fit</h4>
+                    <div class="badge-pill pill-success"><i class="fa-solid fa-circle-check"></i> 90% Match Score</div>
+                </div>
+
+                <div class="p-card stat-emerald">
+                    <div class="p-card-header">
+                        <span>AI CAPITAL ALLOCATION</span>
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <h4>Total Budget: ₹6,50,000</h4>
+                    <div class="progress-bar-mini">
+                        <div class="fill" style="width: 80%;"></div>
+                    </div>
+                    <small>AI optimized for Retail / Grocery Trade</small>
+                </div>
+
+                <div class="p-card stat-purple">
+                    <div class="p-card-header">
+                        <span>BANK PROPOSAL</span>
+                        <i class="fa-solid fa-file-pdf" style="color: var(--rose);"></i>
+                    </div>
+                    <h4>"1-Page Bank DPR Ready"</h4>
+                    <p class="p-subtext">Click below to generate and save clean PDF.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= PROFILE ================= -->
+    <section class="profile-section" id="profile">
+        <div class="section-heading">
+            <span class="section-tag">STEP 1 • ENTERPRISE PROFILE</span>
+            <h2>Business & Promoter Information</h2>
+            <p>Your details help our AI customize your capital allocation and identify eligible government subsidies.</p>
+        </div>
+
+        <div class="profile-card-wrapper">
+            <form id="profile-form" class="form-grid">
+                <div class="form-group">
+                    <label for="prof-name"><i class="fa-regular fa-user"></i> Full Name</label>
+                    <input type="text" id="prof-name" placeholder="e.g. Ramesh Kumar" required value="Ramesh Kumar">
+                </div>
+
+                <div class="form-group">
+                    <label for="prof-contact"><i class="fa-solid fa-phone"></i> Mobile Number / Email</label>
+                    <input type="text" id="prof-contact" placeholder="e.g. 9876543210" required value="9876543210">
+                </div>
+
+                <div class="form-group">
+                    <label for="prof-stage"><i class="fa-solid fa-rocket"></i> Business Stage</label>
+                    <select id="prof-stage">
+                        <option value="New Business">New Business (Idea / Startup)</option>
+                        <option value="Existing Business">Existing Business (Expansion)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="prof-category"><i class="fa-solid fa-users"></i> Social Category (For Subsidies)</label>
+                    <select id="prof-category">
+                        <option value="General">General</option>
+                        <option value="OBC">OBC (Other Backward Class)</option>
+                        <option value="SC/ST">SC / ST (Special Benefits)</option>
+                        <option value="Women Entrepreneur">Women Entrepreneur</option>
+                        <option value="Minority">Minority Community</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="prof-interest"><i class="fa-solid fa-store"></i> Industry / Sector</label>
+                    <input type="text" id="prof-interest" placeholder="e.g. Grocery, Garments, Cloud Kitchen, Services" value="Grocery & Retail Store">
+                </div>
+
+                <div class="form-group">
+                    <label for="prof-savings"><i class="fa-solid fa-piggy-bank"></i> Own Investment / Savings (₹)</label>
+                    <input type="number" id="prof-savings" placeholder="e.g. 150000" value="150000">
+                </div>
+
+                <div class="form-group">
+                    <label for="prof-income"><i class="fa-solid fa-receipt"></i> Annual Family Income (₹)</label>
+                    <input type="number" id="prof-income" placeholder="e.g. 300000" value="300000">
+                </div>
+
+                <div class="form-group">
+                    <label for="prof-location"><i class="fa-solid fa-location-dot"></i> City & State</label>
+                    <input type="text" id="prof-location" placeholder="e.g. Lucknow, Uttar Pradesh" value="Lucknow, Uttar Pradesh">
+                </div>
+
+                <div class="form-actions-full">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fa-solid fa-check"></i> Save & Sync with AI Planner
+                    </button>
+                    <span class="security-note"><i class="fa-solid fa-lock"></i> Saved securely in your browser session.</span>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    <!-- ================= SCHEMES ================= -->
+    <section class="schemes-section" id="schemes">
+        <div class="section-heading">
+            <span class="section-tag">STEP 2 • GOVERNMENT SCHEMES</span>
+            <h2>Curated Government Schemes</h2>
+            <p>Tap on any scheme to open its dedicated guidelines page with document checklists and official application portals:</p>
+        </div>
+
+        <!-- Scheme Filters -->
+        <div class="scheme-filters">
+            <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-list"></i> All Schemes</button>
+            <button class="filter-btn" data-filter="loan"><i class="fa-solid fa-shield"></i> Collateral-Free Loans</button>
+            <button class="filter-btn" data-filter="subsidy"><i class="fa-solid fa-tags"></i> Government Subsidies</button>
+            <button class="filter-btn" data-filter="micro"><i class="fa-solid fa-cart-shopping"></i> Micro / Street Retail</button>
+        </div>
+
+        <div class="scheme-grid" id="scheme-list-container">
+            <!-- Populated dynamically via script.js -->
+        </div>
+    </section>
+
+
+    <!-- ================= FUND PLANNER WITH AI BUDGETING ================= -->
+    <section class="fund-section" id="fund-planner">
+        <div class="section-heading">
+            <span class="section-tag">STEP 3 • AI CAPITAL ARCHITECT</span>
+            <h2>AI-Powered Capital Utilization Planner</h2>
+            <p>Chat with AI or specify your trade to automatically calculate industry-specific capital allocation:</p>
+        </div>
+
+        <!-- AI Budget Prompt Box -->
+        <div class="ai-budget-prompt-card">
+            <div class="ai-prompt-header">
+                <div class="prompt-icon"><i class="fa-solid fa-brain"></i></div>
+                <div>
+                    <h3>Ask AI to Plan Your Budget</h3>
+                    <p>Describe your business idea and target budget, and our AI will calculate the ideal allocation for stock, machinery, and reserve.</p>
+                </div>
+            </div>
+
+            <div class="ai-prompt-input-row">
+                <input type="text" id="ai-budget-trade-input" placeholder="e.g. I want to start a small Grocery Store with ₹5 Lakhs, or a Cloud Kitchen with ₹3 Lakhs...">
+                <button id="ai-generate-budget-btn" class="btn btn-primary">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Generate AI Budget</span>
+                </button>
+            </div>
+
+            <!-- Quick Trade Chips -->
+            <div class="trade-preset-chips">
+                <span class="trade-chip" data-trade="grocery" data-amount="500000"><i class="fa-solid fa-store"></i> Retail Grocery Shop (₹5L)</span>
+                <span class="trade-chip" data-trade="food" data-amount="350000"><i class="fa-solid fa-utensils"></i> Cloud Kitchen / Fast Food (₹3.5L)</span>
+                <span class="trade-chip" data-trade="manufacturing" data-amount="1000000"><i class="fa-solid fa-gears"></i> Small Fabrication / Mfg (₹10L)</span>
+                <span class="trade-chip" data-trade="garments" data-amount="450000"><i class="fa-solid fa-shirt"></i> Garment Boutique (₹4.5L)</span>
+            </div>
+
+            <!-- AI Recommendation Insight Banner (Hidden by default, shown when AI runs) -->
+            <div id="ai-budget-explanation" class="ai-explanation-box" style="display: none;">
+                <i class="fa-solid fa-lightbulb"></i>
+                <div id="ai-explanation-text">
+                    <!-- Dynamic text inserted by script.js -->
+                </div>
+            </div>
+        </div>
+
+        <div class="fund-dashboard">
+            <!-- Left: Dynamic Inputs -->
+            <div class="fund-inputs-card">
+                <h3><i class="fa-solid fa-sliders"></i> Capital Inputs</h3>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <label>Expected / Sanctioned Bank Loan</label>
+                        <span id="display-loan-amount" class="stat-highlight">₹5,00,000</span>
+                    </div>
+                    <input type="range" id="loan-range" min="50000" max="2500000" step="25000" value="500000">
+                    <small class="slider-hint">Drag slider to adjust expected loan amount</small>
+                </div>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <label>Your Personal Investment (Savings)</label>
+                        <span id="display-savings-amount" class="stat-highlight">₹1,50,000</span>
+                    </div>
+                    <input type="range" id="savings-range" min="10000" max="1000000" step="10000" value="150000">
+                    <small class="slider-hint">Drag slider to set your personal equity contribution</small>
+                </div>
+
+                <div class="total-funds-display">
+                    <div>
+                        <span>TOTAL WORKING CAPITAL</span>
+                        <h2 id="total-fund-value">₹6,50,000</h2>
+                    </div>
+                    <div class="badge-pill pill-indigo">
+                        <i class="fa-solid fa-calculator"></i> Live Calculated
+                    </div>
+                </div>
+
+                <!-- 1-Click Simplified Bank DPR CTA Button -->
+                <div class="dpr-cta-box">
+                    <div>
+                        <strong>Simplified 1-Page Bank DPR</strong>
+                        <p>Export a clean, simplified Detailed Project Report for bank loan credit approval.</p>
+                    </div>
+                    <button id="open-dpr-modal-btn" class="btn btn-primary">
+                        <i class="fa-solid fa-file-pdf"></i> View & Download Bank DPR (PDF)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Dynamic Visual Allocation -->
+            <div class="fund-breakdown-card">
+                <div class="breakdown-header">
+                    <h3><i class="fa-solid fa-chart-pie"></i> Capital Allocation Breakdown</h3>
+                    <span id="current-trade-badge" class="badge-pill pill-indigo">Standard MSME Model</span>
+                </div>
+
+                <div class="breakdown-list" id="allocation-items">
+                    <!-- Dynamic rows inserted by script.js -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= AI ASSISTANT ================= -->
+    <section class="assistant-section" id="assistant">
+        <div class="assistant-wrapper">
+            <div class="assistant-header">
+                <div class="ai-avatar">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <h2>Samarth AI Business Advisor</h2>
+                    <p>24/7 intelligent answers on Indian business regulations, loan guidelines, and retail strategies.</p>
+                </div>
+                <div class="ai-status">
+                    <span class="online-indicator"></span> Online 24/7
+                </div>
+            </div>
+
+            <!-- Chat Window -->
+            <div class="chat-viewport" id="chat-messages">
+                <div class="chat-bubble bot">
+                    <div class="bubble-icon"><i class="fa-solid fa-robot"></i></div>
+                    <div class="bubble-content">
+                        <strong>Hello!</strong> I am your Samarth AI Business Assistant. You can ask me about government schemes, bank DPR requirements, or tell me your business idea so I can customize your budget!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Suggestions -->
+            <div class="suggestion-chips">
+                <span class="chip" data-prompt="What are the eligibility criteria for Mudra Loan?"><i class="fa-solid fa-hand-holding-dollar"></i> Mudra Loan eligibility</span>
+                <span class="chip" data-prompt="How much subsidy is provided under PMEGP scheme?"><i class="fa-solid fa-percent"></i> PMEGP subsidy details</span>
+                <span class="chip" data-prompt="How to calculate retail profit margin?"><i class="fa-solid fa-coins"></i> Margin calculation</span>
+                <span class="chip" data-prompt="What are the requirements for a bank DPR report?"><i class="fa-solid fa-file-invoice"></i> Bank DPR checklist</span>
+            </div>
+
+            <!-- Input Box -->
+            <div class="chat-input-bar">
+                <input type="text" id="ai-user-query" placeholder="Ask any question about schemes, bank loans, or retail business...">
+                <button id="ai-submit-btn" class="btn btn-primary">
+                    <span>Send</span> <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= BUSINESS MANAGEMENT ================= -->
+    <section class="business-section" id="business">
+        <div class="section-heading">
+            <span class="section-tag">DAILY BOOKKEEPING</span>
+            <h2>Business Health & Financial Ledger</h2>
+            <p>Record daily sales and overheads to automatically monitor your operating margins and net profit:</p>
+        </div>
+
+        <div class="business-dashboard-grid">
+            <div class="kpi-card stat-sales">
+                <div class="kpi-top">
+                    <span>TOTAL SALES</span>
+                    <i class="fa-solid fa-arrow-trend-up"></i>
+                </div>
+                <h3 id="stat-sales-val">₹85,000</h3>
+                <span class="trend-badge positive">+14.2% Growth</span>
+            </div>
+
+            <div class="kpi-card stat-purchases">
+                <div class="kpi-top">
+                    <span>INVENTORY PURCHASES</span>
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                </div>
+                <h3 id="stat-purchases-val">₹48,000</h3>
+                <span class="trend-badge neutral">Stock Maintained</span>
+            </div>
+
+            <div class="kpi-card stat-expenses">
+                <div class="kpi-top">
+                    <span>OPERATING EXPENSES</span>
+                    <i class="fa-solid fa-receipt"></i>
+                </div>
+                <h3 id="stat-expenses-val">₹11,000</h3>
+                <span class="trend-badge warning">Rent & Utilities</span>
+            </div>
+
+            <div class="kpi-card stat-profit">
+                <div class="kpi-top">
+                    <span>ESTIMATED NET PROFIT</span>
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 id="stat-profit-val">₹26,000</h3>
+                <span class="trend-badge positive font-bold">Healthy Margin (30.5%)</span>
+            </div>
+        </div>
+
+        <!-- Quick Entry Form -->
+        <div class="quick-entry-container">
+            <h4><i class="fa-solid fa-plus-circle"></i> Quick Transaction Logger</h4>
+            <div class="quick-form-row">
+                <input type="text" id="txn-desc" placeholder="Description (e.g. Supplier payment, Shop rent)">
+                <select id="txn-type">
+                    <option value="sale">Sale / Revenue (Income +)</option>
+                    <option value="purchase">Inventory Purchase (Stock -)</option>
+                    <option value="expense">Operating Expense (Rent/Bills -)</option>
+                </select>
+                <input type="number" id="txn-amount" placeholder="Amount (₹)">
+                <button id="add-txn-btn" class="btn btn-secondary">
+                    <i class="fa-solid fa-plus"></i> Record Entry
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h2>Samarth<span>Business</span></h2>
+                        <span class="sub-brand">National Project • SIH26092</span>
+                    </div>
+                </div>
+                <p>Empowering micro and small enterprises across India with AI-powered capital budgeting, scheme linkage, and bank proposals.</p>
+            </div>
+
+            <div class="footer-links">
+                <strong>Platform Navigation</strong>
+                <a href="#schemes">Government Schemes</a>
+                <a href="#fund-planner">AI Fund Planner</a>
+                <a href="#assistant">AI Assistant</a>
+                <a href="#business">Business Ledger</a>
+            </div>
+
+            <div class="footer-official">
+                <strong>Smart India Hackathon</strong>
+                <p class="sih-tag"><i class="fa-solid fa-award"></i> Problem Statement ID: SIH26092</p>
+                <p class="copyright">© 2026 Samarth Business Platform. Dedicated to Indian MSME growth.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ==========================================================================
+         SIMPLIFIED OFFICIAL BANK DPR (DETAILED PROJECT REPORT) MODAL
+         ========================================================================== -->
+    <div id="dpr-modal-overlay" class="dpr-modal-overlay">
+        <div class="dpr-modal-content">
+            <!-- Modal Actions Bar (Hidden in Print) -->
+            <div class="dpr-modal-bar no-print">
+                <div class="dpr-modal-title">
+                    <i class="fa-solid fa-file-pdf" style="color: var(--rose);"></i>
+                    <span>Simplified Bank DPR (1-Page Credit Report)</span>
+                </div>
+                <div class="dpr-modal-buttons">
+                    <button id="dpr-print-btn" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-print"></i> Print / Save as PDF
+                    </button>
+                    <button id="dpr-close-btn" class="btn btn-secondary btn-sm">
+                        <i class="fa-solid fa-xmark"></i> Close
+                    </button>
+                </div>
+            </div>
+
+            <!-- Simplified Printable Official Bank Document -->
+            <div class="dpr-printable-doc" id="dpr-printable-doc">
+                <div class="dpr-doc-header">
+                    <div class="dpr-emblem-box">
+                        <i class="fa-solid fa-landmark"></i>
+                        <span>MSME CREDIT</span>
+                    </div>
+                    <div class="dpr-header-center">
+                        <h2>PROJECT CREDIT REPORT (DPR)</h2>
+                        <h4>FOR MICRO & SMALL ENTERPRISE LOAN APPLICATION</h4>
+                        <p>Prepared under Samarth Business Platform • SIH26092</p>
+                    </div>
+                    <div class="dpr-header-meta">
+                        <span id="dpr-ref-no">REF: SIH-DPR-2026-089</span>
+                        <span id="dpr-date">Date: 01/10/2026</span>
+                        <span class="badge-status">STATUS: SUBMISSION READY</span>
+                    </div>
+                </div>
+
+                <div class="dpr-divider"></div>
+
+                <!-- 1. Promoter & Business Details -->
+                <div class="dpr-section">
+                    <h3 class="dpr-sec-title">1. APPLICANT & BUSINESS PROFILE</h3>
+                    <table class="dpr-table">
+                        <tr>
+                            <td><strong>Promoter Name:</strong></td>
+                            <td id="dpr-promoter-name">Ramesh Kumar</td>
+                            <td><strong>Business Stage:</strong></td>
+                            <td id="dpr-promoter-stage">New Business (Startup)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mobile / Email:</strong></td>
+                            <td id="dpr-promoter-contact">9876543210</td>
+                            <td><strong>Social Category:</strong></td>
+                            <td id="dpr-promoter-category">General / MSME</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Industry / Trade:</strong></td>
+                            <td id="dpr-promoter-sector">Retail Grocery Store</td>
+                            <td><strong>Location:</strong></td>
+                            <td id="dpr-promoter-location">Lucknow, Uttar Pradesh</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- 2. Project Cost & Means of Finance -->
+                <div class="dpr-section">
+                    <h3 class="dpr-sec-title">2. MEANS OF FINANCE</h3>
+                    <table class="dpr-table">
+                        <thead>
+                            <tr>
+                                <th>Funding Component</th>
+                                <th>Amount (₹)</th>
+                                <th>Share (%)</th>
+                                <th>Financing Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Promoter's Equity (Own Savings)</strong></td>
+                                <td id="dpr-val-savings">₹1,50,000</td>
+                                <td id="dpr-pct-savings">23.08%</td>
+                                <td>Promoter Margin Money (Available in Account)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Term / Working Capital Loan Required</strong></td>
+                                <td id="dpr-val-loan">₹5,00,000</td>
+                                <td id="dpr-pct-loan">76.92%</td>
+                                <td>Requested Credit Facility from Bank</td>
+                            </tr>
+                            <tr class="table-total-row">
+                                <td><strong>TOTAL PROJECT OUTLAY</strong></td>
+                                <td id="dpr-val-total">₹6,50,000</td>
+                                <td>100.00%</td>
+                                <td><strong>Debt-Equity Ratio: <span id="dpr-der-ratio">3.33 : 1</span></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 3. Simplified Budget Allocation -->
+                <div class="dpr-section">
+                    <h3 class="dpr-sec-title">3. CAPITAL ALLOCATION & UTILIZATION</h3>
+                    <table class="dpr-table">
+                        <thead>
+                            <tr>
+                                <th>Item Description</th>
+                                <th>Allocation Purpose</th>
+                                <th>Share (%)</th>
+                                <th>Amount (₹)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dpr-allocation-tbody">
+                            <!-- Populated dynamically via script.js -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 4. Government Scheme & Subsidy Linkage -->
+                <div class="dpr-section">
+                    <h3 class="dpr-sec-title">4. GOVERNMENT SCHEME LINKAGE</h3>
+                    <div class="dpr-scheme-box">
+                        <div class="dpr-scheme-col">
+                            <strong>Target Scheme:</strong>
+                            <span id="dpr-scheme-name">Pradhan Mantri Mudra Yojana (PMMY)</span>
+                        </div>
+                        <div class="dpr-scheme-col">
+                            <strong>Subsidy / Benefit:</strong>
+                            <span id="dpr-scheme-subsidy" style="color: #059669; font-weight: 700;">Collateral-Free Institutional Loan</span>
+                        </div>
+                        <div class="dpr-scheme-col">
+                            <strong>Security Status:</strong>
+                            <span>Exempt under CGTMSE / PMMY Guidelines</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Simplified Signatures -->
+                <div class="dpr-section dpr-sign-section">
+                    <div class="dpr-sign-box">
+                        <p>I confirm that the above project cost and funding figures reflect my business requirements.</p>
+                        <div class="dpr-sign-line">
+                            <strong>Signature of Applicant</strong>
+                        </div>
+                    </div>
+
+                    <div class="dpr-sign-box">
+                        <p>Verified for credit appraisal under MSME Priority Sector Lending.</p>
+                        <div class="dpr-sign-line">
+                            <strong>Branch Manager / Credit Officer Stamp</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dpr-footer-note">
+                    <p>Report generated via Samarth Business Platform (SIH26092). Formatted to standard Indian Banking Credit Guidelines.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Check session: if not logged in, redirect to login.html
+        const session = localStorage.getItem("samarth_user_session");
+        if (!session) {
+            window.location.href = "login.html";
+        } else {
+            try {
+                const user = JSON.parse(session);
+                if (user.name) {
+                    document.getElementById("user-display-name").textContent = user.name;
+                    const profName = document.getElementById("prof-name");
+                    if (profName && !profName.value) profName.value = user.name;
+                }
+            } catch(e) {}
+        }
+
+        // Logout
+        document.getElementById("logout-btn").addEventListener("click", () => {
+            localStorage.removeItem("samarth_user_session");
+            window.location.href = "login.html";
+        });
+    </script>
+</body>
+</html>
