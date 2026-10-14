@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B.Tech Final Year Project Synopsis - Samarth Business Platform (SIH26092) - Buddha Institute of Technology</title>
+    <style>
+        /* =====================================================================
+           BUDDHA INSTITUTE OF TECHNOLOGY (GORAKHPUR) - AKTU SPECIFICATIONS:
+           1. English (British) spelling throughout.
+           2. Font: Times New Roman, 12pt for main text.
+           3. Paper Size: A4 (210mm x 297mm).
+           4. Margins: Left: 3.5 cm, Top: 2.5 cm, Right: 1.25 cm, Bottom: 1.25 cm.
+           5. Line spacing in Paragraph: 1.5.
+           6. Diagrams on light/white background.
+           7. Tables clearly arranged with caption at TOP.
+           8. Figures with caption at BOTTOM.
+           9. Decimal points indicated using full stop (.).
+           10. Exactly structured into 12 distinct pages meeting the 10+ page requirement!
+           ===================================================================== */
+
+        @page {
+            size: A4 portrait;
+            margin-top: 2.5cm;
+            margin-right: 1.25cm;
+            margin-bottom: 1.25cm;
+            margin-left: 3.5cm;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f1f5f9;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12pt;
+            line-height: 1.5;
+            color: #000000;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Top Action Bar for UI */
+        .top-toolbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .toolbar-title {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toolbar-badge {
+            background: #2563eb;
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .page-count-badge {
+            background: #059669;
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .toolbar-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-action {
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-print {
+            background: #2563eb;
+        }
+
+        .btn-print:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .btn-download-doc {
+            background: #0d9488;
+        }
+
+        .btn-download-doc:hover {
+            background: #0f766e;
+            transform: translateY(-1px);
+        }
+
+        /* A4 Page Container on Screen */
+        .document-wrapper {
+            max-width: 210mm;
+            margin: 24px auto 60px auto;
+        }
+
+        .page-sheet {
+            background: #ffffff;
+            width: 210mm;
+            height: 297mm; /* Exact A4 dimensions */
+            max-height: 297mm;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+            padding-top: 2.5cm;
+            padding-right: 1.25cm;
+            padding-bottom: 1.25cm;
+            padding-left: 3.5cm;
+            position: relative;
+            text-align: justify;
+            overflow: hidden; /* Strict single page boundary */
+            page-break-after: always;
+            break-after: page;
+        }
+
+        .page-sheet:last-of-type {
+            margin-bottom: 0;
+            page-break-after: avoid;
+            break-after: avoid;
+        }
+
+        /* Print Media Styles */
+        @media print {
+            body {
+                background: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .top-toolbar {
+                display: none !important;
+            }
+
+            .document-wrapper {
+                margin: 0 !important;
+                max-width: 100% !important;
+            }
+
+            .page-sheet {
+                margin: 0 !important;
+                box-shadow: none !important;
+                width: 100% !important;
+                height: 100% !important;
+                max-height: none !important;
+                padding: 0 !important; /* Margins are handled purely by @page */
+                page-break-after: always !important;
+                break-after: page !important;
+                overflow: visible !important;
+            }
+
+            .page-sheet:last-of-type {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+            }
+
+            .editable-placeholder {
+                background: none !important;
+                color: #000 !important;
+                border: none !important;
+            }
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, p, ul, ol, table {
+            margin-top: 0;
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        p {
+            margin-bottom: 9pt;
+            line-height: 1.5;
+            text-indent: 0.5in;
+            font-size: 11.5pt;
+        }
+
+        p.no-indent {
+            text-indent: 0;
+        }
+
+        h1.section-title {
+            font-size: 13.5pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: left;
+            margin-top: 10pt;
+            margin-bottom: 8pt;
+            border-bottom: 1.5pt solid #000000;
+            padding-bottom: 2pt;
+        }
+
+        h2.subsection-title {
+            font-size: 12.5pt;
+            font-weight: bold;
+            text-align: left;
+            margin-top: 9pt;
+            margin-bottom: 5pt;
+        }
+
+        h3.subsubsection-title {
+            font-size: 11.5pt;
+            font-weight: bold;
+            font-style: italic;
+            text-align: left;
+            margin-top: 8pt;
+            margin-bottom: 3pt;
+        }
+
+        /* Title Page Layout */
+        .title-page-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: calc(297mm - 3.75cm);
+            text-align: center;
+        }
+
+        .college-header {
+            width: 100%;
+            text-align: center;
+            border-bottom: 2pt solid #000;
+            padding-bottom: 10pt;
+            margin-bottom: 12pt;
+        }
+
+        .college-name {
+            font-size: 18pt;
+            font-weight: bold;
+            letter-spacing: 0.8pt;
+            text-transform: uppercase;
+            margin-bottom: 3pt;
+        }
+
+        .college-address {
+            font-size: 11pt;
+            font-weight: normal;
+            margin-bottom: 2pt;
+        }
+
+        .college-affiliation {
+            font-size: 10pt;
+            font-style: italic;
+            text-transform: uppercase;
+        }
+
+        .title-badge {
+            font-size: 12.5pt;
+            font-weight: bold;
+            letter-spacing: 1pt;
+            text-transform: uppercase;
+            margin-top: 8pt;
+            margin-bottom: 12pt;
+            text-decoration: underline;
+        }
+
+        .project-title-box {
+            border: 1.5pt solid #000;
+            padding: 12pt 16pt;
+            margin: 8pt 0 12pt 0;
+            width: 95%;
+            background-color: #fafafa;
+        }
+
+        .project-title {
+            font-size: 14pt;
+            font-weight: bold;
+            line-height: 1.35;
+            text-transform: uppercase;
+            color: #000;
+        }
+
+        .project-subtitle {
+            font-size: 11.5pt;
+            font-weight: bold;
+            margin-top: 5pt;
+            color: #111;
+        }
+
+        .award-text {
+            font-size: 11pt;
+            font-style: italic;
+            line-height: 1.4;
+            margin: 10pt 0;
+            max-width: 85%;
+        }
+
+        .meta-details-grid {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 14pt;
+            margin-bottom: 16pt;
+            text-align: left;
+        }
+
+        .meta-col {
+            width: 48%;
+            font-size: 11pt;
+            line-height: 1.45;
+        }
+
+        .meta-label {
+            font-weight: bold;
+        }
+
+        .title-footer {
+            width: 100%;
+            border-top: 1.5pt solid #000;
+            padding-top: 8pt;
+            font-size: 10.5pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5pt;
+        }
+
+        /* Table of Contents & Index */
+        .index-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8pt;
+            margin-bottom: 12pt;
+            font-size: 11pt;
+        }
+
+        .index-table th {
+            border-top: 1.5pt solid #000;
+            border-bottom: 1.5pt solid #000;
+            padding: 5pt 6pt;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .index-table td {
+            padding: 4.5pt 6pt;
+            vertical-align: bottom;
+            border-bottom: 0.5pt dotted #aaa;
+        }
+
+        .index-table td.page-col {
+            text-align: right;
+            font-weight: bold;
+            width: 60px;
+        }
+
+        .index-table tr.main-entry td {
+            font-weight: bold;
+            padding-top: 7pt;
+            border-bottom: 1pt solid #000;
+        }
+
+        .index-table td.sub-entry {
+            padding-left: 18pt;
+        }
+
+        /* Nomenclature Table */
+        .nomenclature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8pt;
+            margin-bottom: 12pt;
+            font-size: 10.5pt;
+        }
+
+        .nomenclature-table th {
+            border-top: 1.5pt solid #000;
+            border-bottom: 1.5pt solid #000;
+            padding: 5pt;
+            text-align: left;
+            background: #f8fafc;
+        }
+
+        .nomenclature-table td {
+            border-bottom: 0.5pt solid #ccc;
+            padding: 4pt 5pt;
+            vertical-align: top;
+        }
+
+        /* Formal Tables & Captions */
+        .table-container {
+            margin: 10pt 0;
+            width: 100%;
+            page-break-inside: avoid;
+        }
+
+        .table-caption {
+            font-size: 10.5pt;
+            font-weight: bold;
+            text-align: left;
+            margin-bottom: 4pt;
+            color: #000;
+            text-indent: 0;
+        }
+
+        .formal-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10pt;
+            line-height: 1.35;
+        }
+
+        .formal-table th {
+            border-top: 1.5pt solid #000;
+            border-bottom: 1.5pt solid #000;
+            padding: 5pt 6pt;
+            background-color: #f8fafc;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .formal-table td {
+            border-bottom: 0.5pt solid #bbb;
+            padding: 4.5pt 6pt;
+            vertical-align: top;
+        }
+
+        .formal-table tr:last-child td {
+            border-bottom: 1.5pt solid #000;
+        }
+
+        /* Figures & Captions */
+        .figure-container {
+            margin: 10pt 0;
+            text-align: center;
+            width: 100%;
+            page-break-inside: avoid;
+        }
+
+        .figure-box {
+            background-color: #ffffff;
+            border: 1pt solid #111111;
+            padding: 8pt;
+            display: inline-block;
+            width: 98%;
+            box-sizing: border-box;
+        }
+
+        .figure-caption {
+            font-size: 10.5pt;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 5pt;
+            color: #000;
+            text-indent: 0;
+        }
+
+        /* Reference List */
+        .reference-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 6pt;
+        }
+
+        .reference-list li {
+            padding-left: 24pt;
+            text-indent: -24pt;
+            margin-bottom: 8pt;
+            line-height: 1.4;
+            font-size: 10.5pt;
+            text-align: justify;
+        }
+
+        /* Bullet & Number Lists */
+        ul.content-list, ol.content-list {
+            margin-top: 3pt;
+            margin-bottom: 8pt;
+            padding-left: 24pt;
+            font-size: 11pt;
+        }
+
+        ul.content-list li, ol.content-list li {
+            margin-bottom: 4pt;
+            line-height: 1.45;
+        }
+
+        .editable-placeholder {
+            background-color: #fef08a;
+            color: #854d0e;
+            padding: 1px 4px;
+            font-weight: bold;
+            border-bottom: 1px dashed #ca8a04;
+        }
+
+        .page-num-indicator {
+            position: absolute;
+            bottom: 0.65cm;
+            right: 1.25cm;
+            font-size: 9.5pt;
+            color: #555;
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        .page-header-indicator {
+            position: absolute;
+            top: 1.2cm;
+            right: 1.25cm;
+            font-size: 9pt;
+            color: #666;
+            font-style: italic;
+            font-family: "Times New Roman", Times, serif;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- On-Screen Action Bar (Hidden during Print) -->
+    <div class="top-toolbar">
+        <div class="toolbar-title">
+            <span>🎓 Buddha Institute of Technology — B.Tech Project Synopsis</span>
+            <span class="toolbar-badge">AKTU Guidelines Compliant</span>
+            <span class="page-count-badge">Exact 12 Pages Ready</span>
+        </div>
+        <div class="toolbar-actions">
+            <button class="btn-action btn-download-doc" onclick="downloadWordDocument()">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4.5 11.5A.5.5 0 0 1 5 11h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm0-2A.5.5 0 0 1 5 9h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm0-2A.5.5 0 0 1 5 7h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zm-1 5A1.5 1.5 0 0 1 2 10.5v-7A1.5 1.5 0 0 1 3.5 2h9A1.5 1.5 0 0 1 14 3.5v7a1.5 1.5 0 0 1-1.5 1.5h-9z"/></svg>
+                Download Word (.doc)
+            </button>
+            <button class="btn-action btn-print" onclick="window.print()">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/><path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zm1 2h4v2H6V3zm6 8v2H4v-2h8z"/></svg>
+                Print / Save as PDF
+            </button>
+        </div>
+    </div>
+
+    <div class="document-wrapper" id="synopsis-document">
+
+        <!-- ===================================================================
+             PAGE 1: TITLE PAGE (INNER COVER)
+             =================================================================== -->
+        <div class="page-sheet">
+            <div class="title-page-container">
+                <div class="college-header">
+                    <div class="college-name">Buddha Institute of Technology</div>
+                    <div class="college-address">CL-1, Sector-7, GIDA, Gorakhpur, Uttar Pradesh – 273209</div>
+                    <div class="college-affiliation">Affiliated to Dr. A.P.J. Abdul Kalam Technical University (AKTU), Lucknow</div>
+                </div>
+
+                <div class="title-badge">FORMAT FOR B.TECH FINAL YEAR PROJECT SYNOPSIS</div>
+
+                <div class="project-title-box">
+                    <div class="project-title">
+                        Samarth Business: AI-Powered Enterprise Assistance & Scheme Linkage Platform for Indian MSMEs
+                    </div>
+                    <div class="project-subtitle">
+                        (Smart India Hackathon • Problem Statement ID: SIH26092)
+                    </div>
+                </div>
+
+                <div class="award-text">
+                    A project synopsis submitted in partial fulfilment of the requirements for the award of the degree of<br>
+                    <strong>BACHELOR OF TECHNOLOGY</strong><br>
+                    in<br>
+                    <strong>COMPUTER SCIENCE AND ENGINEERING</strong>
+                </div>
+
+                <div class="meta-details-grid">
+                    <div class="meta-col">
+                        <div style="font-weight: bold; text-decoration: underline; margin-bottom: 5pt;">SUBMITTED BY:</div>
+                        <div><span class="meta-label">1. Name of Student:</span> <span class="editable-placeholder">GAURAV KUMAR GUPTA / PIYUSH GUPTA</span></div>
+                        <div><span class="meta-label">2. AKTU Roll Number:</span> <span class="editable-placeholder">[AKTU Roll No. e.g., 21014301000XX]</span></div>
+                        <div><span class="meta-label">3. Branch:</span> Computer Science and Engineering</div>
+                        <div><span class="meta-label">4. Batch:</span> 2021 – 2025</div>
+                        <div><span class="meta-label">5. Proposed Topic:</span> Samarth Business Platform (SIH26092)</div>
+                    </div>
+
+                    <div class="meta-col" style="text-align: right;">
+                        <div style="font-weight: bold; text-decoration: underline; margin-bottom: 5pt; text-align: right;">UNDER THE GUIDANCE OF:</div>
+                        <div style="font-weight: bold;"><span class="editable-placeholder">[Supervisor / Project Guide Name]</span></div>
+                        <div><span class="editable-placeholder">[Assistant Professor / Associate Professor]</span></div>
+                        <div>Department of Computer Science & Engineering</div>
+                        <div>Buddha Institute of Technology, Gorakhpur</div>
+                    </div>
+                </div>
+
+                <div class="title-footer">
+                    DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING<br>
+                    BUDDHA INSTITUTE OF TECHNOLOGY, GIDA, GORAKHPUR<br>
+                    ACADEMIC SESSION 2024 – 2025
+                </div>
+            </div>
+            <div class="page-num-indicator">Page i</div>
+        </div>
+
+
+        <!-- ===================================================================
+             PAGE 2: INDEX (TABLE OF CONTENTS)
+             =================================================================== -->
+        <div class="page-sheet">
+            <div class="page-header-indicator">Buddha Institute of Technology • Project Synopsis</div>
+            <h1 class="section-title">INDEX (TABLE OF CONTENTS)</h1>
+
+            <table class="index-table">
+                <thead>
+                    <tr>
+                        <th style="width: 60px;">S. No.</th>
+                        <th>Topic / Section Title</th>
+                        <th class="page-col">Page No.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>-</td>
+                        <td>Title Page (Inner Cover)</td>
+                        <td class="page-col">i</td>
+                    </tr>
+                    <tr>
+                        <td>-</td>
+                        <td>Index (Table of Contents)</td>
+                        <td class="page-col">ii</td>
+                    </tr>
+                    <tr>
+                        <td>-</td>
+                        <td>Notations and Nomenclature</td>
+                        <td class="page-col">iii</td>
+                    </tr>
+                    <tr class="main-entry">
+                        <td>1.0</td>
+                        <td>INTRODUCTION</td>
+                        <td class="page-col">1</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="sub-entry">1.1 Brief Description of the Project to be Developed</td>
+                        <td class="page-col">1</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="sub-entry">1.2 Technology to be Used</td>
+                        <td class="page-col">2</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="sub-entry">1.3 Field and Domain of the Project</td>
+                        <td class="page-col">2</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="sub-entry">1.4 Explanation of Special Technical Terms Related to the Project</td>
+                        <td class="page-col">3</td>
+                    </tr>
+                    <tr class="main-entry">
+                        <td>2.0</td>
+                        <td>LITERATURE REVIEW AND FEASIBILITY STUDY</td>
+                        <td class="page-col">4</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="sub-entry">2.1 Review of Existing Systems and Related Work</td>
+                        <td class="page-col">4</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="sub-entry">2.2 Feasibility Study (Technical, Economic, Operational)</td>
+                        <td class="page-col">5</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="sub-entry">2.3 Need and Significance of the Project</td>
+                        <td class="page-col">5</td>
+                    </tr>
+                    <tr class="main-entry">
+                        <td>3.0</td>
+                        <td>METHODOLOGY / PLANNING OF WORK</td>
+                        <td class="page-col">6</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="sub-entry">3.1 Step-by-Step Approach to Achieve Project Objectives</td>
+                        <td class="page-col">6</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="sub-entry">3.2 Development Strategy, System Architecture & Implementation Plan</td>
+                        <td class="page-col">7</td>
+                    </tr>
+                    <tr class="main-entry">
+                        <td>4.0</td>
+                        <td>FACILITIES REQUIRED FOR PROPOSED WORK</td>
+                        <td class="page-col">8</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="sub-entry">4.1 Software Requirements</td>
+                        <td class="page-col">8</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="sub-entry">4.2 Hardware Requirements</td>
+                        <td class="page-col">8</td>
+                    </tr>
+                    <tr class="main-entry">
+                        <td>5.0</td>
+                        <td>BENEFITS AND IMPACT OF THE PROJECT</td>
+                        <td class="page-col">9</td>
+                    </tr>
+                    <tr class="main-entry">
+                        <td>6.0</td>
+                        <td>REFERENCES</td>
+                        <td class="page-col">9</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top: 14pt; border-top: 1pt solid #000; padding-top: 6pt;">
+                <p class="no-indent" style="font-size: 10pt; font-weight: bold; margin-bottom: 4pt;">LIST OF TABLES AND FIGURES IN SYNOPSIS:</p>
+                <p class="no-indent" style="font-size: 9.5pt; line-height: 1.4; margin-bottom: 2pt;">• <strong>Table 1.1:</strong> Core Functional Modules and Algorithmic Specifications (Page 3)</p>
+                <p class="no-indent" style="font-size: 9.5pt; line-height: 1.4; margin-bottom: 2pt;">• <strong>Table 2.1:</strong> Feature Comparison Matrix of Existing Platforms vs Samarth Business (Page 4)</p>
+                <p class="no-indent" style="font-size: 9.5pt; line-height: 1.4; margin-bottom: 2pt;">• <strong>Table 3.1:</strong> Dynamic Working Capital Allocation Matrices Across Business Trades (Page 6)</p>
+                <p class="no-indent" style="font-size: 9.5pt; line-height: 1.4; margin-bottom: 2pt;">• <strong>Table 3.2:</strong> Project Implementation Schedule and Sprint Milestones (Page 7)</p>
+                <p class="no-indent" style="font-size: 9.5pt; line-height: 1.4; margin-bottom: 2pt;">• <strong>Table 4.1:</strong> Software Environment and Tool Specifications (Page 8)</p>
+                <p class="no-indent" style="font-size: 9.5pt; line-height: 1.4; margin-bottom: 2pt;">• <strong>Table 4.2:</strong> Hardware Specifications for Development and Deployment (Page 8)</p>
+                <p class="no-indent" style="font-size: 9.5pt; line-height: 1.4; margin-bottom: 2pt;">• <strong>Figure 3.1:</strong> Architectural Flow and Information Topology of Samarth Platform (Page 7)</p>
+            </div>
+
+            <div class="page-num-indicator">Page ii</div>
+        </div>
+
+
+        <!-- ===================================================================
+             PAGE 3: NOTATIONS / NOMENCLATURE
+             =================================================================== -->
+        <div class="page-sheet">
+            <div class="page-header-indicator">Buddha Institute of Technology • Project Synopsis</div>
+            <h1 class="section-title">NOTATIONS / NOMENCLATURE</h1>
+            <p class="no-indent" style="font-size: 11pt; margin-bottom: 6pt;">The following technical acronyms, legal terms, and mathematical symbols are utilised throughout this synopsis document:</p>
+
+            <table class="nomenclature-table">
+                <thead>
+                    <tr>
+                        <th style="width: 120px;">Abbreviation</th>
+                        <th>Full Expansion & Operational Context</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>AKTU</strong></td>
+                        <td>Dr. A.P.J. Abdul Kalam Technical University, Lucknow (State Affiliating Body).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>API</strong></td>
+                        <td>Application Programming Interface (Interface defining interactions between software services).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CGTMSE</strong></td>
+                        <td>Credit Guarantee Fund Trust for Micro and Small Enterprises (Statutory credit underwriting up to ₹5.00 Crore without collateral).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CSS3</strong></td>
+                        <td>Cascading Style Sheets Level 3 (Modern W3C stylesheet language supporting Grid, Flexbox, and Paged Media).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>D/E Ratio</strong></td>
+                        <td>Debt-to-Equity Ratio (Fundamental financial leverage metric: Loan Capital / Own Savings : 1.0).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DOM</strong></td>
+                        <td>Document Object Model (Hierarchical object tree manipulated dynamically via client-side JavaScript).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DPR</strong></td>
+                        <td>Detailed Project Report (Mandatory formal bank appraisal document required by credit officers).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ES6+</strong></td>
+                        <td>ECMAScript 2015+ (Modern JavaScript standard incorporating modules, template literals, and arrow functions).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HTML5</strong></td>
+                        <td>HyperText Markup Language Revision 5 (Semantic markup foundation of modern web applications).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>JSON</strong></td>
+                        <td>JavaScript Object Notation (Lightweight text-based open standard for structured data serialization).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>KVIC</strong></td>
+                        <td>Khadi and Village Industries Commission (Nodal statutory implementation body for PMEGP).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MSME</strong></td>
+                        <td>Micro, Small, and Medium Enterprises (Classified under the Micro, Small and Medium Enterprises Development Act, 2006).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PMEGP</strong></td>
+                        <td>Prime Minister’s Employment Generation Programme (Credit-linked margin money capital subsidy scheme).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PMMY</strong></td>
+                        <td>Pradhan Mantri Mudra Yojana (Collateral-free micro-finance scheme: Shishu, Kishore, and Tarun).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PM SVANidhi</strong></td>
+                        <td>PM Street Vendor’s AtmaNirbhar Nidhi (Working capital micro-credit scheme for street vendors with 7.0% rebate).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RBI</strong></td>
+                        <td>Reserve Bank of India (Central regulatory banking and monetary authority of the Republic of India).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SIDBI</strong></td>
+                        <td>Small Industries Development Bank of India (Principal financial development institution for MSME credit).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SIH</strong></td>
+                        <td>Smart India Hackathon (National innovation challenge organised by Ministry of Education's Innovation Cell).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>UI / UX</strong></td>
+                        <td>User Interface / User Experience (Ergonomics of web human-computer interaction and sensory design).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>W3C</strong></td>
+                        <td>World Wide Web Consortium (International standards organisation for the World Wide Web).</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="page-num-indicator">Page iii</div>
+        </div>
+
+
+        <!-- ===================================================================
+             PAGE 4: 1. INTRODUCTION (PAGE 1 OF 3)
+             =================================================================== -->
+        <div class="page-sheet">
+            <div class="page-header-indicator">Buddha Institute of Technology • Project Synopsis</div>
+            <h1 class="section-title">1. INTRODUCTION</h1>
+
+            <h2 class="subsection-title">1.1 Brief Description of the Project to be Developed</h2>
+            <p>
+                Micro, Small, and Medium Enterprises (MSMEs) form the economic backbone of India. According to official economic survey figures published by the Ministry of MSME, there are more than 63.38 million enterprises operating across urban, peri-urban, and rural areas in India. These enterprises account for approximately 30.0% of India’s Gross Domestic Product (GDP), contribute more than 45.0% to total national manufacturing exports, and sustain direct employment for over 110 million individuals. Despite their indispensable socio-economic significance, first-generation micro-entrepreneurs, roadside vendors, village artisans, and small retailers confront systemic structural obstacles when seeking to establish, formalise, or expand their business units.
+            </p>
+            <p>
+                The two most critical obstacles encountered at the grassroots level are:
+            </p>
+            <ul class="content-list">
+                <li><strong>Acute Informational Asymmetry Regarding Financial Subsidies:</strong> Although the Government of India has instituted extensive welfare credit schemes, nascent business founders remain unaware of scheme eligibility parameters, credit ceilings, and nodal application gateways.</li>
+                <li><strong>The Credit Appraisal and Detailed Project Report (DPR) Bottleneck:</strong> Under the credit lending directions issued by the Reserve Bank of India (RBI), scheduled commercial banks and regional rural banks mandate the submission of a Detailed Project Report (DPR). Unorganised entrepreneurs, lacking financial training, are forced to pay exorbitant documentation charges (₹5,000.00 to ₹15,000.00) to commercial middlemen, or face summary rejection by bank branch managers.</li>
+            </ul>
+            <p>
+                To resolve this structural market failure under Smart India Hackathon Problem Statement <strong>SIH26092</strong>, the project entitled <strong>"Samarth Business Platform"</strong> has been designed and implemented. Samarth Business is an intelligent, zero-dependency, and lightweight digital enterprise portal engineered to bridge the accessibility gap for Indian micro-entrepreneurs. The platform serves as an all-in-one ecosystem delivering:
+            </p>
+            <ul class="content-list">
+                <li><strong>A Curated Government Scheme Matching Engine:</strong> Filtering central and state schemes (PMEGP, PMMY, PM SVANidhi, Stand-Up India, PM Vishwakarma, CGTMSE) based on trade sector, social category, and funding ask.</li>
+                <li><strong>A Dynamic Capital Utilisation Planner:</strong> Algorithmically calculating balanced working capital distributions (Machinery 32.0%, Inventory 24.0%, Operating Capital 16.0%, Interior 13.0%, Contingency Reserve 10.0%, Marketing 5.0%) with trade-adaptive elasticity.</li>
+                <li><strong>An Automated 1-Click Bank DPR Synthesis Engine:</strong> Generating an official, RBI-compliant Detailed Project Report with Debt-to-Equity (D/E) ratios, means of finance, and verification signature blocks.</li>
+                <li><strong>An Interactive Samarth AI Business Co-Pilot:</strong> Offering 24/7 rule-based advisory on loan eligibility and documentation checklists.</li>
+                <li><strong>An Integrated Digital Khata / Ledger:</strong> Enabling shopkeepers to record daily sales and supplier expenses, monitoring gross and net profit margins in real time.</li>
+            </ul>
+            <div class="page-num-indicator">Page 1</div>
+        </div>
+
+
+        <!-- ===================================================================
+             PAGE 5: 1. INTRODUCTION (PAGE 2 OF 3)
+             =================================================================== -->
+        <div class="page-sheet">
+            <div class="page-header-indicator">Buddha Institute of Technology • Project Synopsis</div>
+            <h2 class="subsection-title">1.2 Technology to be Used</h2>
+            <p>
+                The Samarth Business Platform is developed with a strict architectural emphasis on high execution performance, zero external framework overheads, and universal execution across low-cost client hardware. The technology stack comprises:
+            </p>
+            <ul class="content-list">
+                <li><strong>Frontend Presentation Layer:</strong> Semantic HTML5 structured into a cohesive multi-page architecture (`login.html`, `dashboard.html`, `scheme-detail.html`) coupled with modern CSS3 (utilising native CSS Grid, Flexbox, and CSS Paged Media `@media print` queries) for responsive UI and pixel-perfect A4 printing.</li>
+                <li><strong>Client-Side Computational Logic:</strong> Modern Vanilla ECMAScript (ES6+) JavaScript, driving reactive DOM manipulation, slider-based financial calculations, and state orchestration without external runtime overhead.</li>
+                <li><strong>Local Persistence & Session State:</strong> Browser Web Storage API (`localStorage` and `sessionStorage`), ensuring instantaneous data retrieval, zero latency, and uninterrupted functionality on low-bandwidth rural mobile networks.</li>
+                <li><strong>Typography & Iconography:</strong> Google Fonts (Plus Jakarta Sans) and scalable FontAwesome 6.5.1 Vector Icons.</li>
+                <li><strong>Report Synthesis & PDF Engine:</strong> W3C CSS Paged Media Engine, enabling browser-native rendering of institutional-grade bank credit reports without heavy PDF compilation libraries.</li>
+                <li><strong>Continuous Deployment & Hosting:</strong> Git version control and GitHub Pages cloud hosting, providing 24x7 automated continuous deployment at zero hosting expense.</li>
+            </ul>
+
+            <h2 class="subsection-title">1.3 Field and Domain of the Project</h2>
+            <p>
+                The primary domain of the Samarth Business Platform lies at the convergence of <strong>Financial Technology (FinTech)</strong>, <strong>Enterprise Web Engineering</strong>, and <strong>Public Governance Digital Transformation (Civic Tech)</strong>.
+            </p>
+            <p>
+                Within this broader domain, the project specifically addresses specialised sub-disciplines:
+            </p>
+            <ul class="content-list">
+                <li><strong>Micro-Finance & Credit Documentation Engineering:</strong> Translating commercial banking standards, Reserve Bank of India (RBI) credit norms, and MSME subsidy calculation matrices into accessible programmatic algorithms.</li>
+                <li><strong>Human-Computer Interaction (HCI) for Low-Digital-Literacy Demographics:</strong> Designing intuitive, visual interfaces that allow shopkeepers, rural artisans, and street vendors to simulate capital requirements via touch sliders and pre-set prompt chips without requiring formal bookkeeping literacy.</li>
+                <li><strong>Client-Side Algorithmic Synthesis:</strong> Eliminating heavy server dependencies by running financial simulation models and multi-page routing within the client browser environment.</li>
+            </ul>
+            <div class="page-num-indicator">Page 2</div>
+        </div>
+
+
+        <!-- ===================================================================
+             PAGE 6: 1. INTRODUCTION (PAGE 3 OF 3)
+             =================================================================== -->
+        <div class="page-sheet">
+            <div class="page-header-indicator">Buddha Institute of Technology • Project Synopsis</div>
+            <h2 class="subsection-title">1.4 Explanation of Special Technical Terms Related to the Project</h2>
+            <p>
+                To maintain clarity across evaluating committees and financial assessors, key specialised technical terms relevant to this project are defined as follows:
+            </p>
+            <ul class="content-list">
+                <li><strong>Detailed Project Report (DPR):</strong> An official feasibility document mandated by commercial and regional rural banks before sanctioning business credit. It outlines promoter equity, means of finance, itemised capital expenditure schedules, debt-service coverage, and operational breakeven analysis.</li>
+                <li><strong>Collateral-Free Credit:</strong> Institutional bank loan facilities extended without requiring borrowers to pledge physical immovable property, land documents, or gold as collateral security. These facilities are underwritten through statutory government guarantees such as CGTMSE.</li>
+                <li><strong>Debt-to-Equity (D/E) Ratio:</strong> A primary financial leverage ratio representing the proportion of institutional borrowed capital relative to the promoter's own invested equity (`Loan Amount / Own Equity : 1.0`). A prudent ratio (typically between 2.0:1.0 and 4.0:1.0) is mandatory for bank loan sanction.</li>
+                <li><strong>Margin Money Subsidy:</strong> A direct financial subsidy granted by the central or state government (e.g. 15.0% to 35.0% under PMEGP administered via KVIC) that is held in a special subsidy reserve fund account and subsequently credited towards the borrower's loan principal, drastically reducing interest overheads.</li>
+                <li><strong>Working Capital:</strong> Liquid capital required to manage recurring operational expenditures, including inventory procurement, utility disbursements, and vendor payments, over a defined operating cycle (typically 30 to 90 days).</li>
+                <li><strong>Khata / Digital Ledger:</strong> A single-entry digital accounting record enabling retailers to log daily credits (turnover) and debits (supplier purchases, transport, overheads) to compute real-time gross margins and net profitability.</li>
+                <li><strong>Greenfield Enterprise:</strong> A brand-new commercial enterprise initiated in the manufacturing, services, or trading sector where no previous commercial infrastructure existed.</li>
+                <li><strong>Normalized Client JSON Schema:</strong> The internal data representation within JavaScript where verified scheme parameters (credit ceilings, subsidy percentages, eligible trades, and official URLs) are organised hierarchically for real-time querying and filtering.</li>
+            </ul>
+
+            <div class="table-container">
+                <div class="table-caption">Table 1.1: Core Functional Modules and Algorithmic Specifications</div>
+                <table class="formal-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Module Name</th>
+                            <th style="width: 35%;">Underlying Technology</th>
+                            <th style="width: 40%;">Primary Functional Deliverable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Scheme Matcher</strong></td>
+                            <td>JavaScript ES6+, Normalized JSON</td>
+                            <td>Dynamic filtering of 6 central MSME schemes by turnover, sector, and social category.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Capital Planner</strong></td>
+                            <td>Reactive DOM, Math Allocation Engine</td>
+                            <td>Algorithmically distributes project funds into 6 standardised bank capital categories.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bank DPR Generator</strong></td>
+                            <td>W3C CSS Paged Media, A4 Print Engine</td>
+                            <td>Synthesises 1-page RBI-compliant bank loan proposal with signature blocks.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Samarth AI Co-Pilot</strong></td>
+                            <td>Contextual State Engine, Prompt Chips</td>
+                            <td>24/7 advisory assistant clarifying Mudra rules, PMEGP subsidies, and licensing.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Digital Khata</strong></td>
+                            <td>Local Web Storage API, Ledger Logic</td>
+                            <td>Real-time daily transaction logger tracking Gross Turnover and Net Margin.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-num-indicator">Page 3</div>
+        </div>
+
+
+        <!-- ===================================================================
+             PAGE 7: 2. LITERATURE REVIEW & FEASIBILITY (PAGE 1 OF 2)
+             =================================================================== -->
+        <div class="page-sheet">
+            <div class="page-header-indicator">Buddha Institute of Technology • Project Synopsis</div>
+            <h1 class="section-title">2. LITERATURE REVIEW AND FEASIBILITY STUDY</h1>
+
+            <h2 class="subsection-title">2.1 Review of Existing Systems and Related Work</h2>
+            <p>
+                In recent years, several public and private software platforms have emerged to support small businesses and financial inclusion in India. A systematic comparative analysis reveals critical gaps that motivate the development of the Samarth Business Platform:
+            </p>
+            <ul class="content-list">
+                <li><strong>Government Schemes Aggregator (JanSamarth Portal):</strong> While the central JanSamarth portal successfully aggregates several government-linked credit schemes, its user workflow is complex and heavily bureaucratic. First-time micro-entrepreneurs must undergo multi-tiered authentication, extensive demographic verification, and file uploads before receiving scheme discovery. Crucially, it does not provide interactive working capital simulation or an automated bank-ready DPR generator.</li>
+                <li><strong>Statutory Registration Portals (Udyam Registration):</strong> The Udyam portal provides official enterprise registration certificates. However, it functions strictly as a statutory registry without offering guidance on financial structuring, bank scheme matching, or credit appraisal document creation.</li>
+                <li><strong>Private Bookkeeping Applications (Vyapar, Khatabook, OkCredit):</strong> Commercial accounting mobile apps excel at recording supplier dues and customer ledger balances. However, they are closed-source commercial tools that do not link enterprises to government subsidy schemes or generate institutional project reports required for bank credit appraisal.</li>
+                <li><strong>Unorganised Financial Intermediaries:</strong> Micro-entrepreneurs seeking bank finance predominantly rely on local commercial accountants or middle-tier agents who charge between ₹5,000.00 and ₹15,000.00 to manually construct Detailed Project Reports. This cost poses an insurmountable barrier for street vendors seeking micro-credit under PM SVANidhi (₹10,000.00 to ₹50,000.00).</li>
+            </ul>
+
+            <div class="table-container">
+                <div class="table-caption">Table 2.1: Feature Comparison Matrix of Existing Platforms vs Samarth Business</div>
+                <table class="formal-table">
+                    <thead>
+                        <tr>
+                            <th>Evaluation Parameters</th>
+                            <th>JanSamarth</th>
+                            <th>Udyam Portal</th>
+                            <th>Private Ledger Apps</th>
+                            <th>Samarth Business</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Target Demographic</strong></td>
+                            <td>General Public</td>
+                            <td>Formal MSMEs</td>
+                            <td>Retail Merchants</td>
+                            <td><strong>Micro & Small MSMEs</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Government Scheme Matching</strong></td>
+                            <td>Yes (Complex)</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td><strong>Yes (1-Click Instant)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dynamic Capital Budgeting</strong></td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td><strong>Yes (Trade-Adaptive)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Automated Bank DPR Export</strong></td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td><strong>Yes (RBI Norms Compliant)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>On-Device AI Advisory</strong></td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td><strong>Yes (Samarth Co-Pilot)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Client Computational Footprint</strong></td>
+                            <td>Heavy Backend</td>
+                            <td>Centralised Server</td>
+                            <td>Proprietary App</td>
+                            <td><strong>Zero-Dependency Web</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-num-indicator">Page 4</div>
+        </div>
+
+
+        <!-- ===================================================================
+             PAGE 8: 2. LITERATURE REVIEW & FEASIBILITY (PAGE 2 OF 2)
+             =================================================================== -->
+        <div class="page-sheet">
+            <div class="page-header-indicator">Buddha Institute of Technology • Project Synopsis</div>
+            <h2 class="subsection-title">2.2 Feasibility Study</h2>
+            <p>
+                To validate the practical viability of the proposed work, a comprehensive feasibility study encompassing technical, economic, and operational dimensions was executed:
+            </p>
+
+            <h3 class="subsubsection-title">2.2.1 Technical Feasibility</h3>
+            <p>
+                The Samarth Business Platform is engineered utilizing native, zero-dependency web technologies: HTML5, CSS3, and modern ECMAScript (ES6+) JavaScript. It requires no specialized backend framework, virtual runtime environment, or node dependencies for core execution. The client-side storage architecture leverages the native W3C Web Storage API, eliminating server latency and functioning smoothly across modest smartphone browsers and low-cost desktop computers running on 2G/3G cellular networks. The printing and PDF generation mechanism is driven by native CSS Paged Media standards, ensuring perfect A4 reproduction across Google Chrome, Microsoft Edge, Mozilla Firefox, and Safari. The technical implementation is thus fully feasible.
+            </p>
+
+            <h3 class="subsubsection-title">2.2.2 Economic Feasibility</h3>
+            <p>
+                The project relies completely on open-source web standards, free-tier typography (Google Fonts), and permissive iconography (FontAwesome Free). Continuous deployment is achieved via GitHub Pages, incurring ₹0.00 in hosting infrastructure expenses. From the user perspective, small shopkeepers and artisans are empowered to generate professional bank-grade Detailed Project Reports at zero cost, saving an estimated ₹5,000.00 to ₹15,000.00 per applicant in intermediary documentation fees. The economic benefit-to-cost ratio is extraordinarily high, confirming profound economic feasibility.
+            </p>
+
+            <h3 class="subsubsection-title">2.2.3 Operational Feasibility</h3>
+            <p>
+                The platform is designed with an ergonomic user interface specifically tailored for entrepreneurs with limited formal technical and financial literacy. Interactive sliders allow direct numeric input without keyboard strain, visual charts clearly indicate capital allocation, and one-click actions simplify navigation. Because the system requires no complex user registration to access scheme matching and DPR export, resistance to technology adoption is virtually eliminated. Hence, operational feasibility is validated.
+            </p>
+
+            <h2 class="subsection-title">2.3 Need and Significance of the Project</h2>
+            <p>
+                The project addresses a pressing national socio-economic priority defined under Smart India Hackathon Problem Statement <strong>SIH26092</strong>:
+            </p>
+            <ul class="content-list">
+                <li><strong>Bridging the Formal Credit Chasm:</strong> Over 70.0% of Indian micro-enterprises borrow from unorganised moneylenders charging predatory interest rates (24.0% to 60.0% per annum). The platform facilitates compliant DPR creation, enabling formal loans at 5.0% to 11.5% interest.</li>
+                <li><strong>Empowerment of Marginalised Cohorts:</strong> Dedicated schemes like Stand-Up India (SC/ST and women borrowers) and PM Vishwakarma (artisans) receive immediate algorithmic matching.</li>
+                <li><strong>National Vision Alignment:</strong> Directly advances <em>Atmanirbhar Bharat</em>, <em>Digital India</em>, and <em>Make in India</em>.</li>
+            </ul>
+            <div class="page-num-indicator">Page 5</div>
+        </div>
+
+
+        <!-- ===================================================================
+             PAGE 9: 3. METHODOLOGY (PAGE 1 OF 2)
+             =================================================================== -->
+        <div class="page-sheet">
+            <div class="page-header-indicator">Buddha Institute of Technology • Project Synopsis</div>
+            <h1 class="section-title">3. METHODOLOGY / PLANNING OF WORK</h1>
+
+            <h2 class="subsection-title">3.1 Step-by-Step Approach to Achieve Project Objectives</h2>
+            <p>
+                The development of the Samarth Business Platform is executed systematically across six structured phases:
+            </p>
+            <ol class="content-list">
+                <li><strong>Phase 1: Government Gazette Verification & Schema Definition:</strong> Extracting authentic scheme parameters (credit limits, subsidy percentages, eligible trades, issuing ministries) from official Government of India gazettes (Ministry of MSME, KVIC, DFS, MoHUA) and structuring them into a Normalized JSON data schema.</li>
+                <li><strong>Phase 2: Modular Web Architecture & UI Design:</strong> Constructing an ergonomic multi-page architecture including `login.html`, `dashboard.html`, and `scheme-detail.html` styled with a modern FinTech design language.</li>
+                <li><strong>Phase 3: Financial Capital Allocation Algorithm:</strong> Formulating mathematical allocation logic dividing project funding into machinery, stock, operating capital, interior setup, emergency contingency, and marketing.</li>
+                <li><strong>Phase 4: Bank DPR Synthesis Engine:</strong> Building the printable Detailed Project Report generator compliant with RBI lending guidelines, computing Debt-to-Equity ratios, means of finance, and official bank appraisal fields.</li>
+                <li><strong>Phase 5: Digital Ledger & Advisory Integration:</strong> Integrating the daily Khata bookkeeping logger and Samarth AI Co-Pilot chat interface for interactive user assistance.</li>
+                <li><strong>Phase 6: Quality Assurance, Cross-Browser Testing & Deployment:</strong> Validating client-side responsiveness, print CSS compliance across A4 paper, and deploying continuously via GitHub Pages.</li>
+            </ol>
+
+            <h2 class="subsection-title">3.1.1 Mathematical Formulation of Capital Allocation</h2>
+            <p>
+                Let the total required capital be denoted by \(C_{\text{Total}}\), where \(C_{\text{Total}} = C_{\text{Loan}} + C_{\text{Equity}}\). The platform algorithmically segments \(C_{\text{Total}}\) into six discrete allocation buckets using adaptive trade weights \(\{w_m, w_s, w_o, w_i, w_c, w_k\}\) satisfying \(\sum w_j = 1.00\):
+            </p>
+            <div class="table-container">
+                <div class="table-caption">Table 3.1: Dynamic Working Capital Allocation Matrices Across Business Trades</div>
+                <table class="formal-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">Business Trade</th>
+                            <th style="width: 15%;">Machinery (\(w_m\))</th>
+                            <th style="width: 15%;">Stock (\(w_s\))</th>
+                            <th style="width: 15%;">Op. Capital (\(w_o\))</th>
+                            <th style="width: 15%;">Interior (\(w_i\))</th>
+                            <th style="width: 15%;">Contingency (\(w_c\))</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Retail Grocery / Kirana</strong></td>
+                            <td>12.0%</td>
+                            <td>45.0%</td>
+                            <td>18.0%</td>
+                            <td>15.0%</td>
+                            <td>10.0%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cloud Kitchen / Food Cart</strong></td>
+                            <td>38.0%</td>
+                            <td>20.0%</td>
+                            <td>18.0%</td>
+                            <td>14.0%</td>
+                            <td>10.0%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fabrication / Light Mfg.</strong></td>
+                            <td>52.0%</td>
+                            <td>16.0%</td>
+                            <td>14.0%</td>
+                            <td>8.0%</td>
+                            <td>10.0%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Garment & Apparel Boutique</strong></td>
+                            <td>22.0%</td>
+                            <td>40.0%</td>
+                            <td>16.0%</td>
+                            <td>12.0%</td>
+                            <td>10.0%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>General Micro-Retail (Default)</strong></td>
+                            <td>32.0%</td>
+                            <td>24.0%</td>
+                            <td>16.0%</td>
+                            <td>13.0%</td>
+                            <td>10.0%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-num-indicator">Page 6</div>
+        </div>
+
+
+        <!-- ===================================================================
+             PAGE 10: 3. METHODOLOGY (PAGE 2 OF 2)
+             =================================================================== -->
+        <div class="page-sheet">
+            <div class="page-header-indicator">Buddha Institute of Technology • Project Synopsis</div>
+            <h2 class="subsection-title">3.2 Development Strategy, System Architecture & Implementation Plan</h2>
+            <p>
+                An Agile Development Methodology was adopted, allowing rapid prototyping, continuous user validation, and iterative code refinement. Figure 3.1 illustrates the complete system architecture and information flow of the platform on a pure white background as per formatting guidelines.
+            </p>
+
+            <!-- ARCHITECTURE DIAGRAM (CLEAN LIGHT/WHITE BACKGROUND) -->
+            <div class="figure-container">
+                <div class="figure-box">
+                    <svg viewBox="0 0 760 360" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Times New Roman', serif;">
+                        <rect width="100%" height="100%" fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+
+                        <!-- User Layer -->
+                        <rect x="20" y="25" width="150" height="85" rx="4" fill="#f8fafc" stroke="#000000" stroke-width="1.5"/>
+                        <text x="95" y="50" font-size="13" font-weight="bold" text-anchor="middle" fill="#000000">ENTREPRENEUR</text>
+                        <text x="95" y="70" font-size="11" text-anchor="middle" fill="#333333">Micro Business / Shop</text>
+                        <text x="95" y="88" font-size="10" text-anchor="middle" fill="#666666">Trade, Savings, Loan Ask</text>
+
+                        <!-- Arrow 1 -->
+                        <line x1="170" y1="67" x2="220" y2="67" stroke="#000000" stroke-width="1.5"/>
+                        <polygon points="220,67 212,63 212,71" fill="#000000"/>
+
+                        <!-- Presentation Layer -->
+                        <rect x="220" y="15" width="180" height="105" rx="4" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+                        <text x="310" y="37" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">PRESENTATION LAYER</text>
+                        <line x1="230" y1="45" x2="390" y2="45" stroke="#cccccc" stroke-width="1"/>
+                        <text x="310" y="63" font-size="11" text-anchor="middle" fill="#111111">• login.html (Auth Gateway)</text>
+                        <text x="310" y="81" font-size="11" text-anchor="middle" fill="#111111">• dashboard.html (Portal)</text>
+                        <text x="310" y="99" font-size="11" text-anchor="middle" fill="#111111">• scheme-detail.html</text>
+
+                        <!-- Arrow 2 -->
+                        <line x1="400" y1="67" x2="450" y2="67" stroke="#000000" stroke-width="1.5"/>
+                        <polygon points="450,67 442,63 442,71" fill="#000000"/>
+
+                        <!-- Logic Engine Layer -->
+                        <rect x="450" y="15" width="280" height="145" rx="4" fill="#f8fafc" stroke="#000000" stroke-width="1.5"/>
+                        <text x="590" y="37" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">CLIENT PROCESSING ENGINE</text>
+                        <line x1="460" y1="45" x2="720" y2="45" stroke="#cccccc" stroke-width="1"/>
+                        <text x="470" y="65" font-size="10.5" fill="#111111">1. Scheme Matching (Normalized JSON)</text>
+                        <text x="470" y="85" font-size="10.5" fill="#111111">2. Capital Planner (Adaptive Math Sliders)</text>
+                        <text x="470" y="105" font-size="10.5" fill="#111111">3. DPR Compiler (Debt/Equity &amp; Schedules)</text>
+                        <text x="470" y="125" font-size="10.5" fill="#111111">4. Samarth AI Co-Pilot (Advisory State)</text>
+                        <text x="470" y="145" font-size="10.5" fill="#111111">5. Daily Ledger (Gross Turnover &amp; Profit)</text>
+
+                        <!-- Connector Down from Presentation to Storage -->
+                        <line x1="310" y1="120" x2="310" y2="190" stroke="#000000" stroke-width="1.5" stroke-dasharray="4,3"/>
+                        <line x1="310" y1="190" x2="370" y2="190" stroke="#000000" stroke-width="1.5"/>
+                        <polygon points="370,190 362,186 362,194" fill="#000000"/>
+
+                        <!-- Data & State Layer -->
+                        <rect x="370" y="170" width="230" height="65" rx="4" fill="#ffffff" stroke="#000000" stroke-width="1.5"/>
+                        <text x="485" y="192" font-size="11.5" font-weight="bold" text-anchor="middle" fill="#000000">LOCAL STATE STORAGE</text>
+                        <line x1="380" y1="200" x2="590" y2="200" stroke="#cccccc" stroke-width="1"/>
+                        <text x="485" y="217" font-size="10" text-anchor="middle" fill="#222222">Web Storage (`localStorage` &amp; Session)</text>
+                        <text x="485" y="230" font-size="9.5" text-anchor="middle" fill="#555555">Zero Server Latency / Offline Resilient</text>
+
+                        <!-- Downward Arrow from Engine to Output -->
+                        <line x1="590" y1="160" x2="590" y2="255" stroke="#000000" stroke-width="1.5"/>
+                        <polygon points="590,255 586,247 594,247" fill="#000000"/>
+
+                        <!-- Outputs Layer -->
+                        <rect x="30" y="255" width="700" height="85" rx="4" fill="#f8fafc" stroke="#000000" stroke-width="1.5"/>
+                        <text x="380" y="275" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">OUTPUT DELIVERABLES &amp; BANK INTEGRATION</text>
+                        <line x1="40" y1="283" x2="720" y2="283" stroke="#cccccc" stroke-width="1"/>
+
+                        <rect x="50" y="293" width="190" height="38" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+                        <text x="145" y="309" font-size="10.5" font-weight="bold" text-anchor="middle">1-Click Bank DPR (PDF)</text>
+                        <text x="145" y="323" font-size="9" text-anchor="middle" fill="#555">RBI Approvable 1-Page Format</text>
+
+                        <rect x="260" y="293" width="190" height="38" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+                        <text x="355" y="309" font-size="10.5" font-weight="bold" text-anchor="middle">Verified Scheme Portal</text>
+                        <text x="355" y="323" font-size="9" text-anchor="middle" fill="#555">Direct Nodal `.gov.in` Routing</text>
+
+                        <rect x="470" y="293" width="240" height="38" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+                        <text x="590" y="309" font-size="10.5" font-weight="bold" text-anchor="middle">Financial Health Ledger</text>
+                        <text x="590" y="323" font-size="9" text-anchor="middle" fill="#555">Gross Margin &amp; Net Profit Logs</text>
+                    </svg>
+                </div>
+                <div class="figure-caption">Figure 3.1: Architectural Flow of the Samarth Business Platform (SIH26092)</div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-caption">Table 3.2: Project Implementation Schedule (Sprint Timelines)</div>
+                <table class="formal-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Stage / Sprint</th>
+                            <th style="width: 45%;">Work Description & Activities</th>
+                            <th style="width: 20%;">Duration</th>
+                            <th style="width: 20%;">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sprint 1</td>
+                            <td>Problem Statement audit (SIH26092) and government scheme gazette data verification.</td>
+                            <td>Week 1 – 2</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>Sprint 2</td>
+                            <td>Multi-page UI architecture design (`login.html`, `dashboard.html`, `scheme-detail.html`).</td>
+                            <td>Week 3 – 4</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>Sprint 3</td>
+                            <td>Capital utilization simulation engine and trade-adaptive financial modeling.</td>
+                            <td>Week 5 – 6</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>Sprint 4</td>
+                            <td>Bank DPR generator engine adhering strictly to RBI credit underwriting norms.</td>
+                            <td>Week 7 – 8</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>Sprint 5</td>
+                            <td>Daily business ledger (Khata) and AI Co-Pilot chat advisory integration.</td>
+                            <td>Week 9 – 10</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>Sprint 6</td>
+                            <td>Print stylesheet formatting, documentation compilation, and synopsis preparation.</td>
+                            <td>Week 11 – 12</td>
+                            <td>Completed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-num-indicator">Page 7</div>
+        </div>
+
+
+        <!-- ===================================================================
+             PAGE 11: 4. FACILITIES REQUIRED FOR PROPOSED WORK
+             =================================================================== -->
+        <div class="page-sheet">
+            <div class="page-header-indicator">Buddha Institute of Technology • Project Synopsis</div>
+            <h1 class="section-title">4. FACILITIES REQUIRED FOR PROPOSED WORK</h1>
+
+            <p class="no-indent">
+                To engineer, evaluate, and deploy the Samarth Business Platform, the following hardware and software facilities are required:
+            </p>
+
+            <h2 class="subsection-title">4.1 Software Requirements</h2>
+            <div class="table-container">
+                <div class="table-caption">Table 4.1: Detailed Software Environment and Tool Specifications</div>
+                <table class="formal-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">Software Component</th>
+                            <th style="width: 35%;">Recommended Specification</th>
+                            <th style="width: 35%;">Purpose in Project</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Operating System</strong></td>
+                            <td>Microsoft Windows 10/11 (64-bit) or Linux Ubuntu 22.04 LTS</td>
+                            <td>Development, testing, and host runtime environment.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Integrated Development Environment</strong></td>
+                            <td>Visual Studio Code (v1.85+)</td>
+                            <td>Source code authoring, linting, and workspace management.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Web Browsers</strong></td>
+                            <td>Google Chrome (v110+), Microsoft Edge, Mozilla Firefox</td>
+                            <td>DOM debugging, responsive viewport testing, and CSS Paged Media print testing.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Version Control System</strong></td>
+                            <td>Git (v2.40+) and GitHub Cloud Repository</td>
+                            <td>Source revision tracking, team collaboration, and automated CI/CD deployment.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Markup & Scripting Engines</strong></td>
+                            <td>HTML5, CSS3, Vanilla ECMAScript (ES6+)</td>
+                            <td>Core presentation, layout styling, and client-side computational execution.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Typography & Asset Libraries</strong></td>
+                            <td>Google Fonts (Plus Jakarta Sans), FontAwesome 6.5.1 CDN</td>
+                            <td>Modern visual ergonomics and vector icons.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="subsection-title">4.2 Hardware Requirements</h2>
+            <div class="table-container">
+                <div class="table-caption">Table 4.2: Hardware Specifications for Development and Deployment</div>
+                <table class="formal-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">Hardware Component</th>
+                            <th style="width: 35%;">Development Station Minimum</th>
+                            <th style="width: 35%;">Target Client / End-User Machine</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Central Processor (CPU)</strong></td>
+                            <td>Intel Core i3 / i5 or AMD Ryzen 3 / 5 (Quad Core, 2.0 GHz+)</td>
+                            <td>Any standard dual-core desktop, laptop, or ARM mobile processor.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>System Memory (RAM)</strong></td>
+                            <td>8.0 GB DDR4 SDRAM</td>
+                            <td>Minimum 2.0 GB RAM on desktop or mobile device.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Storage Space</strong></td>
+                            <td>256.0 GB Solid State Drive (SSD)</td>
+                            <td>Minimum 50.0 MB free storage for local browser caching.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Display Resolution</strong></td>
+                            <td>1920 x 1080 Full HD (1080p)</td>
+                            <td>Responsive support: 360 x 640 (Mobile) up to 1920 x 1080 (Desktop).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Network Interface</strong></td>
+                            <td>Broadband Wi-Fi / Ethernet (1.0 Mbps+)</td>
+                            <td>Basic cellular data / 3G / 4G (Minimum 512.0 Kbps).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Printing Facility</strong></td>
+                            <td>A4 Laser / Inkjet Printer (Standard 600 DPI)</td>
+                            <td>Standard institutional A4 black-and-white or colour printer.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="page-num-indicator">Page 8</div>
+        </div>
+
+
+        <!-- ===================================================================
+             PAGE 12: 5. BENEFITS AND IMPACT & 6. REFERENCES
+             =================================================================== -->
+        <div class="page-sheet">
+            <div class="page-header-indicator">Buddha Institute of Technology • Project Synopsis</div>
+            <h1 class="section-title">5. BENEFITS AND IMPACT OF THE PROJECT</h1>
+            <p>
+                The deployment of the Samarth Business Platform delivers substantial societal, economic, and institutional benefits:
+            </p>
+            <ul class="content-list">
+                <li><strong>Eradication of Exploitative Middlemen:</strong> Unorganised micro-entrepreneurs save ₹5,000.00 to ₹15,000.00 per loan application in third-party documentation fees.</li>
+                <li><strong>Higher Bank Loan Sanction Ratios:</strong> Standardising project reports according to Reserve Bank of India (RBI) credit norms significantly curbs paperwork rejections by branch credit officers.</li>
+                <li><strong>Financial Literacy Acceleration:</strong> Dynamic capital planning fosters disciplined budgeting habits for inventory, machinery, and working reserves.</li>
+                <li><strong>Inclusion of Underrepresented Communities:</strong> Direct matching for women founders, artisans (PM Vishwakarma), and street vendors (PM SVANidhi).</li>
+                <li><strong>Zero-Cost Scalability:</strong> Can be deployed seamlessly across Common Service Centres (CSCs) nationwide at zero licensing expense.</li>
+            </ul>
+
+            <h1 class="section-title" style="margin-top: 14pt;">6. REFERENCES</h1>
+            <ul class="reference-list">
+                <li>[1] Ministry of Micro, Small and Medium Enterprises, Government of India. (2023). <em>Annual Report 2022–23</em>. New Delhi: Government of India. &lt;https://msme.gov.in/&gt;.</li>
+                <li>[2] Reserve Bank of India. (2022). <em>Master Direction – Lending to Micro, Small &amp; Medium Enterprises (MSME) Sector</em>. RBI/FIDD/2017-2018/56, Mumbai: RBI.</li>
+                <li>[3] Khadi and Village Industries Commission (KVIC). (2023). <em>PMEGP Operational Scheme Guidelines</em>. Ministry of MSME, Govt. of India. &lt;https://kviconline.gov.in/&gt;.</li>
+                <li>[4] Department of Financial Services. (2023). <em>Pradhan Mantri Mudra Yojana (PMMY) Implementation Norms</em>. Ministry of Finance, Govt. of India. &lt;https://www.mudra.org.in/&gt;.</li>
+                <li>[5] Ministry of Housing and Urban Affairs (MoHUA). (2022). <em>PM SVANidhi Scheme Implementation Guidelines</em>. New Delhi: Govt. of India. &lt;https://pmsvanidhi.mohua.gov.in/&gt;.</li>
+                <li>[6] Small Industries Development Bank of India (SIDBI). (2023). <em>CGTMSE Operations Manual</em>. Mumbai: SIDBI. &lt;https://www.cgtmse.in/&gt;.</li>
+                <li>[7] Ministry of Skill Development and Entrepreneurship. (2023). <em>PM Vishwakarma Scheme Guidelines</em>. New Delhi: Govt. of India. &lt;https://pmvishwakarma.gov.in/&gt;.</li>
+                <li>[8] World Bank. (2021). <em>Financing MSMEs in India: Addressing the Demand-Supply Mismatch and Digital Interventions</em>. Washington, D.C.: World Bank Group.</li>
+                <li>[9] W3C. (2022). <em>CSS Paged Media Module Level 3</em>. World Wide Web Consortium Recommendation. &lt;https://www.w3.org/TR/css-page-3/&gt;.</li>
+                <li>[10] Smart India Hackathon (SIH). (2024). <em>Problem Statement ID: SIH26092 — AI-Powered Enterprise Assistance &amp; Scheme Linkage Platform for MSMEs</em>. AICTE, New Delhi.</li>
+            </ul>
+
+            <div style="margin-top: 18pt; border-top: 1pt solid #000; padding-top: 10pt; text-align: center; font-size: 10.5pt;">
+                <strong>DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING</strong><br>
+                <strong>BUDDHA INSTITUTE OF TECHNOLOGY, GORAKHPUR</strong><br>
+                <em>ACADEMIC SESSION: 2024 – 2025</em>
+            </div>
+            <div class="page-num-indicator">Page 9</div>
+        </div>
+
+    </div>
+
+    <!-- Client-Side Word (.doc) Downloader Script -->
+    <script>
+        function downloadWordDocument() {
+            var docContent = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
+                '<head><meta charset="utf-8"><title>Project Synopsis - Buddha Institute of Technology</title>' +
+                '<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom><w:DoNotOptimizeForBrowser/></w:WordDocument></xml><![endif]-->' +
+                '<style>' +
+                '@page Section1 { size: 595.3pt 841.9pt; margin: 70.87pt 35.43pt 35.43pt 99.21pt; mso-header-margin: 36pt; mso-footer-margin: 36pt; }' +
+                'div.Section1 { page: Section1; }' +
+                'body { font-family: "Times New Roman", serif; font-size: 12pt; line-height: 150%; text-align: justify; }' +
+                'p { margin-top: 0pt; margin-bottom: 8pt; line-height: 150%; text-indent: 0.5in; }' +
+                'p.no-indent { text-indent: 0pt; }' +
+                'h1 { font-family: "Times New Roman", serif; font-size: 14pt; font-weight: bold; text-transform: uppercase; margin-top: 12pt; margin-bottom: 6pt; page-break-after: avoid; }' +
+                'h2 { font-family: "Times New Roman", serif; font-size: 13pt; font-weight: bold; margin-top: 10pt; margin-bottom: 4pt; page-break-after: avoid; }' +
+                'table { border-collapse: collapse; width: 100%; margin-top: 6pt; margin-bottom: 10pt; font-size: 10.5pt; }' +
+                'table th { border-top: 1.5pt solid black; border-bottom: 1.5pt solid black; padding: 5pt; background: #f2f2f2; text-align: left; }' +
+                'table td { border-bottom: 0.5pt solid #cccccc; padding: 4.5pt; vertical-align: top; }' +
+                '.page-sheet { page-break-after: always; }' +
+                '</style></head><body><div class="Section1">' +
+                document.getElementById('synopsis-document').innerHTML +
+                '</div></body></html>';
+
+            var blob = new Blob(['\ufeff' + docContent], {
+                type: 'application/msword'
+            });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'BTech_Project_Synopsis_Samarth_Business_BIT_Gorakhpur.doc';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

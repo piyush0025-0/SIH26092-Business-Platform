@@ -33,21 +33,25 @@
         </div>
 
         <nav class="nav-links">
-            <a href="#schemes"><i class="fa-solid fa-landmark"></i> <span>Govt Schemes</span></a>
-            <a href="#fund-planner"><i class="fa-solid fa-calculator"></i> <span>AI Fund Planner</span></a>
+            <a href="dashboard.html" class="active"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a>
+            <a href="schemes.html"><i class="fa-solid fa-landmark"></i> <span>Govt Schemes</span></a>
+            <a href="profile.html"><i class="fa-regular fa-user"></i> <span>Business Profile</span></a>
+            <a href="expenses.html"><i class="fa-solid fa-calculator"></i> <span>Expenses & Capital</span></a>
             <a href="#assistant"><i class="fa-solid fa-robot"></i> <span>AI Co-Pilot</span></a>
-            <a href="#business"><i class="fa-solid fa-wallet"></i> <span>Business Ledger</span></a>
         </nav>
 
         <div class="nav-actions">
             <!-- User Profile Greeting & Logout -->
             <div class="user-greeting-badge">
                 <i class="fa-regular fa-circle-user"></i>
-                <span id="user-display-name">Ramesh Kumar</span>
+                <span id="user-display-name">Piyush</span>
             </div>
-            <button id="open-dpr-nav-btn" class="btn btn-sm btn-secondary">
+            <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer" class="btn-github" title="View Source Code on GitHub">
+                <i class="fa-brands fa-github"></i> <span>GitHub</span>
+            </a>
+            <a href="expenses.html" class="btn btn-sm btn-secondary">
                 <i class="fa-solid fa-file-pdf" style="color: #e11d48;"></i> <span>Bank DPR</span>
-            </button>
+            </a>
             <button id="logout-btn" class="btn btn-sm btn-outline-danger">
                 <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
             </button>
@@ -73,11 +77,11 @@
             </p>
 
             <div class="hero-buttons">
-                <a href="#fund-planner" class="btn btn-primary btn-lg">
-                    <i class="fa-solid fa-robot"></i> <span>AI Smart Budget Planner</span>
+                <a href="expenses.html" class="btn btn-primary btn-lg">
+                    <i class="fa-solid fa-calculator"></i> <span>AI Expenses & Budget Planner</span>
                 </a>
-                <a href="#schemes" class="btn btn-secondary btn-lg">
-                    <i class="fa-solid fa-landmark"></i> <span>Explore Schemes</span>
+                <a href="schemes.html" class="btn btn-secondary btn-lg">
+                    <i class="fa-solid fa-landmark"></i> <span>Explore Govt Schemes</span>
                 </a>
             </div>
 
@@ -97,16 +101,17 @@
             </div>
 
             <div class="preview-cards">
-                <div class="p-card stat-blue">
+                <a href="schemes.html" class="p-card stat-blue" style="text-decoration: none; color: inherit; display: block; transition: var(--transition);">
                     <div class="p-card-header">
                         <span>SCHEME ELIGIBILITY</span>
                         <i class="fa-solid fa-award"></i>
                     </div>
                     <h4>PMEGP & Mudra Loan Fit</h4>
                     <div class="badge-pill pill-success"><i class="fa-solid fa-circle-check"></i> 90% Match Score</div>
-                </div>
+                    <small style="color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 4px; margin-top: 8px;">Open Schemes Page <i class="fa-solid fa-arrow-right"></i></small>
+                </a>
 
-                <div class="p-card stat-emerald">
+                <a href="expenses.html" class="p-card stat-emerald" style="text-decoration: none; color: inherit; display: block; transition: var(--transition);">
                     <div class="p-card-header">
                         <span>AI CAPITAL ALLOCATION</span>
                         <i class="fa-solid fa-chart-pie"></i>
@@ -115,17 +120,18 @@
                     <div class="progress-bar-mini">
                         <div class="fill" style="width: 80%;"></div>
                     </div>
-                    <small>AI optimized for Retail / Grocery Trade</small>
-                </div>
+                    <small style="color: var(--emerald); font-weight: 700; display: flex; align-items: center; gap: 4px; margin-top: 8px;">Open Expenses Studio <i class="fa-solid fa-arrow-right"></i></small>
+                </a>
 
-                <div class="p-card stat-purple">
+                <a href="profile.html" class="p-card stat-purple" style="text-decoration: none; color: inherit; display: block; transition: var(--transition);">
                     <div class="p-card-header">
-                        <span>BANK PROPOSAL</span>
-                        <i class="fa-solid fa-file-pdf" style="color: var(--rose);"></i>
+                        <span>ENTERPRISE PROFILE</span>
+                        <i class="fa-regular fa-id-card"></i>
                     </div>
-                    <h4>"1-Page Bank DPR Ready"</h4>
-                    <p class="p-subtext">Click below to generate and save clean PDF.</p>
-                </div>
+                    <h4>Piyush Enterprises</h4>
+                    <p class="p-subtext">MSME Udyam Verified Profile.</p>
+                    <small style="color: var(--purple); font-weight: 700; display: flex; align-items: center; gap: 4px; margin-top: 6px;">Manage Profile Page <i class="fa-solid fa-arrow-right"></i></small>
+                </a>
             </div>
         </div>
     </section>
@@ -143,7 +149,7 @@
             <form id="profile-form" class="form-grid">
                 <div class="form-group">
                     <label for="prof-name"><i class="fa-regular fa-user"></i> Full Name</label>
-                    <input type="text" id="prof-name" placeholder="e.g. Ramesh Kumar" required value="Ramesh Kumar">
+                    <input type="text" id="prof-name" placeholder="e.g. Piyush" required value="Piyush">
                 </div>
 
                 <div class="form-group">
@@ -311,14 +317,56 @@
             </div>
 
             <!-- Right: Dynamic Visual Allocation -->
-            <div class="fund-breakdown-card">
+            <div class="fund-breakdown-card" id="fund-breakdown-section">
                 <div class="breakdown-header">
-                    <h3><i class="fa-solid fa-chart-pie"></i> Capital Allocation Breakdown</h3>
-                    <span id="current-trade-badge" class="badge-pill pill-indigo">Standard MSME Model</span>
+                    <div>
+                        <h3><i class="fa-solid fa-chart-pie"></i> Capital Allocation Breakdown</h3>
+                        <span id="current-trade-badge" class="badge-pill pill-indigo">Standard MSME Model</span>
+                    </div>
+                    <div class="breakdown-header-actions" style="display: flex; gap: 8px;">
+                        <button type="button" id="btn-open-add-expense" class="btn btn-sm btn-outline-primary" title="Add custom expense category">
+                            <i class="fa-solid fa-plus"></i> <span>Add Expense</span>
+                        </button>
+                        <button type="button" id="btn-reset-allocations" class="btn btn-sm btn-secondary" title="Reset to standard allocations">
+                            <i class="fa-solid fa-rotate-left"></i> <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- AI Expense Copilot Command Bar -->
+                <div class="alloc-ai-control-box">
+                    <div class="alloc-ai-bar">
+                        <i class="fa-solid fa-wand-magic-sparkles alloc-ai-sparkle"></i>
+                        <input type="text" id="alloc-ai-input" placeholder="Talk to AI to manage expenses (e.g. 'Add delivery bike ₹40k', 'Increase stock to 40%')...">
+                        <button type="button" id="alloc-ai-btn" class="btn btn-sm btn-primary">
+                            <span>Ask AI</span> <i class="fa-solid fa-bolt"></i>
+                        </button>
+                    </div>
+                    <div class="alloc-quick-chips">
+                        <span class="alloc-chip" data-ai-cmd="Increase initial stock by 10%"><i class="fa-solid fa-arrow-up"></i> +10% Stock</span>
+                        <span class="alloc-chip" data-ai-cmd="Add expense: Delivery Two-Wheeler ₹45,000"><i class="fa-solid fa-motorcycle"></i> + Delivery Bike</span>
+                        <span class="alloc-chip" data-ai-cmd="Add expense: CCTV & Billing POS Setup ₹25,000"><i class="fa-solid fa-cash-register"></i> + POS Billing</span>
+                        <span class="alloc-chip" data-ai-cmd="Reduce emergency reserve by 5% and add to marketing"><i class="fa-solid fa-bullhorn"></i> + Marketing Boost</span>
+                        <span class="alloc-chip" data-ai-cmd="Auto-balance all allocations to 100%"><i class="fa-solid fa-scale-balanced"></i> Auto-Balance</span>
+                    </div>
+                </div>
+
+                <!-- Live Allocation Balance Status Bar -->
+                <div class="alloc-status-bar" id="alloc-status-bar">
+                    <div class="alloc-status-info">
+                        <span class="alloc-status-label">Total Allocated:</span>
+                        <span id="alloc-total-pct" class="alloc-status-pct badge-pill pill-emerald">100%</span>
+                        <span id="alloc-total-val" class="alloc-status-amount">₹6,50,000</span>
+                    </div>
+                    <div class="alloc-status-actions">
+                        <button type="button" id="btn-balance-alloc" class="btn-xs btn-outline-primary" style="display: none;">
+                            <i class="fa-solid fa-scale-balanced"></i> Auto-Balance to 100%
+                        </button>
+                    </div>
                 </div>
 
                 <div class="breakdown-list" id="allocation-items">
-                    <!-- Dynamic rows inserted by script.js -->
+                    <!-- Dynamic customizable rows inserted by script.js -->
                 </div>
             </div>
         </div>
@@ -334,10 +382,17 @@
                 </div>
                 <div>
                     <h2>Samarth AI Business Advisor</h2>
-                    <p>24/7 intelligent answers on Indian business regulations, loan guidelines, and retail strategies.</p>
+                    <p>24/7 intelligent answers in Hinglish & English on Indian business regulations, loan guidelines, and expense management.</p>
                 </div>
-                <div class="ai-status">
-                    <span class="online-indicator"></span> Online 24/7
+                <div class="ai-header-right">
+                    <!-- Hinglish / English Toggle -->
+                    <div class="ai-lang-pill-group">
+                        <button type="button" class="ai-lang-btn active" data-lang="hinglish" id="lang-btn-hinglish"><i class="fa-solid fa-language"></i> Hinglish</button>
+                        <button type="button" class="ai-lang-btn" data-lang="en" id="lang-btn-en">English</button>
+                    </div>
+                    <div class="ai-status">
+                        <span class="online-indicator"></span> Online 24/7
+                    </div>
                 </div>
             </div>
 
@@ -346,22 +401,24 @@
                 <div class="chat-bubble bot">
                     <div class="bubble-icon"><i class="fa-solid fa-robot"></i></div>
                     <div class="bubble-content">
-                        <strong>Hello!</strong> I am your Samarth AI Business Assistant. You can ask me about government schemes, bank DPR requirements, or tell me your business idea so I can customize your budget!
+                        <strong>Namaste Piyush ji! 🙏</strong> Main hoon aapka Samarth AI Business Saathi. Aap mujhse sarkari schemes, bank DPR report, ya apne business ke expenses & budget manage karne ke baare me Hinglish ya English me kuch bhi pooch sakte hain!
                     </div>
                 </div>
             </div>
 
-            <!-- Quick Suggestions -->
+            <!-- Quick Suggestions (Schemes & Expense Management) -->
             <div class="suggestion-chips">
-                <span class="chip" data-prompt="What are the eligibility criteria for Mudra Loan?"><i class="fa-solid fa-hand-holding-dollar"></i> Mudra Loan eligibility</span>
-                <span class="chip" data-prompt="How much subsidy is provided under PMEGP scheme?"><i class="fa-solid fa-percent"></i> PMEGP subsidy details</span>
-                <span class="chip" data-prompt="How to calculate retail profit margin?"><i class="fa-solid fa-coins"></i> Margin calculation</span>
-                <span class="chip" data-prompt="What are the requirements for a bank DPR report?"><i class="fa-solid fa-file-invoice"></i> Bank DPR checklist</span>
+                <span class="chip" data-prompt="Mujhe Grocery / Kirana store ke liye ₹5 Lakh ka budget plan karna hai"><i class="fa-solid fa-store"></i> Plan ₹5L Grocery Budget</span>
+                <span class="chip" data-prompt="Add expense: Delivery Two-Wheeler ₹45,000"><i class="fa-solid fa-motorcycle"></i> + Delivery Bike (₹45k)</span>
+                <span class="chip" data-prompt="Stock allocation ko 40% tak increase kar do"><i class="fa-solid fa-arrow-up"></i> Increase Stock to 40%</span>
+                <span class="chip" data-prompt="Auto-balance all capital allocations to 100%"><i class="fa-solid fa-scale-balanced"></i> Auto-Balance 100%</span>
+                <span class="chip" data-prompt="Mudra Loan kaise milega aur eligibility kya hai?"><i class="fa-solid fa-hand-holding-dollar"></i> Mudra Loan ki Jankari</span>
+                <span class="chip" data-prompt="PMEGP scheme me kitni subsidy milti hai?"><i class="fa-solid fa-percent"></i> PMEGP subsidy details</span>
             </div>
 
             <!-- Input Box -->
             <div class="chat-input-bar">
-                <input type="text" id="ai-user-query" placeholder="Ask any question about schemes, bank loans, or retail business...">
+                <input type="text" id="ai-user-query" placeholder="Hinglish ya English me poochiye: 'Delivery bike add karo ₹40k', 'Stock 40% karo', 'Mudra loan kaise le'...">
                 <button id="ai-submit-btn" class="btn btn-primary">
                     <span>Send</span> <i class="fa-solid fa-paper-plane"></i>
                 </button>
@@ -453,10 +510,10 @@
 
             <div class="footer-links">
                 <strong>Platform Navigation</strong>
-                <a href="#schemes">Government Schemes</a>
-                <a href="#fund-planner">AI Fund Planner</a>
-                <a href="#assistant">AI Assistant</a>
-                <a href="#business">Business Ledger</a>
+                <a href="schemes.html">Government Schemes</a>
+                <a href="expenses.html">Capital & Expense Studio</a>
+                <a href="profile.html">Business Profile & Scorecard</a>
+                <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub Repository</a>
             </div>
 
             <div class="footer-official">
@@ -467,6 +524,56 @@
         </div>
     </footer>
 
+
+    <!-- ==========================================================================
+         CUSTOM EXPENSE ADD / EDIT MODAL
+         ========================================================================== -->
+    <div id="expense-modal-overlay" class="custom-modal-overlay">
+        <div class="custom-modal-card">
+            <div class="custom-modal-header">
+                <h3 id="expense-modal-title"><i class="fa-solid fa-coins"></i> Add Custom Expense</h3>
+                <button type="button" id="expense-modal-close" class="custom-modal-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="expense-modal-form" class="custom-modal-form">
+                <input type="hidden" id="expense-edit-index" value="-1">
+                <div class="form-group">
+                    <label for="expense-name-input"><i class="fa-solid fa-tag"></i> Expense Category / Name</label>
+                    <input type="text" id="expense-name-input" placeholder="e.g. Electric Delivery Scooter, Cold Storage, CCTV" required>
+                </div>
+                <div class="form-group">
+                    <label for="expense-purpose-input"><i class="fa-solid fa-align-left"></i> Description / Purpose</label>
+                    <input type="text" id="expense-purpose-input" placeholder="e.g. For swift doorstep customer orders" required>
+                </div>
+                <div class="modal-form-row">
+                    <div class="form-group">
+                        <label for="expense-pct-input"><i class="fa-solid fa-percent"></i> Allocation Percentage (%)</label>
+                        <input type="number" id="expense-pct-input" min="1" max="80" step="1" value="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expense-icon-select"><i class="fa-solid fa-icons"></i> Category Icon</label>
+                        <select id="expense-icon-select">
+                            <option value="fa-boxes-packing">📦 Inventory / Goods</option>
+                            <option value="fa-shop">🏪 Shop Fixture / Interior</option>
+                            <option value="fa-gears">⚙️ Machinery / Equipment</option>
+                            <option value="fa-motorcycle">🛵 Delivery / Logistics</option>
+                            <option value="fa-cash-register">💻 Tech / Software / POS</option>
+                            <option value="fa-coins">🪙 Working Capital / Buffer</option>
+                            <option value="fa-bullhorn">📢 Marketing & Signage</option>
+                            <option value="fa-shield-heart">🛡️ Contingency / Reserve</option>
+                            <option value="fa-bolt">⚡ Solar / Utilities</option>
+                            <option value="fa-snowflake">❄️ Cold Storage / Freezer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="custom-modal-actions">
+                    <button type="button" id="expense-modal-cancel" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" id="expense-modal-submit" class="btn btn-primary">
+                        <i class="fa-solid fa-check"></i> <span id="expense-modal-btn-text">Save Expense</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- ==========================================================================
          SIMPLIFIED OFFICIAL BANK DPR (DETAILED PROJECT REPORT) MODAL
@@ -516,7 +623,7 @@
                     <table class="dpr-table">
                         <tr>
                             <td><strong>Promoter Name:</strong></td>
-                            <td id="dpr-promoter-name">Ramesh Kumar</td>
+                            <td id="dpr-promoter-name">Piyush</td>
                             <td><strong>Business Stage:</strong></td>
                             <td id="dpr-promoter-stage">New Business (Startup)</td>
                         </tr>
@@ -640,11 +747,13 @@
         } else {
             try {
                 const user = JSON.parse(session);
-                if (user.name) {
-                    document.getElementById("user-display-name").textContent = user.name;
-                    const profName = document.getElementById("prof-name");
-                    if (profName && !profName.value) profName.value = user.name;
-                }
+                const userName = user.name || "Piyush";
+                const userDisplay = document.getElementById("user-display-name");
+                if (userDisplay) userDisplay.textContent = userName;
+                const profName = document.getElementById("prof-name");
+                if (profName) profName.value = userName;
+                const dprPromoter = document.getElementById("dpr-promoter-name");
+                if (dprPromoter) dprPromoter.textContent = userName;
             } catch(e) {}
         }
 

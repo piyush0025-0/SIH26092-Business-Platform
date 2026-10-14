@@ -1,50 +1,62 @@
 # Samarth Business Platform 🚀
 ### Smart India Hackathon (SIH) • Problem Statement ID: SIH26092
 
-> **AI-Powered Enterprise Assistance & Scheme Linkage Platform for Indian MSMEs and Aspiring Entrepreneurs.**
+> **AI-Powered Enterprise Assistance, Capital Budgeting & Scheme Linkage Platform for Indian MSMEs and Aspiring Entrepreneurs.**
+
+🔗 **GitHub Repository:** [https://github.com/piyush0025-0/SIH26092-Business-Platform](https://github.com/piyush0025-0/SIH26092-Business-Platform)  
+🌐 **Live Web Application:** [https://piyush0025-0.github.io/SIH26092-Business-Platform/](https://piyush0025-0.github.io/SIH26092-Business-Platform/)
 
 ---
 
-## 📌 Project Overview
-**Samarth Business** is an all-in-one digital platform designed to bridge the information and financial gap for Indian micro, small, and medium enterprises (MSMEs). The platform assists first-time entrepreneurs, street vendors, and small business owners in finding relevant government schemes, budgeting their working capital, generating bank-compliant credit reports, and managing daily sales.
+## 🔐 Authorized Demo Credentials
+| Field | Value |
+|---|---|
+| **Login ID** | `piyush123` |
+| **Password** | `1234567` |
+| **User Profile** | `Piyush` |
 
 ---
 
-## ✨ Key Features
+## 📌 Architecture & Dedicated Feature Pages
 
-1. **🏛️ Government Scheme Matching Engine**:
+The application features a clean, responsive multi-page architecture:
+
+1. **🏛️ Government Schemes Portal ([`schemes.html`](schemes.html)):**
    - Curated central and state schemes including **PMEGP**, **PM Mudra Yojana**, **PM SVANidhi**, **Stand-Up India**, **PM Vishwakarma**, and **CGTMSE**.
-   - Filter by collateral-free loans, margin money subsidies (15% - 35%), and micro-retail schemes with direct official portal links.
+   - Live search by keyword, category filter buttons, and interactive **Government Subsidy Calculator** with instant subsidy computation.
+   - Click-through cards linking directly to dedicated scheme detail views ([`scheme-detail.html`](scheme-detail.html)).
 
-2. **📊 Dynamic Capital Utilization Planner**:
-   - Interactive financial sliders allowing users to simulate bank loans and own savings.
-   - Automatically computes a balanced budget allocation for **Equipment & Machinery (32%)**, **Initial Stock & Inventory (24%)**, **3-Month Operating Capital (16%)**, **Store Interior (13%)**, and **Emergency Contingency Reserve (10%)**.
+2. **👤 Enterprise Profile & MSME Scorecard ([`profile.html`](profile.html)):**
+   - Comprehensive enterprise parameter profile (Enterprise Name, Contact, Business Stage, Social Category, Sector, Personal Savings, Annual Revenue, State/District).
+   - Live **MSME Readiness Scorecard** assessing collateral-free score, subsidy likelihood, and debt-equity ratio.
+   - Live scheme match recommendations based on promoter demographics.
 
-3. **📄 1-Click Bank DPR (Detailed Project Report) PDF Export**:
-   - Generates an official, bank-ready Detailed Project Report formatted to Reserve Bank of India (RBI) credit norms.
-   - Includes promoter details, debt-to-equity ratio calculation, itemized capital schedule, government subsidy linkage, and official banker/branch verification signature blocks.
-   - Supports 1-click **Save as PDF** or print with dedicated print styling.
+3. **💰 Capital Allocation & Expense Studio ([`expenses.html`](expenses.html)):**
+   - Interactive bank loan and equity sliders dynamically linked to RBI credit guidelines.
+   - Customizable **Capital Allocation Breakdown** with percentage sliders, step increment/decrement buttons, custom category add/edit modal, and delete options.
+   - **Inline AI Expense Copilot Bar**: Add or adjust expenses using natural language (e.g., *"Add delivery bike ₹40k"*, *"Increase stock to 40%"*).
+   - **1-Click Bank DPR Export**: Generates an official, print-ready 1-page Detailed Project Report compliant with commercial bank credit appraisal standards.
 
-4. **🤖 Samarth AI Business Co-Pilot**:
-   - Interactive 24/7 business advisor answering queries regarding loan eligibility, project reports (DPR), margin calculations, and licensing.
-   - Includes instant one-tap prompt chips for common business questions.
+4. **🤖 Bilingual AI Business Advisor (Hinglish + English):**
+   - Interactive conversational assistant with visual language switcher (`[ Hinglish | English ]`).
+   - Automatically detects Hinglish phrasing and provides comprehensive responses on Mudra loans, PMEGP subsidies, FMCG/garment retail margins, bank DPR checklists, and expense restructuring.
 
-5. **💼 Daily Business Ledger / Khata Logger**:
-   - Track daily revenue, supplier stock purchases, and operational overheads.
-   - Automatically computes real-time **Gross Margins** and **Net Profit**.
+5. **💼 Business Health & Daily Khata Ledger ([`dashboard.html`](dashboard.html)):**
+   - Track daily sales, inventory purchases, and operating overheads.
+   - Automatically computes real-time gross margins and net profit.
 
 ---
 
 ## 🛠️ Technology Stack
-- **Frontend**: HTML5, Modern CSS3 (Grid & Flexbox), Vanilla ES6+ JavaScript
+- **Frontend**: HTML5, Modern CSS3 (CSS Variables, Grid & Flexbox), Vanilla ES6+ JavaScript
 - **Typography & Icons**: Plus Jakarta Sans (Google Fonts), FontAwesome 6.5.1
-- **Architecture**: Zero-dependency, lightweight single-page web app with client-side `localStorage` persistence and native browser PDF/Print engine.
+- **Architecture**: Zero-dependency, client-side web application with `localStorage` session persistence and native browser PDF/Print engine.
 
 ---
 
 ## 🚀 Getting Started Locally
 
-1. Clone or download this repository:
+1. Clone this repository:
    ```bash
    git clone https://github.com/piyush0025-0/SIH26092-Business-Platform.git
    ```
@@ -52,23 +64,16 @@
    ```bash
    cd SIH26092-Business-Platform
    ```
-3. Open `index.html` in any web browser (Google Chrome, Microsoft Edge, Mozilla Firefox, or Safari). No build step, node modules, or local server required!
+3. Open `index.html` or `login.html` in any web browser (Google Chrome, Microsoft Edge, Safari, Firefox). No build step, node modules, or external servers required!
 
 ---
 
-## 🌐 Free Live Deployment
+## 🌐 Deploy to GitHub Pages
 
-### Deploy via GitHub Pages (30 Seconds):
-1. Create a repository on GitHub named `SIH26092-Business-Platform`.
-2. Push this codebase to GitHub:
-   ```bash
-   git remote add origin https://github.com/piyush0025-0/SIH26092-Business-Platform.git
-   git branch -M main
-   git push -u origin main
-   ```
-3. In your GitHub repository, go to **Settings** > **Pages**.
-4. Under **Branch**, select `main` and `/ (root)`, then click **Save**.
-5. Your live URL will be ready at:
+1. Push your latest code to the `main` branch of `https://github.com/piyush0025-0/SIH26092-Business-Platform.git`.
+2. Go to your repository on GitHub: **Settings** > **Pages**.
+3. Under **Branch**, select `main` and `/ (root)`, then click **Save**.
+4. The live site will be accessible at:
    `https://piyush0025-0.github.io/SIH26092-Business-Platform/`
 
 ---
@@ -76,4 +81,4 @@
 ## 👥 Hackathon Submission
 - **Event**: Smart India Hackathon (SIH)
 - **Problem Statement ID**: SIH26092
-- **Platform Name**: Samarth Business
+- **Platform Name**: Samarth Business Platform

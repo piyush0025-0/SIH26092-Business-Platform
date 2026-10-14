@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Schemes & Subsidies | Samarth Business (SIH26092)</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="detail-body">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div>
+                <h2>Samarth<span>Business</span></h2>
+                <span class="sub-brand">Schemes Portal • SIH26092</span>
+            </div>
+        </div>
+
+        <nav class="nav-links">
+            <a href="dashboard.html"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a>
+            <a href="schemes.html" class="active"><i class="fa-solid fa-landmark"></i> <span>Govt Schemes</span></a>
+            <a href="profile.html"><i class="fa-regular fa-user"></i> <span>Business Profile</span></a>
+            <a href="expenses.html"><i class="fa-solid fa-calculator"></i> <span>Expenses & Capital</span></a>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- User Profile Greeting & Logout -->
+            <div class="user-greeting-badge">
+                <i class="fa-regular fa-circle-user"></i>
+                <span id="user-display-name">Piyush</span>
+            </div>
+            <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer" class="btn-github" title="View Source Code on GitHub">
+                <i class="fa-brands fa-github"></i> <span>GitHub</span>
+            </a>
+            <a href="expenses.html" class="btn btn-sm btn-secondary">
+                <i class="fa-solid fa-file-pdf" style="color: #e11d48;"></i> <span>Bank DPR</span>
+            </a>
+            <button id="logout-btn" class="btn btn-sm btn-outline-danger">
+                <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
+            </button>
+        </div>
+    </header>
+
+
+    <!-- ================= SCHEMES PAGE CONTAINER ================= -->
+    <main class="page-container">
+        <!-- Page Banner -->
+        <div class="page-banner">
+            <div class="page-banner-content">
+                <div class="page-breadcrumbs">
+                    <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <span>Government Schemes & Subsidies</span>
+                </div>
+                <h1><i class="fa-solid fa-landmark" style="color: var(--primary);"></i> Government Schemes & Subsidies</h1>
+                <p>Explore collateral-free MSME loans, 15%-35% capital subsidies, and government credit guarantee schemes for Indian entrepreneurs. Tap any scheme to open its dedicated guidelines page.</p>
+            </div>
+            <div class="page-banner-actions">
+                <a href="expenses.html" class="btn btn-primary">
+                    <i class="fa-solid fa-calculator"></i> <span>Plan Expenses with AI</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Search Bar & Filters -->
+        <div style="background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
+            <div style="position: relative; margin-bottom: 1.2rem;">
+                <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-light); font-size: 1.05rem;"></i>
+                <input type="text" id="scheme-search-input" placeholder="Search by scheme name, ministry, or keywords (e.g. Mudra, PMEGP, Subsidy, Retail, Women)..." style="width: 100%; padding: 14px 18px 14px 46px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.95rem; outline: none; transition: var(--transition);">
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="scheme-filters" style="margin-bottom: 0;">
+                <button class="filter-btn active" data-filter="all"><i class="fa-solid fa-list"></i> All Schemes</button>
+                <button class="filter-btn" data-filter="loan"><i class="fa-solid fa-shield"></i> Collateral-Free Loans</button>
+                <button class="filter-btn" data-filter="subsidy"><i class="fa-solid fa-tags"></i> Government Subsidies</button>
+                <button class="filter-btn" data-filter="micro"><i class="fa-solid fa-cart-shopping"></i> Micro / Street Retail</button>
+            </div>
+        </div>
+
+        <!-- Schemes Grid -->
+        <div class="scheme-grid" id="scheme-list-container">
+            <!-- Dynamic Cards Loaded by script.js -->
+        </div>
+
+        <!-- Interactive Government Subsidy Calculator Section -->
+        <div style="background: #ffffff; border: 1.5px solid #bfdbfe; border-radius: var(--radius-lg); padding: 2.2rem; margin-top: 3rem; box-shadow: var(--shadow-md);">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem;">
+                <div style="width: 44px; height: 44px; border-radius: 12px; background: #eff6ff; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--dark); margin-bottom: 2px;">PMEGP & MSME Subsidy Calculator</h3>
+                    <p style="font-size: 0.88rem; color: var(--text-muted);">Calculate your exact government grant (margin money) subsidy based on your business profile & location:</p>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-bottom: 1.5rem;">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-industry"></i> Industry Type</label>
+                    <select id="calc-industry" style="padding: 11px 13px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.92rem;">
+                        <option value="manufacturing">Manufacturing (Up to ₹50L)</option>
+                        <option value="service" selected>Service / Retail (Up to ₹20L)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-map-pin"></i> Location</label>
+                    <select id="calc-location" style="padding: 11px 13px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.92rem;">
+                        <option value="rural">Rural Area (Higher Subsidy: 25% - 35%)</option>
+                        <option value="urban" selected>Urban Area (15% - 25%)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-users"></i> Beneficiary Category</label>
+                    <select id="calc-category" style="padding: 11px 13px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.92rem;">
+                        <option value="special" selected>Special (OBC / SC / ST / Women / Minorities / Ex-Servicemen)</option>
+                        <option value="general">General Category</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-indian-rupee-sign"></i> Proposed Project Cost</label>
+                    <input type="number" id="calc-project-cost" value="1000000" step="50000" min="50000" max="5000000" style="padding: 11px 13px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 0.92rem;">
+                </div>
+            </div>
+
+            <div id="calc-result-box" style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: var(--radius-md); padding: 1.2rem 1.6rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px;">
+                <div>
+                    <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Estimated Government Grant</span>
+                    <h2 id="calc-subsidy-amount" style="font-size: 1.8rem; font-weight: 800; color: var(--emerald); margin-top: 2px;">₹2,50,000 (25%)</h2>
+                </div>
+                <div>
+                    <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Your Own Equity Contribution</span>
+                    <h3 id="calc-own-amount" style="font-size: 1.2rem; font-weight: 800; color: var(--dark); margin-top: 2px;">₹50,000 (5%)</h3>
+                </div>
+                <div>
+                    <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Bank Loan Sanctioned</span>
+                    <h3 id="calc-loan-amount" style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-top: 2px;">₹7,00,000 (70%)</h3>
+                </div>
+                <div>
+                    <a href="expenses.html" class="btn btn-primary" id="calc-plan-btn">
+                        <span>Plan Expenses with This Budget</span> <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h2>Samarth<span>Business</span></h2>
+                        <span class="sub-brand">National Project • SIH26092</span>
+                    </div>
+                </div>
+                <p>National Business Empowerment Platform for Indian MSMEs & Micro-Entrepreneurs.</p>
+            </div>
+            <div class="footer-links">
+                <strong>Quick Links</strong>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="expenses.html">Capital & Expenses</a>
+                <a href="profile.html">Business Profile</a>
+                <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub Repository</a>
+            </div>
+            <div class="footer-official">
+                <p class="sih-tag"><i class="fa-solid fa-award"></i> Problem Statement ID: SIH26092</p>
+                <p class="copyright">© 2026 Samarth Business Platform. Dedicated to Indian MSME growth.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Check session: if not logged in, redirect to login.html
+        const session = localStorage.getItem("samarth_user_session");
+        if (!session) {
+            window.location.href = "login.html";
+        } else {
+            try {
+                const user = JSON.parse(session);
+                const userName = user.name || "Piyush";
+                const userDisplay = document.getElementById("user-display-name");
+                if (userDisplay) userDisplay.textContent = userName;
+            } catch(e) {}
+        }
+
+        // Logout
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", () => {
+                localStorage.removeItem("samarth_user_session");
+                window.location.href = "login.html";
+            });
+        }
+
+        // Search Input filter
+        const searchInput = document.getElementById("scheme-search-input");
+        if (searchInput) {
+            searchInput.addEventListener("input", function() {
+                const query = this.value.toLowerCase().trim();
+                const container = document.getElementById("scheme-list-container");
+                if (!container || !window.schemesData) return;
+
+                container.innerHTML = "";
+                const filtered = window.schemesData.filter(s => {
+                    return s.title.toLowerCase().includes(query) ||
+                           s.desc.toLowerCase().includes(query) ||
+                           s.ministry.toLowerCase().includes(query) ||
+                           s.categoryName.toLowerCase().includes(query);
+                });
+
+                if (filtered.length === 0) {
+                    container.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: #ffffff; border-radius: 14px; border: 1px dashed var(--border);">
+                            <i class="fa-solid fa-magnifying-glass" style="font-size: 2.2rem; color: #94a3b8; margin-bottom: 10px;"></i>
+                            <h3 style="color: var(--dark); margin-bottom: 6px;">No schemes match your search</h3>
+                            <p style="color: var(--text-muted); font-size: 0.92rem;">Try different keywords like "Mudra", "PMEGP", "Loan", or "Subsidy".</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                filtered.forEach(scheme => {
+                    const card = document.createElement("div");
+                    card.className = "scheme-card";
+                    card.innerHTML = `
+                        <div class="scheme-card-top">
+                            <span class="badge-pill ${scheme.badgeClass}">${scheme.categoryName}</span>
+                            <i class="fa-solid fa-landmark" style="color: var(--primary); font-size: 1.2rem;"></i>
+                        </div>
+                        <h3>${scheme.title}</h3>
+                        <span class="scheme-ministry"><i class="fa-solid fa-shield"></i> ${scheme.ministry}</span>
+                        <p>${scheme.desc}</p>
+                        <div class="scheme-metrics">
+                            <div class="scheme-metric-item">
+                                <span>Max Assistance</span>
+                                <strong>${scheme.maxLoan}</strong>
+                            </div>
+                            <div class="scheme-metric-item">
+                                <span>Key Benefit</span>
+                                <strong style="color: var(--emerald);">${scheme.subsidy}</strong>
+                            </div>
+                        </div>
+                        <div class="scheme-actions-row">
+                            <a href="scheme-detail.html?id=${scheme.id}" class="btn btn-primary scheme-btn">
+                                <span>View Details & Guide</span> <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            });
+        }
+
+        // Subsidy Calculator logic
+        function updateSubsidyCalc() {
+            const industry = document.getElementById("calc-industry")?.value || "service";
+            const location = document.getElementById("calc-location")?.value || "urban";
+            const category = document.getElementById("calc-category")?.value || "special";
+            const cost = parseFloat(document.getElementById("calc-project-cost")?.value) || 1000000;
+
+            let subsidyPct = 0.15;
+            let ownPct = 0.10;
+
+            if (category === "special") {
+                ownPct = 0.05;
+                subsidyPct = (location === "rural") ? 0.35 : 0.25;
+            } else {
+                ownPct = 0.10;
+                subsidyPct = (location === "rural") ? 0.25 : 0.15;
+            }
+
+            const subsidyAmount = cost * subsidyPct;
+            const ownAmount = cost * ownPct;
+            const loanAmount = cost - subsidyAmount - ownAmount;
+
+            const formatINR = (val) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+
+            const subEl = document.getElementById("calc-subsidy-amount");
+            const ownEl = document.getElementById("calc-own-amount");
+            const loanEl = document.getElementById("calc-loan-amount");
+
+            if (subEl) subEl.textContent = `${formatINR(subsidyAmount)} (${Math.round(subsidyPct * 100)}%)`;
+            if (ownEl) ownEl.textContent = `${formatINR(ownAmount)} (${Math.round(ownPct * 100)}%)`;
+            if (loanEl) loanEl.textContent = `${formatINR(loanAmount)} (${Math.round((loanAmount / cost) * 100)}%)`;
+        }
+
+        ["calc-industry", "calc-location", "calc-category", "calc-project-cost"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener("input", updateSubsidyCalc);
+                el.addEventListener("change", updateSubsidyCalc);
+            }
+        });
+        updateSubsidyCalc();
+    </script>
+</body>
+</html>

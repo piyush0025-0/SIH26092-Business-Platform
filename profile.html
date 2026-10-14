@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business & Promoter Profile | Samarth Business (SIH26092)</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="detail-body">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div>
+                <h2>Samarth<span>Business</span></h2>
+                <span class="sub-brand">Profile Portal • SIH26092</span>
+            </div>
+        </div>
+
+        <nav class="nav-links">
+            <a href="dashboard.html"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a>
+            <a href="schemes.html"><i class="fa-solid fa-landmark"></i> <span>Govt Schemes</span></a>
+            <a href="profile.html" class="active"><i class="fa-regular fa-user"></i> <span>Business Profile</span></a>
+            <a href="expenses.html"><i class="fa-solid fa-calculator"></i> <span>Expenses & Capital</span></a>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- User Profile Greeting & Logout -->
+            <div class="user-greeting-badge">
+                <i class="fa-regular fa-circle-user"></i>
+                <span id="user-display-name">Piyush</span>
+            </div>
+            <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer" class="btn-github" title="View Source Code on GitHub">
+                <i class="fa-brands fa-github"></i> <span>GitHub</span>
+            </a>
+            <a href="expenses.html" class="btn btn-sm btn-secondary">
+                <i class="fa-solid fa-file-pdf" style="color: #e11d48;"></i> <span>Bank DPR</span>
+            </a>
+            <button id="logout-btn" class="btn btn-sm btn-outline-danger">
+                <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
+            </button>
+        </div>
+    </header>
+
+
+    <!-- ================= PROFILE PAGE CONTAINER ================= -->
+    <main class="page-container">
+        <!-- Page Banner -->
+        <div class="page-banner">
+            <div class="page-banner-content">
+                <div class="page-breadcrumbs">
+                    <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <span>Business Profile</span>
+                </div>
+                <h1><i class="fa-regular fa-id-card" style="color: var(--primary);"></i> Business & Promoter Profile</h1>
+                <p>Create and maintain your enterprise information. Our AI engine uses these parameters to tailor government subsidy qualifications, calculate exact loan eligibility, and generate your bank-ready DPR.</p>
+            </div>
+            <div class="page-banner-actions">
+                <a href="expenses.html" class="btn btn-primary">
+                    <i class="fa-solid fa-calculator"></i> <span>Plan Expenses</span>
+                </a>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.8fr 1fr; gap: 2rem;">
+            <!-- Left: Comprehensive Profile Form -->
+            <div style="background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow-sm);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.8rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+                    <div>
+                        <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--dark);"><i class="fa-solid fa-sliders"></i> Enterprise Parameters</h2>
+                        <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 2px;">Keep these details accurate for seamless bank credit linkages.</p>
+                    </div>
+                    <span class="badge-pill pill-indigo"><i class="fa-solid fa-shield-check"></i> Udyam Compatible</span>
+                </div>
+
+                <form id="profile-page-form" class="form-grid">
+                    <div class="form-group">
+                        <label for="prof-page-name"><i class="fa-regular fa-user"></i> Full Name of Promoter</label>
+                        <input type="text" id="prof-page-name" placeholder="e.g. Piyush" required value="Piyush">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prof-page-contact"><i class="fa-solid fa-phone"></i> Mobile Number / Email</label>
+                        <input type="text" id="prof-page-contact" placeholder="e.g. 9876543210" required value="9876543210">
+                    </div>
+
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="prof-page-bizname"><i class="fa-solid fa-store"></i> Enterprise / Business Name</label>
+                        <input type="text" id="prof-page-bizname" placeholder="e.g. Piyush General Stores & FMCG Trade" required value="Piyush Enterprises (Retail & Wholesale)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prof-page-stage"><i class="fa-solid fa-rocket"></i> Business Stage</label>
+                        <select id="prof-page-stage">
+                            <option value="New Business" selected>New Business (Idea / Startup)</option>
+                            <option value="Existing Business">Existing Business (Expansion / Modernization)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prof-page-category"><i class="fa-solid fa-users"></i> Social Category (For Govt Subsidies)</label>
+                        <select id="prof-page-category">
+                            <option value="Special (OBC / SC / ST / Women)" selected>Special: OBC / SC / ST / Women / Minorities (35% Subsidy)</option>
+                            <option value="General">General Category (25% Subsidy)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prof-page-sector"><i class="fa-solid fa-briefcase"></i> Primary Trade / Sector</label>
+                        <input type="text" id="prof-page-sector" placeholder="e.g. Retail Grocery, Cloud Kitchen, Fabrication..." required value="Retail FMCG & Grocery Store">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prof-page-location"><i class="fa-solid fa-location-dot"></i> Business District & State</label>
+                        <input type="text" id="prof-page-location" placeholder="e.g. Gorakhpur, Uttar Pradesh" required value="Gorakhpur, Uttar Pradesh">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prof-page-investment"><i class="fa-solid fa-wallet"></i> Target Capital Budget (₹)</label>
+                        <input type="number" id="prof-page-investment" placeholder="e.g. 650000" step="50000" value="650000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="prof-page-turnover"><i class="fa-solid fa-chart-line"></i> Projected 1st Year Sales (₹)</label>
+                        <input type="number" id="prof-page-turnover" placeholder="e.g. 1800000" step="50000" value="1800000" required>
+                    </div>
+
+                    <!-- Category Subsidy Advice Box -->
+                    <div style="grid-column: 1 / -1; background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: var(--radius-md); padding: 12px 16px; font-size: 0.88rem; color: #1e40af; display: flex; align-items: flex-start; gap: 10px;">
+                        <i class="fa-solid fa-circle-info" style="font-size: 1.1rem; margin-top: 2px;"></i>
+                        <div>
+                            <strong>Government Subsidy Boost:</strong> Under PMEGP guidelines, Special Category promoters (OBC, SC, ST, Women, Minorities) in rural or semi-urban areas receive up to <strong>35% direct margin money subsidy</strong> with only <strong>5% personal contribution</strong> required!
+                        </div>
+                    </div>
+
+                    <div class="form-actions-full" style="grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                        <button type="submit" id="prof-save-btn" class="btn btn-primary btn-lg">
+                            <i class="fa-solid fa-floppy-disk"></i> <span>Save & Update Profile</span>
+                        </button>
+                        <a href="expenses.html" class="btn btn-secondary">
+                            <span>Proceed to Expenses Studio</span> <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right: Live Readiness Scorecard & Recommendations -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- Readiness Score Card -->
+                <div style="background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--dark);"><i class="fa-solid fa-circle-check" style="color: var(--emerald);"></i> Profile Readiness</h3>
+                        <span class="badge-pill pill-success">100% Complete</span>
+                    </div>
+
+                    <div style="width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 1.2rem;">
+                        <div style="width: 100%; height: 100%; background: var(--emerald); border-radius: 4px;"></div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.86rem; color: var(--text-muted);">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-check" style="color: var(--emerald);"></i> Promoter Identity: <strong>Piyush (Verified)</strong>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-check" style="color: var(--emerald);"></i> Credit Exemption: <strong>Eligible under CGTMSE</strong>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-check" style="color: var(--emerald);"></i> Subsidy Potential: <strong>Up to 35% Govt Grant</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scheme Matches Card -->
+                <div style="background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm);">
+                    <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--dark); margin-bottom: 14px;"><i class="fa-solid fa-award" style="color: var(--primary);"></i> Recommended Schemes</h3>
+
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong style="font-size: 0.92rem; color: var(--dark); display: block;">PMEGP Scheme</strong>
+                                <small style="color: var(--emerald); font-weight: 700;">Up to 35% Margin Subsidy</small>
+                            </div>
+                            <a href="scheme-detail.html?id=1" class="btn btn-sm btn-secondary">View</a>
+                        </div>
+
+                        <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong style="font-size: 0.92rem; color: var(--dark); display: block;">Mudra Loan (Kishore)</strong>
+                                <small style="color: var(--primary); font-weight: 700;">Zero Collateral (₹50k - ₹5L)</small>
+                            </div>
+                            <a href="scheme-detail.html?id=2" class="btn btn-sm btn-secondary">View</a>
+                        </div>
+
+                        <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <strong style="font-size: 0.92rem; color: var(--dark); display: block;">Stand-Up India</strong>
+                                <small style="color: #7c3aed; font-weight: 700;">Greenfield Business Loans</small>
+                            </div>
+                            <a href="scheme-detail.html?id=3" class="btn btn-sm btn-secondary">View</a>
+                        </div>
+                    </div>
+
+                    <a href="schemes.html" class="btn btn-outline-primary full-btn" style="margin-top: 1.2rem; justify-content: center;">
+                        <span>View All Available Schemes</span> <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h2>Samarth<span>Business</span></h2>
+                        <span class="sub-brand">National Project • SIH26092</span>
+                    </div>
+                </div>
+                <p>National Business Empowerment Platform for Indian MSMEs & Micro-Entrepreneurs.</p>
+            </div>
+            <div class="footer-links">
+                <strong>Quick Links</strong>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="schemes.html">Government Schemes</a>
+                <a href="expenses.html">Capital & Expenses</a>
+                <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub Repository</a>
+            </div>
+            <div class="footer-official">
+                <p class="sih-tag"><i class="fa-solid fa-award"></i> Problem Statement ID: SIH26092</p>
+                <p class="copyright">© 2026 Samarth Business Platform. Dedicated to Indian MSME growth.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Check session
+        const session = localStorage.getItem("samarth_user_session");
+        if (!session) {
+            window.location.href = "login.html";
+        } else {
+            try {
+                const user = JSON.parse(session);
+                const userName = user.name || "Piyush";
+                const userDisplay = document.getElementById("user-display-name");
+                if (userDisplay) userDisplay.textContent = userName;
+                const profName = document.getElementById("prof-page-name");
+                if (profName) profName.value = userName;
+            } catch(e) {}
+        }
+
+        // Logout
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", () => {
+                localStorage.removeItem("samarth_user_session");
+                window.location.href = "login.html";
+            });
+        }
+
+        // Save Profile Form
+        const profileForm = document.getElementById("profile-page-form");
+        if (profileForm) {
+            profileForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+                const name = document.getElementById("prof-page-name").value.trim() || "Piyush";
+                const contact = document.getElementById("prof-page-contact").value.trim();
+                const bizName = document.getElementById("prof-page-bizname").value.trim();
+                const stage = document.getElementById("prof-page-stage").value;
+                const category = document.getElementById("prof-page-category").value;
+                const sector = document.getElementById("prof-page-sector").value.trim();
+                const location = document.getElementById("prof-page-location").value.trim();
+
+                const updatedSession = {
+                    name: name,
+                    email: "piyush123@msme.in",
+                    contact: contact,
+                    businessName: bizName,
+                    stage: stage,
+                    category: category,
+                    sector: sector,
+                    location: location,
+                    loginTime: new Date().toISOString()
+                };
+
+                localStorage.setItem("samarth_user_session", JSON.stringify(updatedSession));
+                document.getElementById("user-display-name").textContent = name;
+
+                showToast(`Profile updated successfully for ${name}!`, "success");
+            });
+        }
+    </script>
+</body>
+</html>

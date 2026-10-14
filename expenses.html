@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capital Allocation & Expenses | Samarth Business (SIH26092)</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="detail-body">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div>
+                <h2>Samarth<span>Business</span></h2>
+                <span class="sub-brand">Expenses Studio • SIH26092</span>
+            </div>
+        </div>
+
+        <nav class="nav-links">
+            <a href="dashboard.html"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a>
+            <a href="schemes.html"><i class="fa-solid fa-landmark"></i> <span>Govt Schemes</span></a>
+            <a href="profile.html"><i class="fa-regular fa-user"></i> <span>Business Profile</span></a>
+            <a href="expenses.html" class="active"><i class="fa-solid fa-calculator"></i> <span>Expenses & Capital</span></a>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- User Profile Greeting & Logout -->
+            <div class="user-greeting-badge">
+                <i class="fa-regular fa-circle-user"></i>
+                <span id="user-display-name">Piyush</span>
+            </div>
+            <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer" class="btn-github" title="View Source Code on GitHub">
+                <i class="fa-brands fa-github"></i> <span>GitHub</span>
+            </a>
+            <button id="open-dpr-nav-btn" class="btn btn-sm btn-secondary">
+                <i class="fa-solid fa-file-pdf" style="color: #e11d48;"></i> <span>Bank DPR</span>
+            </button>
+            <button id="logout-btn" class="btn btn-sm btn-outline-danger">
+                <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
+            </button>
+        </div>
+    </header>
+
+
+    <!-- ================= EXPENSES PAGE CONTAINER ================= -->
+    <main class="page-container">
+        <!-- Page Banner -->
+        <div class="page-banner">
+            <div class="page-banner-content">
+                <div class="page-breadcrumbs">
+                    <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <span>Expenses & Capital Allocation</span>
+                </div>
+                <h1><i class="fa-solid fa-calculator" style="color: var(--primary);"></i> Capital Allocation & Expense Studio</h1>
+                <p>Manage working capital inputs, talk to AI in Hinglish or English to add and adjust business expenses, and export bank-ready Detailed Project Reports in minutes.</p>
+            </div>
+            <div class="page-banner-actions">
+                <button id="open-dpr-modal-btn" class="btn btn-primary">
+                    <i class="fa-solid fa-file-pdf"></i> <span>View & Download Bank DPR</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- AI Budget Prompt Card -->
+        <div class="ai-budget-prompt-card" style="margin-bottom: 2rem;">
+            <div class="ai-prompt-header">
+                <div class="prompt-icon"><i class="fa-solid fa-brain"></i></div>
+                <div>
+                    <h3>Ask AI to Plan Your Trade Budget</h3>
+                    <p>Describe your business trade and target budget in Hinglish or English (e.g. <em>"Kirana store ₹5 lakh me plan karo"</em>), and our AI will calculate the ideal breakdown.</p>
+                </div>
+            </div>
+
+            <div class="ai-prompt-input-row">
+                <input type="text" id="ai-budget-trade-input" placeholder="e.g. I want to start a small Grocery Store with ₹5 Lakhs, or a Cloud Kitchen with ₹3.5 Lakhs...">
+                <button id="ai-generate-budget-btn" class="btn btn-primary">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Generate AI Budget</span>
+                </button>
+            </div>
+
+            <!-- Quick Trade Chips -->
+            <div class="trade-preset-chips">
+                <span class="trade-chip" data-trade="grocery" data-amount="500000"><i class="fa-solid fa-store"></i> Retail Grocery Shop (₹5L)</span>
+                <span class="trade-chip" data-trade="food" data-amount="350000"><i class="fa-solid fa-utensils"></i> Cloud Kitchen / Fast Food (₹3.5L)</span>
+                <span class="trade-chip" data-trade="bakery" data-amount="600000"><i class="fa-solid fa-cake-candles"></i> Bakery & Sweets (₹6L)</span>
+                <span class="trade-chip" data-trade="manufacturing" data-amount="1000000"><i class="fa-solid fa-gears"></i> Small Fabrication / Mfg (₹10L)</span>
+                <span class="trade-chip" data-trade="garments" data-amount="450000"><i class="fa-solid fa-shirt"></i> Garment Boutique (₹4.5L)</span>
+                <span class="trade-chip" data-trade="pharmacy" data-amount="500000"><i class="fa-solid fa-prescription-bottle-medical"></i> Medical Store (₹5L)</span>
+            </div>
+
+            <!-- AI Recommendation Insight Banner -->
+            <div id="ai-budget-explanation" class="ai-explanation-box" style="display: none;">
+                <i class="fa-solid fa-lightbulb"></i>
+                <div id="ai-explanation-text"></div>
+            </div>
+        </div>
+
+        <!-- Dual-Column Studio -->
+        <div class="fund-dashboard">
+            <!-- Left: Capital Inputs Card -->
+            <div class="fund-inputs-card">
+                <h3><i class="fa-solid fa-sliders"></i> Capital Inputs</h3>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <label>Expected / Sanctioned Bank Loan</label>
+                        <span id="display-loan-amount" class="stat-highlight">₹5,00,000</span>
+                    </div>
+                    <input type="range" id="loan-range" min="50000" max="2500000" step="25000" value="500000">
+                    <small class="slider-hint">Drag slider to adjust expected bank loan amount</small>
+                </div>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <label>Your Personal Investment (Savings / Equity)</label>
+                        <span id="display-savings-amount" class="stat-highlight">₹1,50,000</span>
+                    </div>
+                    <input type="range" id="savings-range" min="10000" max="1000000" step="10000" value="150000">
+                    <small class="slider-hint">Drag slider to set your own equity contribution</small>
+                </div>
+
+                <div class="total-funds-display">
+                    <div>
+                        <span>TOTAL WORKING CAPITAL</span>
+                        <h2 id="total-fund-value">₹6,50,000</h2>
+                    </div>
+                    <div class="badge-pill pill-indigo">
+                        <i class="fa-solid fa-calculator"></i> Live Calculated
+                    </div>
+                </div>
+
+                <!-- 1-Click Simplified Bank DPR CTA Button -->
+                <div class="dpr-cta-box">
+                    <div>
+                        <strong>Simplified 1-Page Bank DPR</strong>
+                        <p>Export a clean, simplified Detailed Project Report for bank loan credit approval.</p>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="openDprModal()">
+                        <i class="fa-solid fa-file-pdf"></i> View & Download Bank DPR (PDF)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Dynamic Visual Allocation -->
+            <div class="fund-breakdown-card" id="fund-breakdown-section">
+                <div class="breakdown-header">
+                    <div>
+                        <h3><i class="fa-solid fa-chart-pie"></i> Capital Allocation Breakdown</h3>
+                        <span id="current-trade-badge" class="badge-pill pill-indigo">Standard MSME Model</span>
+                    </div>
+                    <div class="breakdown-header-actions" style="display: flex; gap: 8px;">
+                        <button type="button" id="btn-open-add-expense" class="btn btn-sm btn-outline-primary" title="Add custom expense category">
+                            <i class="fa-solid fa-plus"></i> <span>Add Expense</span>
+                        </button>
+                        <button type="button" id="btn-reset-allocations" class="btn btn-sm btn-secondary" title="Reset to standard allocations">
+                            <i class="fa-solid fa-rotate-left"></i> <span>Reset</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- AI Expense Copilot Command Bar (Hinglish Supported) -->
+                <div class="alloc-ai-control-box">
+                    <div class="alloc-ai-bar">
+                        <i class="fa-solid fa-wand-magic-sparkles alloc-ai-sparkle"></i>
+                        <input type="text" id="alloc-ai-input" placeholder="Hinglish/English me bolo: 'Delivery bike add karo ₹40k', 'Stock 45% karo', 'Marketing kam karo'...">
+                        <button type="button" id="alloc-ai-btn" class="btn btn-sm btn-primary">
+                            <span>Ask AI</span> <i class="fa-solid fa-bolt"></i>
+                        </button>
+                    </div>
+                    <div class="alloc-quick-chips">
+                        <span class="alloc-chip" data-ai-cmd="Stock allocation ko 40% tak increase kar do"><i class="fa-solid fa-arrow-up"></i> +10% Stock</span>
+                        <span class="alloc-chip" data-ai-cmd="Add expense: Delivery Two-Wheeler ₹45,000"><i class="fa-solid fa-motorcycle"></i> + Delivery Bike</span>
+                        <span class="alloc-chip" data-ai-cmd="Add expense: CCTV & Billing POS Setup ₹25,000"><i class="fa-solid fa-cash-register"></i> + POS Billing</span>
+                        <span class="alloc-chip" data-ai-cmd="Reduce emergency reserve by 5% and add to marketing"><i class="fa-solid fa-bullhorn"></i> + Marketing Boost</span>
+                        <span class="alloc-chip" data-ai-cmd="Auto-balance all allocations to 100%"><i class="fa-solid fa-scale-balanced"></i> Auto-Balance</span>
+                    </div>
+                </div>
+
+                <!-- Live Allocation Balance Status Bar -->
+                <div class="alloc-status-bar" id="alloc-status-bar">
+                    <div class="alloc-status-info">
+                        <span class="alloc-status-label">Total Allocated:</span>
+                        <span id="alloc-total-pct" class="alloc-status-pct badge-pill pill-emerald">100%</span>
+                        <span id="alloc-total-val" class="alloc-status-amount">₹6,50,000</span>
+                    </div>
+                    <div class="alloc-status-actions">
+                        <button type="button" id="btn-balance-alloc" class="btn-xs btn-outline-primary" style="display: none;">
+                            <i class="fa-solid fa-scale-balanced"></i> Auto-Balance to 100%
+                        </button>
+                    </div>
+                </div>
+
+                <div class="breakdown-list" id="allocation-items">
+                    <!-- Dynamic customizable rows inserted by script.js -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= EMBEDDED AI ASSISTANT ON EXPENSES PAGE ================= -->
+        <section class="assistant-section" id="assistant" style="margin-top: 3.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border);">
+            <div class="assistant-wrapper">
+                <div class="assistant-header">
+                    <div class="ai-avatar">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h2>Samarth AI Business Advisor</h2>
+                        <p>24/7 intelligent answers in Hinglish & English on business expenses, loan guidelines, and subsidies.</p>
+                    </div>
+                    <div class="ai-header-right">
+                        <!-- Hinglish / English Toggle -->
+                        <div class="ai-lang-pill-group">
+                            <button type="button" class="ai-lang-btn active" data-lang="hinglish" id="lang-btn-hinglish"><i class="fa-solid fa-language"></i> Hinglish</button>
+                            <button type="button" class="ai-lang-btn" data-lang="en" id="lang-btn-en">English</button>
+                        </div>
+                        <div class="ai-status">
+                            <span class="online-indicator"></span> Online 24/7
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Window -->
+                <div class="chat-viewport" id="chat-messages">
+                    <div class="chat-bubble bot">
+                        <div class="bubble-icon"><i class="fa-solid fa-robot"></i></div>
+                        <div class="bubble-content">
+                            <strong>Namaste Piyush ji! 🙏</strong> Main hoon aapka Samarth AI Business Saathi. Aap mujhse sarkari schemes, bank DPR report, ya apne business ke expenses & budget manage karne ke baare me Hinglish ya English me kuch bhi pooch sakte hain!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Suggestions (Hinglish Supported) -->
+                <div class="suggestion-chips">
+                    <span class="chip" data-prompt="Mujhe Grocery / Kirana store ke liye ₹5 Lakh ka budget plan karna hai"><i class="fa-solid fa-store"></i> Plan ₹5L Grocery Budget</span>
+                    <span class="chip" data-prompt="Add expense: Delivery Two-Wheeler ₹45,000"><i class="fa-solid fa-motorcycle"></i> + Delivery Bike (₹45k)</span>
+                    <span class="chip" data-prompt="Stock allocation ko 40% tak increase kar do"><i class="fa-solid fa-arrow-up"></i> Increase Stock to 40%</span>
+                    <span class="chip" data-prompt="Auto-balance all capital allocations to 100%"><i class="fa-solid fa-scale-balanced"></i> Auto-Balance 100%</span>
+                    <span class="chip" data-prompt="Mudra Loan kaise milega aur eligibility kya hai?"><i class="fa-solid fa-hand-holding-dollar"></i> Mudra Loan ki Jankari</span>
+                    <span class="chip" data-prompt="PMEGP scheme me kitni subsidy milti hai?"><i class="fa-solid fa-percent"></i> PMEGP Subsidy Rules</span>
+                </div>
+
+                <!-- Input Box -->
+                <div class="chat-input-bar">
+                    <input type="text" id="ai-user-query" placeholder="Hinglish ya English me poochiye: 'Delivery bike add karo ₹40k', 'Stock 40% karo', 'Mudra loan kaise le'...">
+                    <button id="ai-submit-btn" class="btn btn-primary">
+                        <span>Send</span> <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ================= CUSTOM EXPENSE ADD / EDIT MODAL ================= -->
+    <div id="expense-modal-overlay" class="custom-modal-overlay">
+        <div class="custom-modal-card">
+            <div class="custom-modal-header">
+                <h3 id="expense-modal-title"><i class="fa-solid fa-coins"></i> Add Custom Expense</h3>
+                <button type="button" id="expense-modal-close" class="custom-modal-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="expense-modal-form" class="custom-modal-form">
+                <input type="hidden" id="expense-edit-index" value="-1">
+                <div class="form-group">
+                    <label for="expense-name-input"><i class="fa-solid fa-tag"></i> Expense Category / Name</label>
+                    <input type="text" id="expense-name-input" placeholder="e.g. Electric Delivery Scooter, Cold Storage, CCTV" required>
+                </div>
+                <div class="form-group">
+                    <label for="expense-purpose-input"><i class="fa-solid fa-align-left"></i> Description / Purpose</label>
+                    <input type="text" id="expense-purpose-input" placeholder="e.g. For swift doorstep customer orders" required>
+                </div>
+                <div class="modal-form-row">
+                    <div class="form-group">
+                        <label for="expense-pct-input"><i class="fa-solid fa-percent"></i> Allocation Percentage (%)</label>
+                        <input type="number" id="expense-pct-input" min="1" max="80" step="1" value="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expense-icon-select"><i class="fa-solid fa-icons"></i> Category Icon</label>
+                        <select id="expense-icon-select">
+                            <option value="fa-boxes-packing">📦 Inventory / Goods</option>
+                            <option value="fa-shop">🏪 Shop Fixture / Interior</option>
+                            <option value="fa-gears">⚙️ Machinery / Equipment</option>
+                            <option value="fa-motorcycle">🛵 Delivery / Logistics</option>
+                            <option value="fa-cash-register">💻 Tech / Software / POS</option>
+                            <option value="fa-coins">🪙 Working Capital / Buffer</option>
+                            <option value="fa-bullhorn">📢 Marketing & Signage</option>
+                            <option value="fa-shield-heart">🛡️ Contingency / Reserve</option>
+                            <option value="fa-bolt">⚡ Solar / Utilities</option>
+                            <option value="fa-snowflake">❄️ Cold Storage / Freezer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="custom-modal-actions">
+                    <button type="button" id="expense-modal-cancel" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" id="expense-modal-submit" class="btn btn-primary">
+                        <i class="fa-solid fa-check"></i> <span id="expense-modal-btn-text">Save Expense</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= SIMPLIFIED OFFICIAL BANK DPR MODAL ================= -->
+    <div id="dpr-modal-overlay" class="dpr-modal-overlay">
+        <div class="dpr-modal-content">
+            <!-- Modal Actions Bar (Hidden in Print) -->
+            <div class="dpr-modal-bar no-print">
+                <div class="dpr-modal-title">
+                    <i class="fa-solid fa-file-pdf" style="color: var(--rose);"></i>
+                    <span>Simplified Bank DPR (1-Page Credit Report)</span>
+                </div>
+                <div class="dpr-modal-buttons">
+                    <button id="dpr-print-btn" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-print"></i> Print / Save as PDF
+                    </button>
+                    <button id="dpr-close-btn" class="btn btn-secondary btn-sm">
+                        <i class="fa-solid fa-xmark"></i> Close
+                    </button>
+                </div>
+            </div>
+
+            <!-- Single Page Bank-Compliant Credit DPR Template -->
+            <div class="bank-dpr-sheet" id="bank-dpr-printable-sheet">
+                <div class="dpr-header">
+                    <div class="dpr-header-left">
+                        <h2>DETAILED PROJECT APPRAISAL REPORT (DPR)</h2>
+                        <span class="dpr-sub">Credit Appraisal Summary for MSME Term Loan & Working Capital</span>
+                    </div>
+                    <div class="dpr-header-right">
+                        <span class="dpr-doc-tag">FORM: MSME-DPR-2026</span>
+                        <span class="dpr-confidential">STRICTLY CONFIDENTIAL</span>
+                    </div>
+                </div>
+
+                <div class="dpr-divider"></div>
+
+                <!-- 1. Promoter & Business Details -->
+                <div class="dpr-section">
+                    <h3 class="dpr-sec-title">1. APPLICANT & BUSINESS PROFILE</h3>
+                    <table class="dpr-table">
+                        <tr>
+                            <td><strong>Promoter Name:</strong></td>
+                            <td id="dpr-promoter-name">Piyush</td>
+                            <td><strong>Business Stage:</strong></td>
+                            <td id="dpr-promoter-stage">New Business (Startup)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mobile / Email:</strong></td>
+                            <td id="dpr-promoter-contact">9876543210</td>
+                            <td><strong>Social Category:</strong></td>
+                            <td id="dpr-promoter-category">General / MSME</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Industry / Trade:</strong></td>
+                            <td id="dpr-promoter-sector">Retail Consumer Goods</td>
+                            <td><strong>Unit Location:</strong></td>
+                            <td id="dpr-promoter-location">India</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- 2. Financial Summary & Means of Finance -->
+                <div class="dpr-section">
+                    <h3 class="dpr-sec-title">2. MEANS OF FINANCE & CAPITAL OUTLAY</h3>
+                    <div class="dpr-finance-grid">
+                        <div class="dpr-kpi-box">
+                            <span>TOTAL PROJECT COST</span>
+                            <strong id="dpr-total-outlay">₹6,50,000</strong>
+                        </div>
+                        <div class="dpr-kpi-box">
+                            <span>REQUESTED BANK LOAN</span>
+                            <strong id="dpr-loan-outlay" style="color: var(--primary);">₹5,00,000 (76.92%)</strong>
+                        </div>
+                        <div class="dpr-kpi-box">
+                            <span>PROMOTER EQUITY (SAVINGS)</span>
+                            <strong id="dpr-savings-outlay" style="color: var(--emerald);">₹1,50,000 (23.08%)</strong>
+                        </div>
+                        <div class="dpr-kpi-box">
+                            <span>DEBT-TO-EQUITY RATIO</span>
+                            <strong id="dpr-der-ratio">3.33</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Capital Allocation & Utilization Breakdown -->
+                <div class="dpr-section">
+                    <h3 class="dpr-sec-title">3. CAPITAL ALLOCATION & UTILIZATION</h3>
+                    <table class="dpr-table">
+                        <thead>
+                            <tr>
+                                <th>Expense Category</th>
+                                <th>Operational Purpose</th>
+                                <th style="text-align: right;">Allocation %</th>
+                                <th style="text-align: right;">Amount (₹)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dpr-allocation-tbody">
+                            <!-- Injected dynamically by script.js -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 4. Scheme Linkage & Declarations -->
+                <div class="dpr-section">
+                    <h3 class="dpr-sec-title">4. GOVERNMENT SCHEME LINKAGE & UNDERTAKING</h3>
+                    <p class="dpr-text">
+                        The applicant is eligible for credit enhancement under <strong>PMEGP / Pradhan Mantri Mudra Yojana (PMMY)</strong> with potential margin money government subsidy. Loan requested is intended to be secured under <strong>CGTMSE collateral-free guarantee</strong>.
+                    </p>
+                    <div class="dpr-signatures">
+                        <div class="sig-block">
+                            <div class="sig-line"></div>
+                            <span>Signature of Applicant / Promoter</span>
+                        </div>
+                        <div class="sig-block">
+                            <div class="sig-line"></div>
+                            <span>Branch Credit Officer / Bank Seal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dpr-footer-note">
+                    <p>Report generated via Samarth Business Platform (SIH26092). Formatted to standard Indian Banking Credit Guidelines.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h2>Samarth<span>Business</span></h2>
+                        <span class="sub-brand">National Project • SIH26092</span>
+                    </div>
+                </div>
+                <p>National Business Empowerment Platform for Indian MSMEs & Micro-Entrepreneurs.</p>
+            </div>
+            <div class="footer-links">
+                <strong>Quick Links</strong>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="schemes.html">Government Schemes</a>
+                <a href="profile.html">Business Profile</a>
+                <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub Repository</a>
+            </div>
+            <div class="footer-official">
+                <p class="sih-tag"><i class="fa-solid fa-award"></i> Problem Statement ID: SIH26092</p>
+                <p class="copyright">© 2026 Samarth Business Platform. Dedicated to Indian MSME growth.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Check session
+        const session = localStorage.getItem("samarth_user_session");
+        if (!session) {
+            window.location.href = "login.html";
+        } else {
+            try {
+                const user = JSON.parse(session);
+                const userName = user.name || "Piyush";
+                const userDisplay = document.getElementById("user-display-name");
+                if (userDisplay) userDisplay.textContent = userName;
+                const dprName = document.getElementById("dpr-promoter-name");
+                if (dprName) dprName.textContent = userName;
+            } catch(e) {}
+        }
+
+        // Logout
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", () => {
+                localStorage.removeItem("samarth_user_session");
+                window.location.href = "login.html";
+            });
+        }
+    </script>
+</body>
+</html>

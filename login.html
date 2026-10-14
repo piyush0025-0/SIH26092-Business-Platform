@@ -54,45 +54,103 @@
         <div class="auth-card">
             <div class="auth-card-header">
                 <h2>Welcome Back 👋</h2>
-                <p>Sign in to access your business dashboard and scheme portfolio.</p>
+                <p>Sign in with your authorized credentials to access your business dashboard.</p>
+            </div>
+
+            <!-- Credentials Hint Badge -->
+            <div class="credential-info-badge">
+                <div class="cred-info-top">
+                    <div class="cred-pill"><i class="fa-solid fa-shield-halved"></i> Authorized Demo Login</div>
+                    <button type="button" id="copy-autofill-btn" class="btn-copy-fill" title="Auto-fill credentials into form">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Auto Fill
+                    </button>
+                </div>
+                <div class="cred-info-body">
+                    <div class="cred-item">
+                        <span class="cred-label"><i class="fa-solid fa-id-badge"></i> ID:</span>
+                        <code class="cred-value" id="sample-id">piyush123</code>
+                    </div>
+                    <div class="cred-divider-v"></div>
+                    <div class="cred-item">
+                        <span class="cred-label"><i class="fa-solid fa-key"></i> Pass:</span>
+                        <code class="cred-value" id="sample-pass">1234567</code>
+                    </div>
+                </div>
             </div>
 
             <!-- Quick Demo Button for Hackathon Evaluators -->
-            <button id="quick-demo-btn" class="btn btn-secondary demo-login-btn">
+            <button type="button" id="quick-demo-btn" class="btn btn-secondary demo-login-btn">
                 <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i>
-                <span>One-Click Instant Demo Login</span>
+                <span>One-Click Instant Login (Piyush)</span>
             </button>
 
             <div class="auth-divider">
-                <span>OR SIGN IN WITH CREDENTIALS</span>
+                <span>OR ENTER CREDENTIALS MANUALLY</span>
             </div>
 
-            <form id="auth-form" class="auth-form">
+            <!-- In-Form Alert Box -->
+            <div id="auth-alert" class="auth-alert" style="display: none;"></div>
+
+            <form id="auth-form" class="auth-form" novalidate>
                 <div class="form-group">
-                    <label for="auth-email"><i class="fa-solid fa-envelope"></i> Mobile Number or Email</label>
-                    <input type="text" id="auth-email" placeholder="e.g. 9876543210 or ramesh@gmail.com" required value="ramesh.kumar@msme.in">
+                    <label for="auth-email"><i class="fa-solid fa-user-shield"></i> Login ID</label>
+                    <div class="input-with-icon">
+                        <i class="fa-solid fa-user input-prefix-icon"></i>
+                        <input type="text" id="auth-email" placeholder="Enter Login ID (e.g. piyush123)" autocomplete="username" spellcheck="false" autofocus required>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="auth-password"><i class="fa-solid fa-lock"></i> Password</label>
-                    <input type="password" id="auth-password" placeholder="Enter your password" required value="samarth123">
+                    <div class="password-input-wrapper">
+                        <i class="fa-solid fa-key input-prefix-icon"></i>
+                        <input type="password" id="auth-password" placeholder="Enter Password (e.g. 1234567)" autocomplete="current-password" required>
+                        <button type="button" id="toggle-password-btn" class="password-toggle-btn" title="Show/Hide Password" aria-label="Toggle password visibility">
+                            <i class="fa-regular fa-eye" id="toggle-eye-icon"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="auth-options">
                     <label class="remember-label">
-                        <input type="checkbox" id="remember-me" checked> Remember this device
+                        <input type="checkbox" id="remember-me" checked> Remember on this device
                     </label>
-                    <a href="#" class="forgot-link">Forgot password?</a>
+                    <a href="javascript:void(0)" id="forgot-password-link" class="forgot-link">Forgot password?</a>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-lg full-btn">
-                    <span>Sign In to Dashboard</span> <i class="fa-solid fa-arrow-right"></i>
+                <button type="submit" id="submit-btn" class="btn btn-primary btn-lg full-btn">
+                    <span id="submit-btn-text">Sign In to Dashboard</span> <i id="submit-btn-icon" class="fa-solid fa-arrow-right"></i>
                 </button>
             </form>
 
             <div class="auth-switch">
                 <span>New to Samarth Business?</span>
-                <a href="#" id="toggle-auth-mode">Create an Account</a>
+                <a href="javascript:void(0)" id="toggle-auth-mode">Create an Account</a>
+            </div>
+
+            <div style="text-align: center; margin-top: 1.2rem;">
+                <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer" class="btn-github">
+                    <i class="fa-brands fa-github"></i> <span>View Project on GitHub</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Information Modal Dialog -->
+    <div id="auth-modal" class="auth-modal-overlay">
+        <div class="auth-modal-card">
+            <div class="auth-modal-header">
+                <h3 id="modal-title"><i class="fa-solid fa-circle-info"></i> Account Information</h3>
+                <button type="button" id="modal-close-btn" class="auth-modal-close" aria-label="Close modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="auth-modal-body" id="modal-body">
+                <!-- Injected via JavaScript -->
+            </div>
+            <div class="auth-modal-actions" id="modal-actions">
+                <button type="button" class="btn btn-secondary btn-sm" id="modal-cancel-btn">Close</button>
+                <button type="button" class="btn btn-primary btn-sm" id="modal-primary-btn">Auto-Fill & Sign In</button>
             </div>
         </div>
     </div>
@@ -103,31 +161,249 @@
             window.location.href = "dashboard.html";
         }
 
-        const authForm = document.getElementById("auth-form");
-        const quickDemoBtn = document.getElementById("quick-demo-btn");
+        // Configuration
+        const AUTH_ID = "piyush123";
+        const AUTH_PASS = "1234567";
+        const AUTH_NAME = "Piyush";
+        const AUTH_EMAIL = "piyush123@msme.in";
 
-        function loginUser(userName, userEmail) {
+        // DOM Elements
+        const authForm = document.getElementById("auth-form");
+        const authEmail = document.getElementById("auth-email");
+        const authPassword = document.getElementById("auth-password");
+        const togglePasswordBtn = document.getElementById("toggle-password-btn");
+        const toggleEyeIcon = document.getElementById("toggle-eye-icon");
+        const quickDemoBtn = document.getElementById("quick-demo-btn");
+        const copyAutofillBtn = document.getElementById("copy-autofill-btn");
+        const authAlert = document.getElementById("auth-alert");
+        const submitBtn = document.getElementById("submit-btn");
+        const submitBtnText = document.getElementById("submit-btn-text");
+        const submitBtnIcon = document.getElementById("submit-btn-icon");
+
+        // Modal Elements
+        const authModal = document.getElementById("auth-modal");
+        const modalTitle = document.getElementById("modal-title");
+        const modalBody = document.getElementById("modal-body");
+        const modalCloseBtn = document.getElementById("modal-close-btn");
+        const modalCancelBtn = document.getElementById("modal-cancel-btn");
+        const modalPrimaryBtn = document.getElementById("modal-primary-btn");
+        const forgotPasswordLink = document.getElementById("forgot-password-link");
+        const toggleAuthMode = document.getElementById("toggle-auth-mode");
+
+        // Toast Notification System
+        function showToast(message, type = "info") {
+            const container = document.getElementById("toast-container");
+            if (!container) return;
+
+            const toast = document.createElement("div");
+            toast.className = `toast toast-${type}`;
+            const iconClass = type === "success" 
+                ? "fa-circle-check" 
+                : (type === "error" ? "fa-circle-exclamation" : "fa-circle-info");
+
+            toast.innerHTML = `<i class="fa-solid ${iconClass}"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                toast.style.transform = "translateX(100%)";
+                toast.style.transition = "all 0.3s ease";
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // Inline Alert System
+        function showAlert(message, type = "error") {
+            const iconClass = type === "error" 
+                ? "fa-circle-exclamation" 
+                : (type === "success" ? "fa-circle-check" : "fa-circle-info");
+
+            authAlert.className = `auth-alert ${type}`;
+            authAlert.innerHTML = `<i class="fa-solid ${iconClass}"></i> <div>${message}</div>`;
+            authAlert.style.display = "flex";
+        }
+
+        function hideAlert() {
+            authAlert.style.display = "none";
+        }
+
+        // Perform Successful Login
+        function performLogin(userName, userId) {
+            submitBtn.disabled = true;
+            submitBtnText.textContent = "Verifying & Signing In...";
+            submitBtnIcon.className = "fa-solid fa-circle-notch fa-spin";
+
+            showAlert(`<strong>Login Successful!</strong> Welcome back, ${userName}. Loading your dashboard...`, "success");
+            showToast(`Welcome ${userName}! Opening dashboard...`, "success");
+
             const session = {
                 name: userName,
-                email: userEmail,
+                username: userId,
+                email: AUTH_EMAIL,
                 loginTime: new Date().toISOString()
             };
             localStorage.setItem("samarth_user_session", JSON.stringify(session));
-            window.location.href = "dashboard.html";
+
+            const rememberMe = document.getElementById("remember-me");
+            if (rememberMe && rememberMe.checked) {
+                localStorage.setItem("samarth_remembered_id", userId);
+            } else {
+                localStorage.removeItem("samarth_remembered_id");
+            }
+
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 650);
         }
 
-        if (quickDemoBtn) {
-            quickDemoBtn.addEventListener("click", () => {
-                loginUser("Ramesh Kumar", "ramesh.kumar@msme.in");
+        // Show/Hide Password Toggle
+        if (togglePasswordBtn) {
+            togglePasswordBtn.addEventListener("click", () => {
+                const isPassword = authPassword.type === "password";
+                authPassword.type = isPassword ? "text" : "password";
+                toggleEyeIcon.className = isPassword ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
+                togglePasswordBtn.title = isPassword ? "Hide Password" : "Show Password";
             });
         }
 
+        // Quick Auto-Fill credentials
+        function autoFillCredentials() {
+            authEmail.value = AUTH_ID;
+            authPassword.value = AUTH_PASS;
+            authEmail.classList.remove("input-error");
+            authPassword.classList.remove("input-error");
+            hideAlert();
+            showToast("Credentials auto-filled! Click Sign In to continue.", "info");
+            authPassword.focus();
+        }
+
+        if (copyAutofillBtn) {
+            copyAutofillBtn.addEventListener("click", autoFillCredentials);
+        }
+
+        // One-Click Instant Demo Login
+        if (quickDemoBtn) {
+            quickDemoBtn.addEventListener("click", () => {
+                authEmail.value = AUTH_ID;
+                authPassword.value = AUTH_PASS;
+                performLogin(AUTH_NAME, AUTH_ID);
+            });
+        }
+
+        // Form Submit Handler (Manual Credentials Check)
         if (authForm) {
             authForm.addEventListener("submit", (e) => {
                 e.preventDefault();
-                const email = document.getElementById("auth-email").value.trim() || "Entrepreneur";
-                const name = email.split("@")[0].replace(".", " ");
-                loginUser(name.charAt(0).toUpperCase() + name.slice(1), email);
+
+                const enteredId = authEmail.value.trim();
+                const enteredPass = authPassword.value.trim();
+
+                // Clear previous errors
+                authEmail.classList.remove("input-error");
+                authPassword.classList.remove("input-error");
+                authForm.classList.remove("shake");
+
+                // Empty validations
+                if (!enteredId || !enteredPass) {
+                    showAlert("<strong>Kripya sabhi details bharein!</strong> Login ID aur Password dono required hain.", "error");
+                    if (!enteredId) authEmail.classList.add("input-error");
+                    if (!enteredPass) authPassword.classList.add("input-error");
+                    authForm.classList.add("shake");
+                    setTimeout(() => authForm.classList.remove("shake"), 500);
+                    return;
+                }
+
+                // Verify ID & Password
+                const isIdValid = (enteredId.toLowerCase() === AUTH_ID.toLowerCase());
+                const isPassValid = (enteredPass === AUTH_PASS);
+
+                if (isIdValid && isPassValid) {
+                    performLogin(AUTH_NAME, AUTH_ID);
+                } else {
+                    // Invalid Credentials Feedback
+                    authEmail.classList.add("input-error");
+                    authPassword.classList.add("input-error");
+                    authForm.classList.add("shake");
+                    setTimeout(() => authForm.classList.remove("shake"), 500);
+
+                    showAlert(`<strong>Galat Login ID ya Password!</strong><br>Sahi Login ID: <code>${AUTH_ID}</code> aur Password: <code>${AUTH_PASS}</code> enter karein.`, "error");
+                    showToast("Invalid credentials! Please try again.", "error");
+                    
+                    authPassword.value = "";
+                    authPassword.focus();
+                }
+            });
+        }
+
+        // Remove error states on typing
+        [authEmail, authPassword].forEach(input => {
+            input.addEventListener("input", () => {
+                input.classList.remove("input-error");
+                if (!authEmail.classList.contains("input-error") && !authPassword.classList.contains("input-error")) {
+                    hideAlert();
+                }
+            });
+        });
+
+        // Modal Helpers
+        function openModal(title, htmlContent, primaryBtnText, onPrimaryClick) {
+            modalTitle.innerHTML = title;
+            modalBody.innerHTML = htmlContent;
+            modalPrimaryBtn.textContent = primaryBtnText;
+            modalPrimaryBtn.onclick = onPrimaryClick;
+            authModal.style.display = "flex";
+        }
+
+        function closeModal() {
+            authModal.style.display = "none";
+        }
+
+        modalCloseBtn.addEventListener("click", closeModal);
+        modalCancelBtn.addEventListener("click", closeModal);
+        authModal.addEventListener("click", (e) => {
+            if (e.target === authModal) closeModal();
+        });
+
+        // "Forgot Password?" Link Handler
+        if (forgotPasswordLink) {
+            forgotPasswordLink.addEventListener("click", () => {
+                openModal(
+                    '<i class="fa-solid fa-key" style="color: #2563eb;"></i> Password Assistance',
+                    `<p>For this project demonstration, you can sign in using the following authorized system credentials:</p>
+                     <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                        <div style="margin-bottom: 6px;"><strong>Login ID:</strong> <code style="font-size: 1rem; color: #2563eb; font-weight: bold;">piyush123</code></div>
+                        <div><strong>Password:</strong> <code style="font-size: 1rem; color: #2563eb; font-weight: bold;">1234567</code></div>
+                     </div>
+                     <p style="font-size: 0.85rem; color: #64748b;">Click "Auto-Fill & Sign In" to automatically populate the form and log in directly.</p>`,
+                    'Auto-Fill & Sign In',
+                    () => {
+                        closeModal();
+                        authEmail.value = AUTH_ID;
+                        authPassword.value = AUTH_PASS;
+                        performLogin(AUTH_NAME, AUTH_ID);
+                    }
+                );
+            });
+        }
+
+        // "Create an Account" Link Handler
+        if (toggleAuthMode) {
+            toggleAuthMode.addEventListener("click", () => {
+                openModal(
+                    '<i class="fa-solid fa-user-plus" style="color: #2563eb;"></i> Entrepreneur Registration',
+                    `<p>New business registrations are synced directly via MSME Udyam / Aadhaar verification.</p>
+                     <p>For immediate evaluation & testing, the pre-configured entrepreneur profile <strong>Piyush (piyush123)</strong> is ready with all modules enabled (Govt Schemes, AI Fund Planner, DPR Generator).</p>
+                     <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;">
+                        <i class="fa-solid fa-circle-check"></i> Demo Access: ID <strong>piyush123</strong> | Password <strong>1234567</strong>
+                     </div>`,
+                    'Log in with Demo Account',
+                    () => {
+                        closeModal();
+                        authEmail.value = AUTH_ID;
+                        authPassword.value = AUTH_PASS;
+                        performLogin(AUTH_NAME, AUTH_ID);
+                    }
+                );
             });
         }
     </script>

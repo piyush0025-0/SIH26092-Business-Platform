@@ -94,7 +94,7 @@ Samarth Business is a zero-dependency, lightweight web platform built to solve t
 
 ### Phase 7: Real Multi-Page Architecture & AI-Driven Budgeting
 - **Multi-Page Architecture:**
-  - `login.html`: Secure authentication gateway with a one-click **"⚡ Instant Demo Login"** button for evaluators.
+  - `login.html`: Secure authentication gateway supporting manual credential entry (Authorized ID: `piyush123`, Password: `1234567`), real-time error alerts with shake feedback, password show/hide toggle, auto-fill credentials, and a one-click **"⚡ Instant Demo Login"** button for evaluators.
   - `dashboard.html`: Dedicated enterprise portal with authenticated user greeting, logout session management, and integrated services.
   - `scheme-detail.html`: Dedicated deep-dive page triggered on tapping any scheme card, providing eligibility, document checklists, and application workflow.
   - `index.html`: Smart entry router directing unauthenticated users to `login.html` and active sessions to `dashboard.html`.
@@ -105,6 +105,17 @@ Samarth Business is a zero-dependency, lightweight web platform built to solve t
 - **Simplified 1-Page Bank DPR:**
   - Streamlined Detailed Project Report layout removing bureaucratic clutter.
   - Generates a concise 1-page financial breakdown with debt-to-equity ratio, means of finance, scheme linkage, and bank stamp lines.
+
+### Phase 8: Conversational AI Expense Management & Fully Customizable Capital Allocation
+- **Fully Customizable Capital Allocation Breakdown:**
+  - Direct item sliders, percentage steppers (`+`/`-`), category editing, and deletion.
+  - **Add Custom Expense Category Modal:** Add new business expenses (e.g., Electric Delivery Vehicle, Cold Storage, POS Billing Machine) with custom percentage/rupees and category icons.
+  - **Live Auto-Balance Engine:** Dynamically re-balances allocations to ensure total stays at 100% and matches total working capital funds.
+- **Conversational AI Expense Manager:**
+  - **Inline AI Copilot Bar:** Ask AI in natural language (`"Add delivery bike ₹40k"`, `"Increase stock to 40%"`, `"Reduce marketing"`) right inside the breakdown card.
+  - **2-Way AI Assistant Chat Integration:** Talking to Samarth AI Business Advisor (`#assistant`) automatically parses and executes expense additions, trade budget models, and percentage adjustments.
+  - Interactive chatbot cards with 1-click **"View Live Allocation Breakdown"** smooth scroll and glow highlight navigation.
+  - Automatic synchronization with the 1-page official Bank DPR table.
 
 ---
 
