@@ -696,7 +696,7 @@
                 </div>
 
                 <div class="callout-box" style="border-left-color: #7c3aed;">
-                    <strong>Main Responsibility:</strong> Bilingual (Hinglish + English) AI advisor demo, natural language expense modification, Digital Khata transaction entries, and Net Profit/Loss calculations.
+                    <strong>Main Responsibility:</strong> Trilingual (Hindi, Hinglish & English) AI advisor demo, interactive step-by-step business consultation, natural language expense modification, Digital Khata transaction entries, and Net Profit/Loss calculations.
                 </div>
 
                 <h3 class="subheading"><i class="fa-solid fa-code"></i> Codebase Locations & Files</h3>
@@ -708,8 +708,9 @@
                         </div>
                         <div class="file-desc">
                             <strong>Chatbot & Khata UI:</strong>
-                            <br>• Language switcher pills: <code>#lang-btn-hinglish</code> and <code>#lang-btn-en</code>.
-                            <br>• Suggestion chips with instant Hinglish prompts.
+                            <br>• Trilingual switcher pills: <code>#lang-btn-hinglish</code>, <code>#lang-btn-hi</code>, and <code>#lang-btn-en</code>.
+                            <br>• Dynamic suggestion chips that automatically update in Hindi, Hinglish, or English.
+                            <br>• Interactive option pills (<code>.chat-option-btn</code>) for 1-tap responses in consultation flow.
                             <br>• Digital Khata ledger cards: Sales (<code>#stat-sales-val</code>), Purchases (<code>#stat-purchases-val</code>), Overheads (<code>#stat-expenses-val</code>), and Net Profit (<code>#stat-profit-val</code>).
                         </div>
                     </div>
@@ -720,26 +721,29 @@
                             <span class="line-badge">Lines 718–735 & 738–970</span>
                         </div>
                         <div class="file-desc">
-                            <strong>Hinglish Detection & Expense Commands:</strong>
-                            <br>• <code>detectHinglish()</code> recognizes Hindi keywords (<em>kya, kaise, dukan, kharcha, badhao, etc.</em>).
-                            <br>• <code>handleAiExpenseCommand()</code>: Understands user commands like <em>"Delivery bike add karo ₹40,000"</em> or <em>"Stock 40% karo"</em> and auto-balances the budget.
+                            <strong>Language Detection & Natural Language Commands:</strong>
+                            <br>• <code>detectDevanagari()</code> & <code>detectHinglish()</code> auto-detect Hindi script and Hinglish keywords.
+                            <br>• <code>handleAiExpenseCommand()</code>: Understands user commands like <em>"Delivery bike add karo ₹45,000"</em> or <em>"Stock 40% karo"</em> and auto-balances the budget.
                         </div>
                     </div>
 
                     <div class="file-card">
                         <div class="file-card-top">
                             <span class="file-name"><i class="fa-solid fa-file-code"></i> script.js</span>
-                            <span class="line-badge">Lines 1243–1340 & 1342–1428</span>
+                            <span class="line-badge">Lines 1243–1550</span>
                         </div>
                         <div class="file-desc">
-                            <strong>Bilingual Knowledge Base:</strong> <code>smartResponsesHinglish</code> and <code>smartResponsesEnglish</code> covering Mudra loans, PMEGP subsidies, FMCG/garment retail margins, bank DPR, and Stand-Up India.
+                            <strong>Step-by-Step Guided Consultation & Trilingual Knowledge Base:</strong>
+                            <br>• <code>startGuidedConsultation()</code> & <code>handleConsultationStep()</code>: Proactively asks diagnostic questions (Industry ➔ Budget ➔ Location/Category) and synthesizes a live MSME roadmap with subsidy calculation and DPR linkage.
+                            <br>• <code>smartResponsesHindi</code>, <code>smartResponsesHinglish</code>, and <code>smartResponsesEnglish</code> covering Mudra loans, PMEGP subsidies, FMCG/garment retail margins, bank DPR, Udyam registration, and loan workflows.
+                            <br>• Animated typing indicator and personalized user greetings.
                         </div>
                     </div>
 
                     <div class="file-card">
                         <div class="file-card-top">
                             <span class="file-name"><i class="fa-solid fa-file-code"></i> script.js</span>
-                            <span class="line-badge">Lines 1430–1485</span>
+                            <span class="line-badge">Lines 1560–1620</span>
                         </div>
                         <div class="file-desc">
                             <strong>Digital Khata Engine:</strong>
@@ -752,6 +756,11 @@
                 </div>
 
                 <div class="qa-card">
+                    <div class="qa-q"><i class="fa-solid fa-circle-question" style="color: #7c3aed;"></i> Possible Judge Question: "AI user ko naya business shuru karne me kaise guide karta hai?"</div>
+                    <div class="qa-a"><strong>Answer:</strong> AI multi-turn diagnostic consultation chalata hai. Yeh user se unki industry, budget aur location poochta hai, fir automatically 100% balanced capital allocation set karta hai, exact PMEGP/Mudra subsidy calculate karta hai aur 1-click me bank-ready DPR draft taiyar kar deta hai. Saath hi Hindi, Hinglish aur English teeno me fluent baat karta hai.</div>
+                </div>
+
+                <div class="qa-card" style="margin-top: 8px;">
                     <div class="qa-q"><i class="fa-solid fa-circle-question" style="color: #7c3aed;"></i> Possible Judge Question: "Net profit aur Sales mein kya antar hai?"</div>
                     <div class="qa-a"><strong>Answer:</strong> Sales dukaan ki kul bikri (total revenue) hoti hai. Net Profit woh bachi hui kamai hai jo maal khareedne ki lagat aur dukaan ke kharche (rent, bijli, staff wages) nikaalne ke baad bachti hai.</div>
                 </div>
@@ -798,8 +807,8 @@
                         <tr>
                             <td><strong>4</strong></td>
                             <td><strong>Sakshi</strong></td>
-                            <td>Bilingual AI Advisor & Digital Khata</td>
-                            <td>Hinglish Chat prompt ➔ Add ₹10k sale in Khata ➔ Net Profit update</td>
+                            <td>Trilingual AI Advisor & Digital Khata</td>
+                            <td>Hindi/Hinglish Guided Business Roadmap ➔ Capital auto-split ➔ Digital Khata</td>
                             <td><strong>60 sec</strong></td>
                         </tr>
                         <tr>

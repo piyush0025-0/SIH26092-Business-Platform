@@ -1226,6 +1226,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (openDprNavBtn) openDprNavBtn.addEventListener("click", generateBankDPR);
     if (dprCloseBtn) dprCloseBtn.addEventListener("click", closeDprModal);
 
+    window.generateBankDPR = generateBankDPR;
+    window.openDprModal = generateBankDPR;
+
     if (dprModalOverlay) {
         dprModalOverlay.addEventListener("click", function (e) {
             if (e.target === dprModalOverlay) closeDprModal();
@@ -1240,42 +1243,386 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // 6. AI ASSISTANT CHAT ENGINE (BILINGUAL: HINGLISH & ENGLISH)
+    // 6. ADVANCED AI ASSISTANT & BUSINESS ADVISOR ENGINE
+    //    (TRILINGUAL: ENGLISH, HINGLISH & HINDI DEVANAGARI)
     // ==========================================
     const chatViewport = document.getElementById("chat-messages");
     const aiInput = document.getElementById("ai-user-query");
     const aiSubmitBtn = document.getElementById("ai-submit-btn");
-    const chips = document.querySelectorAll(".suggestion-chips .chip");
 
-    // Hinglish Knowledge Base
+    function getCurrentUserName() {
+        try {
+            const session = localStorage.getItem("samarth_user_session");
+            if (session) {
+                const parsed = JSON.parse(session);
+                if (parsed.name && parsed.name.trim()) return parsed.name.trim();
+            }
+        } catch(e) {}
+        return "Entrepreneur";
+    }
+
+    function detectDevanagari(text) {
+        if (!text) return false;
+        return /[\u0900-\u097F]/.test(text);
+    }
+
+    // Dynamic Suggestion Chips Presets by Language
+    const CHIP_PRESETS = {
+        hinglish: [
+            { icon: "fa-compass", prompt: "Mujhe naya business shuru karna hai, guide karo", label: "Step-by-Step Business Guide" },
+            { icon: "fa-hand-holding-dollar", prompt: "Mudra Loan eligibility aur application process kya hai?", label: "Mudra Loan Guide" },
+            { icon: "fa-percent", prompt: "PMEGP scheme me 35% subsidy kaise milegi?", label: "PMEGP 35% Subsidy" },
+            { icon: "fa-store", prompt: "Mujhe Grocery / Kirana store ke liye ₹5 Lakh ka budget plan karna hai", label: "Plan ₹5L Grocery" },
+            { icon: "fa-motorcycle", prompt: "Add expense: Delivery Two-Wheeler ₹45,000", label: "+ Delivery Bike (₹45k)" },
+            { icon: "fa-file-invoice", prompt: "Bank DPR report me kya kya hota hai?", label: "Bank DPR Guide" }
+        ],
+        hi: [
+            { icon: "fa-compass", prompt: "मुझे नया बिजनेस शुरू करना है, स्टेप-बाय-स्टेप गाइड करें", label: "नया बिजनेस गाइड 🚀" },
+            { icon: "fa-hand-holding-dollar", prompt: "मुद्रा लोन योजना क्या है और कैसे मिलेगा?", label: "मुद्रा लोन योजना 💰" },
+            { icon: "fa-percent", prompt: "PMEGP योजना में 35% सब्सिडी कैसे मिलती है?", label: "PMEGP 35% सब्सिडी 📑" },
+            { icon: "fa-store", prompt: "किराना स्टोर के लिए ₹5 लाख का बजट प्लान करें", label: "किराना स्टोर बजट 🏪" },
+            { icon: "fa-motorcycle", prompt: "नया खर्च जोड़ें: डिलीवरी बाइक ₹45,000", label: "+ डिलीवरी बाइक (₹45k) 🛵" },
+            { icon: "fa-file-invoice", prompt: "बैंक DPR रिपोर्ट कैसे बनती है?", label: "बैंक DPR गाइड 📄" }
+        ],
+        en: [
+            { icon: "fa-compass", prompt: "I want to start a new business, guide me step-by-step", label: "Step-by-Step Roadmap 🚀" },
+            { icon: "fa-hand-holding-dollar", prompt: "What is Mudra Loan eligibility and how to apply?", label: "Mudra Loan Guide 💰" },
+            { icon: "fa-percent", prompt: "How to get 35% government subsidy under PMEGP?", label: "PMEGP 35% Subsidy 📑" },
+            { icon: "fa-store", prompt: "Plan ₹500,000 budget for Grocery Store", label: "Plan ₹500k Grocery 🏪" },
+            { icon: "fa-motorcycle", prompt: "Add expense: Delivery Two-Wheeler ₹45,000", label: "+ Delivery Bike (₹45k) 🛵" },
+            { icon: "fa-file-invoice", prompt: "What are the key components of a Bank DPR?", label: "Bank DPR Guide 📄" }
+        ]
+    };
+
+    function renderChipsForLanguage(lang) {
+        const container = document.getElementById("assistant-suggestion-chips") || document.querySelector(".suggestion-chips");
+        if (!container) return;
+        const list = CHIP_PRESETS[lang] || CHIP_PRESETS.hinglish;
+        container.innerHTML = "";
+        list.forEach(item => {
+            const span = document.createElement("span");
+            span.className = "chip";
+            span.setAttribute("data-prompt", item.prompt);
+            span.innerHTML = `<i class="fa-solid ${item.icon}"></i> ${item.label}`;
+            span.addEventListener("click", function() {
+                processAiQuery(this.getAttribute("data-prompt"));
+            });
+            container.appendChild(span);
+        });
+    }
+
+    // Step-by-Step Interactive Guided Consultation State
+    let aiConsultationState = {
+        active: false,
+        step: 0,
+        industry: null,
+        amount: null,
+        location: null,
+        category: null
+    };
+
+    // Global quick select handler for options in chat
+    window.aiQuickSelect = function(text) {
+        processAiQuery(text);
+    };
+
+    // ================= KNOWLEDGE BASES =================
+
+    // 1. Hinglish Knowledge Base
     const smartResponsesHinglish = {
-        "mudra": "<strong>Pradhan Mantri Mudra Yojana (PMMY):</strong><br>Is yojana ke antargat bina kisi collateral (guarantee/property) ke ₹10 Lakh tak ka bank loan milta hai. Isme 3 categories hain:<br>• <strong>Shishu Loan:</strong> ₹50,000 tak (naya vyapar shuru karne ke liye)<br>• <strong>Kishore Loan:</strong> ₹50,000 se ₹5 Lakh tak (dukan ya equipment badhane ke liye)<br>• <strong>Tarun Loan:</strong> ₹5 Lakh se ₹10 Lakh tak (business expansion ke liye)<br>Aap kisi bhi nationalized bank branch me ya official Udyamimitra portal se direct online apply kar sakte hain!",
-        "pmegp": "<strong>PMEGP Subsidy Scheme:</strong><br>Under PMEGP (Prime Minister Employment Generation Programme), central government seedhi margin money subsidy provide karti hai:<br>• <strong>Manufacturing Projects:</strong> ₹50 Lakh tak ka project loan<br>• <strong>Service / Retail Enterprises:</strong> ₹20 Lakh tak ka loan<br>• <strong>Subsidy Percentage:</strong> General category ko Urban me 15% aur Rural me 25%. Special categories (Women, SC/ST, OBC, Minorities) ko Urban me 25% aur <strong>Rural area me 35% tak subsidy</strong> milti hai!",
-        "margin": "<strong>Retail Profit Margin Calculation:</strong><br>Profit margin nikaalne ka seedha formula hai:<br><code>((Bikri Mulya - Kharid Mulya) / Bikri Mulya) * 100</code><br>• <strong>Kirana & FMCG Grocery:</strong> 12% se 18% gross margin<br>• <strong>Readymade Garments & Kapda:</strong> 30% se 45% margin<br>• <strong>Cloud Kitchen & Food:</strong> 40% se 60% gross margin<br>Daily kharche monitor karne ke liye aap hamare <strong>Business Health Ledger</strong> me daily sales aur purchase log kar sakte hain!",
-        "dpr": "<strong>Bank-Compliant Detailed Project Report (DPR):</strong><br>Bank se loan sanction karane ke liye Detailed Project Report sabse zaroori document hota hai. Isme 5 mukhya sections hone chahiye:<br>1. Promoter Background & Business Profile<br>2. Plant, Machinery & Shop Fit-out Cost<br>3. 3-Mahine ka Working Capital Requirement<br>4. 3-Saal ka Projected Profit & Loss aur Cashflow<br>5. Debt-Equity Ratio & Break-Even Analysis.<br>Aap upar <strong>'View & Download Bank DPR'</strong> button par click karke 1 second me official report print kar sakte hain!",
-        "svanidhi": "<strong>PM SVANidhi Scheme:</strong><br>Street vendors aur micro-retailers ke liye collateral-free working capital loan hai. Pehle ₹10,000, samay par repay karne par ₹20,000 aur teesre daur me ₹50,000 tak milta hai. Sath hi regular EMI par <strong>7% interest subsidy</strong> aur digital QR payments par cashback milta hai!",
-        "standup": "<strong>Stand-Up India Scheme:</strong><br>SC/ST aur Mahila (Women) entrepreneurs ko nayi manufacturing ya service unit lagane ke liye ₹10 Lakh se ₹1 Crore tak ka greenfield project loan provide kiya jata hai. Isme bank concession rate aur credit guarantee milti hai.",
-        "cgtmse": "<strong>CGTMSE Scheme (Collateral-Free Loan):</strong><br>Micro aur Small enterprises ko ₹5 Crore tak ka loan bina kisi third-party guarantee ya property mortgage ke diya jata hai. Iski guarantee trust direct bank ko assurance deti hai.",
-        "schemes": "<strong>Bharat Sarkar ki Mukhya MSME Schemes:</strong><br>Hamare platform par sabhi pramukh schemes uplabdh hain:<br>1. <strong>PMEGP:</strong> 15% - 35% Government Subsidy<br>2. <strong>Mudra Loan:</strong> ₹10 Lakh tak collateral-free loan<br>3. <strong>PM SVANidhi:</strong> Micro vendors ke liye ₹50,000 tak working capital<br>4. <strong>Stand-Up India:</strong> Mahila aur SC/ST ke liye ₹1 Crore tak loan<br>5. <strong>CGTMSE:</strong> Zero mortgage guarantee up to ₹5 Crore.<br>Aap upar navigation me <strong>'Govt Schemes'</strong> page par jakar filter aur check kar sakte hain!",
-        "profile": "<strong>Enterprise Profile & Scorecard:</strong><br>Aap dedicated <strong>Enterprise Profile Page</strong> par jakar apni investment capacity, business stage, category aur sector save kar sakte hain. Wahan AI readiness score check hoga aur aapke business ke liye best matching schemes filter hokar milengi!",
-        "greeting": "Namaste Piyush ji! 🙏 Main aapka Samarth AI Business Saathi hoon. Aap mujhse sarkari schemes, bank DPR report, ya apne business ke expenses & budget manage karne ke baare me Hinglish ya English me kuch bhi pooch sakte hain! Jaise: <em>'Kirana store ka budget plan karo'</em>, <em>'Delivery bike add karo ₹40,000'</em>, ya <em>'Mudra loan kaise milega'</em>",
-        "help": "<strong>Main aapki in sabhi cheezon me madad kar sakta hoon:</strong><br>• <strong>Sarkari Schemes:</strong> Mudra, PMEGP, PM SVANidhi aur subsidies ki jankari.<br>• <strong>Capital Allocation & Budgeting:</strong> Apni dukan ya vyapar ka budget plan karna.<br>• <strong>Expense Management:</strong> Naye kharche add karna (jaise bike, CCTV, fridge), balance karna ya badhana/ghatana.<br>• <strong>1-Click Bank DPR:</strong> Bank loan ke liye official project report taiyar karna.<br>Aap Hinglish ya English me jo chahein poochiye!"
+        "mudra": `<strong>Pradhan Mantri Mudra Yojana (PMMY):</strong><br>
+        Is yojana ke antargat bina kisi collateral (guarantee/property) ke ₹10 Lakh tak ka bank loan milta hai. Isme 3 categories hain:<br>
+        • <strong>Shishu Loan:</strong> ₹50,000 tak (naya vyapar shuru karne ke liye)<br>
+        • <strong>Kishore Loan:</strong> ₹50,000 se ₹5 Lakh tak (dukan ya equipment badhane ke liye)<br>
+        • <strong>Tarun Loan:</strong> ₹5 Lakh se ₹10 Lakh tak (business expansion ke liye)<br>
+        <div class="chat-options-group">
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Kirana store ke liye 5 lakh Kishore Mudra loan ka budget banao')"><i class="fa-solid fa-calculator"></i> Plan ₹5L Kishore Mudra</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Mudra loan ke liye kaunse documents chahiye?')"><i class="fa-solid fa-file-lines"></i> Documents Required</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('PMEGP scheme me 35% subsidy kaise milegi?')"><i class="fa-solid fa-percent"></i> Check PMEGP Subsidy</button>
+        </div>`,
+
+        "pmegp": `<strong>PMEGP Subsidy Scheme (Prime Minister Employment Generation Programme):</strong><br>
+        Central Government seedhi <strong>Margin Money Subsidy</strong> provide karti hai:<br>
+        • <strong>Manufacturing Projects:</strong> ₹50 Lakh tak ka project loan<br>
+        • <strong>Service / Retail Enterprises:</strong> ₹20 Lakh tak ka loan<br>
+        • <strong>Subsidy Percentages:</strong><br>
+        &nbsp;&nbsp;- <strong>General Category:</strong> Urban me 15% | Rural me 25%<br>
+        &nbsp;&nbsp;- <strong>Special Category (Women, SC/ST, OBC, Minority):</strong> Urban me 25% | <strong>Rural me 35% tak subsidy!</strong><br>
+        <div class="chat-options-group">
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Rural area me 10 lakh manufacturing project ki subsidy calculate karo')"><i class="fa-solid fa-coins"></i> Calc 35% Subsidy</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('PMEGP ke liye apply kaise karein?')"><i class="fa-solid fa-laptop"></i> How to Apply Online</button>
+        </div>`,
+
+        "svanidhi": `<strong>PM SVANidhi Scheme:</strong><br>
+        Street vendors aur nano-retailers ke liye collateral-free working capital loan hai. Pehle ₹10,000, samay par repay karne par ₹20,000 aur teesre daur me ₹50,000 tak milta hai. Sath hi regular EMI par <strong>7% interest subsidy</strong> aur digital QR payments par monthly cashback milta hai!`,
+
+        "standup": `<strong>Stand-Up India Scheme:</strong><br>
+        SC/ST aur Mahila (Women) entrepreneurs ko nayi manufacturing, service ya trading unit lagane ke liye <strong>₹10 Lakh se ₹1 Crore tak ka greenfield loan</strong> diya jata hai. Concession rate aur credit guarantee milti hai.`,
+
+        "cgtmse": `<strong>CGTMSE Scheme (Collateral-Free Loan up to ₹5 Cr):</strong><br>
+        Micro aur Small enterprises ko ₹5 Crore tak ka institutional credit bina kisi third-party guarantee ya property mortgage ke milta hai. Bank ko guarantee coverage direct trust provide karta hai.`,
+
+        "margin": `<strong>Retail Profit Margin & Pricing Formula:</strong><br>
+        Profit margin nikaalne ka seedha formula hai:<br>
+        <code>Gross Margin (%) = ((Bikri Mulya - Kharid Mulya) / Bikri Mulya) * 100</code><br>
+        • <strong>Kirana & FMCG Grocery:</strong> 12% se 18% gross margin<br>
+        • <strong>Readymade Garments & Kapda:</strong> 30% se 45% margin<br>
+        • <strong>Cloud Kitchen & Food:</strong> 40% se 60% gross margin<br>
+        Aap niche <strong>Business Health Ledger</strong> me apni daily sales aur purchases enter karke apna net operating profit live monitor kar sakte hain!`,
+
+        "dpr": `<strong>Bank-Compliant Detailed Project Report (DPR):</strong><br>
+        Bank se loan sanction karane ke liye DPR sabse ahem document hai. Isme 5 mukhya sections hote hain:<br>
+        1. Promoter Background & MSME Readiness Profile<br>
+        2. Plant, Machinery & Shop Fit-out Outlay<br>
+        3. 3-Mahine ka Working Capital Requirement<br>
+        4. Means of Finance (Promoter Equity vs Bank Credit)<br>
+        5. Debt-Equity Ratio & Break-Even Analysis.<br>
+        <button type="button" class="chat-action-btn" onclick="openDprModal()"><i class="fa-solid fa-file-pdf"></i> Open Bank-Ready DPR Draft</button>`,
+
+        "udyam": `<strong>MSME Udyam Registration (100% Free):</strong><br>
+        Bharat Sarkar ke official portal <code>udyamregistration.gov.in</code> par Aadhaar aur PAN number se 10 minute me free registration hota hai. Is certificate ke baad aapko Mudra, PMEGP, collateral-free loans aur priority sector lending ke sabhi labh milte hain!`,
+
+        "loan_process": `<strong>Bank Loan Sanction Step-by-Step Process:</strong><br>
+        <div class="chat-guide-card">
+            <div class="chat-guide-step"><span class="chat-step-num">1</span> <span>Apna <strong>Bank-Ready DPR Report</strong> taiyar karein (upar button se download karein).</span></div>
+            <div class="chat-guide-step"><span class="chat-step-num">2</span> <span>Free <strong>MSME Udyam Registration</strong> generate karein.</span></div>
+            <div class="chat-guide-step"><span class="chat-step-num">3</span> <span>Machinery ya shop stock ke 2-3 formal dealer quotations attach karein.</span></div>
+            <div class="chat-guide-step"><span class="chat-step-num">4</span> <span>Kishore/Tarun Mudra ya PMEGP portal par apply karke bank branch me file submit karein.</span></div>
+        </div>`,
+
+        "schemes": `<strong>Bharat Sarkar ki Mukhya MSME Schemes:</strong><br>
+        Hamare platform par sabhi pramukh schemes cover ki gayi hain:<br>
+        • <strong>PMEGP:</strong> 15% - 35% Direct Government Subsidy<br>
+        • <strong>Mudra Loan:</strong> ₹10 Lakh tak collateral-free loan<br>
+        • <strong>PM SVANidhi:</strong> Micro vendors ke liye ₹50,000 tak capital<br>
+        • <strong>Stand-Up India:</strong> Mahila aur SC/ST ke liye ₹1 Crore tak loan<br>
+        • <strong>CGTMSE:</strong> Zero mortgage guarantee up to ₹5 Crore.<br>
+        <div class="chat-options-group">
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Mudra loan kaise milega?')"><i class="fa-solid fa-hand-holding-dollar"></i> Mudra Loan Details</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('PMEGP subsidy kitni milti hai?')"><i class="fa-solid fa-percent"></i> PMEGP Subsidy</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Mujhe naya business shuru karna hai, guide karo')"><i class="fa-solid fa-compass"></i> Guided Business Setup</button>
+        </div>`,
+
+        "profile": `<strong>Enterprise Profile & Scorecard:</strong><br>
+        Aap dedicated <strong>Enterprise Profile Page</strong> par jakar apni investment capacity, business stage, category aur sector save kar sakte hain. Wahan AI readiness score calculate hota hai aur best matching schemes filter hokar milengi!`,
+
+        "greeting": `Namaste {USER}! 🙏 Main aapka Samarth AI Business Saathi hoon.<br>
+        Main aapko sarkari schemes, bank loan subsidies, capital budgeting aur bank-ready DPR taiyar karne me guide karta hoon.<br>
+        Aap kya karna chahte hain? Niche diye options me se choose karein ya apna sawal poochiye:
+        <div class="chat-options-group">
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Mujhe naya business shuru karna hai, guide karo')"><i class="fa-solid fa-compass"></i> Step-by-Step Business Guide</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Kirana store ka budget plan karo')"><i class="fa-solid fa-store"></i> Plan Grocery Budget</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Mudra loan kaise milega?')"><i class="fa-solid fa-hand-holding-dollar"></i> Mudra Loan Help</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('PMEGP scheme me 35% subsidy kaise milegi?')"><i class="fa-solid fa-percent"></i> PMEGP 35% Subsidy</button>
+        </div>`,
+
+        "help": `<strong>Main aapki in sabhi cheezon me madad kar sakta hoon:</strong><br>
+        • <strong>Sarkari Schemes:</strong> Mudra, PMEGP, PM SVANidhi aur subsidies ki jankari.<br>
+        • <strong>Capital Allocation & Budgeting:</strong> Vyapar ke liye fund allocate karna.<br>
+        • <strong>Expense Management:</strong> Naye kharche add karna (e.g. <em>'Delivery bike add karo ₹45,000'</em>, <em>'Stock 40% karo'</em>).<br>
+        • <strong>1-Click Bank DPR:</strong> Bank loan ke liye official report taiyar karna.<br>
+        • <strong>Step-by-Step Guidance:</strong> Naye vyapar ke liye customized planning.`
     };
 
-    // English Knowledge Base
-    const smartResponsesEnglish = {
-        "mudra": "<strong>Pradhan Mantri Mudra Yojana (PMMY):</strong><br>Under PMMY, micro-enterprises can access collateral-free institutional credit up to ₹10 Lakhs. It is categorized into:<br>• <strong>Shishu:</strong> Loans up to ₹50,000 (startup phase)<br>• <strong>Kishore:</strong> Loans from ₹50,000 to ₹5 Lakhs (equipment & stock)<br>• <strong>Tarun:</strong> Loans from ₹5 Lakhs to ₹10 Lakhs (expansion phase)<br>You can apply through any scheduled commercial bank or via the official Udyamimitra portal.",
-        "pmegp": "<strong>PMEGP Subsidy Scheme:</strong><br>Under the Prime Minister's Employment Generation Programme, the maximum project cost sanctioned is ₹50 Lakhs for manufacturing units and ₹20 Lakhs for service sector enterprises. Eligible entrepreneurs receive a government margin money subsidy between 15% and 35%, significantly reducing the effective repayment burden.",
-        "margin": "<strong>Retail Profit Margin Calculation:</strong><br>To calculate retail profit margin, use the formula:<br><code>((Selling Price - Purchase Cost) / Selling Price) * 100</code><br>• <strong>Grocery & FMCG:</strong> Healthy gross margins typically range between 12% and 18%<br>• <strong>Garments & Apparel:</strong> Typically 30% to 45%<br>• <strong>Food Services & Cloud Kitchens:</strong> Typically 40% to 60%<br>Track daily performance automatically in our Business Health Ledger!",
-        "dpr": "<strong>Bank-Compliant Detailed Project Report (DPR):</strong><br>A bank-compliant Detailed Project Report (DPR) requires five essential sections: 1. Business Profile & Promoter Background, 2. Plant, Machinery & Infrastructure Setup Cost, 3. 3-Month Working Capital Requirements, 4. 3-Year Projected Profit & Loss Statement, and 5. Break-Even Analysis. Click the 'View & Download Bank DPR' button in the Fund Planner section to export this report in 1 click!",
-        "svanidhi": "<strong>PM SVANidhi Scheme:</strong><br>A micro-credit facility providing street vendors and nano-retailers with working capital loans starting at ₹10,000, scaling to ₹20,000 and ₹50,000 upon timely repayment. It includes an attractive 7% interest subsidy rebate and monthly digital transaction cashback incentives.",
-        "standup": "<strong>Stand-Up India Scheme:</strong><br>Facilitates bank loans between ₹10 Lakhs and ₹1 Crore to at least one Scheduled Caste (SC) or Scheduled Tribe (ST) borrower and at least one woman borrower per bank branch for setting up greenfield enterprises.",
-        "cgtmse": "<strong>CGTMSE Collateral-Free Credit Scheme:</strong><br>Provides credit guarantee coverage up to ₹5 Crores for micro and small enterprises without requiring third-party guarantee or immovable property collateral.",
-        "schemes": "<strong>Government Schemes Overview:</strong><br>Key Indian schemes supported on this platform include:<br>• <strong>PMEGP:</strong> 15% - 35% capital subsidy<br>• <strong>Mudra Loan:</strong> Collateral-free up to ₹10 Lakhs<br>• <strong>PM SVANidhi:</strong> Nano working capital up to ₹50,000<br>• <strong>Stand-Up India:</strong> Greenfield funding up to ₹1 Crore<br>• <strong>CGTMSE:</strong> Zero mortgage guarantee up to ₹5 Crores.<br>Explore all programs on our dedicated Schemes page!",
-        "profile": "<strong>Enterprise Profile & Scorecard:</strong><br>Complete your enterprise profile on the Profile page to evaluate your MSME Readiness Score and unlock tailor-made government subsidy recommendations.",
-        "greeting": "Hello Piyush ji! 👋 I am your Samarth AI Business Advisor. You can ask me about government schemes, bank DPR requirements, or tell me your business idea so I can customize your capital budget in English or Hinglish!",
-        "help": "<strong>I can help you with:</strong><br>• <strong>Government Schemes:</strong> Mudra, PMEGP, PM SVANidhi, Stand-Up India.<br>• <strong>Capital Allocation & Budgeting:</strong> Planning business setup funds.<br>• <strong>Expense Management:</strong> Adding custom expenses, auto-balancing, or adjusting percentages.<br>• <strong>1-Click Bank DPR Report:</strong> Generating an official project report for bank loans."
+    // 2. Hindi Knowledge Base (Pure Hindi / Devanagari)
+    const smartResponsesHindi = {
+        "mudra": `<strong>प्रधानमंत्री मुद्रा योजना (PMMY):</strong><br>
+        इस योजना के तहत बिना किसी गारंटी या संपत्ति गिरवी रखे <strong>₹10 लाख तक का बैंक लोन</strong> मिलता है। इसमें 3 श्रेणियां हैं:<br>
+        • <strong>शिशु लोन:</strong> ₹50,000 तक (नया व्यापार शुरू करने के लिए)<br>
+        • <strong>किशोर लोन:</strong> ₹50,000 से ₹5 लाख तक (दुकान व उपकरण बढ़ाने के लिए)<br>
+        • <strong>तरुण लोन:</strong> ₹5 लाख से ₹10 लाख तक (व्यवसाय विस्तार के लिए)<br>
+        <div class="chat-options-group">
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('किराना स्टोर के लिए ₹5 लाख का बजट प्लान करें')"><i class="fa-solid fa-calculator"></i> ₹5 लाख का बजट बनाएं</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('मुद्रा लोन के लिए कौनसे दस्तावेज चाहिए?')"><i class="fa-solid fa-file-lines"></i> जरूरी दस्तावेज</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('PMEGP योजना में 35% सब्सिडी कैसे मिलती है?')"><i class="fa-solid fa-percent"></i> PMEGP सब्सिडी देखें</button>
+        </div>`,
+
+        "pmegp": `<strong>पीएमईजीपी (PMEGP) सरकारी सब्सिडी योजना:</strong><br>
+        केंद्र सरकार नए उद्यम स्थापित करने के लिए सीधी <strong>मार्जिन मनी सब्सिडी</strong> प्रदान करती है:<br>
+        • <strong>विनिर्माण (मैन्युफैक्चरिंग) परियोजनाएं:</strong> ₹50 लाख तक का लोन<br>
+        • <strong>सेवा / रिटेल उद्यम:</strong> ₹20 लाख तक का लोन<br>
+        • <strong>सब्सिडी दरें:</strong><br>
+        &nbsp;&nbsp;- <strong>सामान्य वर्ग:</strong> शहरी क्षेत्र में 15% | ग्रामीण क्षेत्र में 25%<br>
+        &nbsp;&nbsp;- <strong>विशेष वर्ग (महिलाएं, SC/ST, OBC, अल्पसंख्यक):</strong> शहरी में 25% | <strong>ग्रामीण क्षेत्र में 35% तक सब्सिडी!</strong><br>
+        <div class="chat-options-group">
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('ग्रामीण क्षेत्र में 10 लाख की सब्सिडी कैलकुलेट करें')"><i class="fa-solid fa-coins"></i> 35% सब्सिडी कैलकुलेटर</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('PMEGP के लिए ऑनलाइन आवेदन कैसे करें?')"><i class="fa-solid fa-laptop"></i> आवेदन प्रक्रिया</button>
+        </div>`,
+
+        "svanidhi": `<strong>पीएम स्वनिधि योजना (PM SVANidhi):</strong><br>
+        रेहड़ी-पटरी वालों और छोटे दुकानदारों के लिए बिना गारंटी का वर्किंग कैपिटल लोन। प्रथम चरण में ₹10,000, समय पर चुकाने पर ₹20,000 और तीसरे चरण में ₹50,000 तक मिलता है। साथ ही नियमित ईएमआई पर <strong>7% ब्याज सब्सिडी</strong> और डिजिटल भुगतान पर मासिक कैशबैक भी मिलता है!`,
+
+        "standup": `<strong>स्टैंड-अप इंडिया योजना (Stand-Up India):</strong><br>
+        अनुसूचित जाति/जनजाति (SC/ST) और महिला उद्यमियों को नया विनिर्माण, सेवा या व्यापार उद्यम लगाने के लिए <strong>₹10 लाख से ₹1 करोड़ तक का बैंक लोन</strong> दिया जाता है।`,
+
+        "cgtmse": `<strong>सीजीटीएमएसई योजना (CGTMSE - बिना गारंटी ₹5 करोड़ तक लोन):</strong><br>
+        सूक्ष्म एवं लघु उद्यमों को ₹5 करोड़ तक का संस्थागत ऋण बिना किसी तीसरे पक्ष की गारंटी या अचल संपत्ति को गिरवी रखे दिया जाता है।`,
+
+        "margin": `<strong>मुनाफा मार्जिन और मूल्य निर्धारण फॉर्मूला:</strong><br>
+        रिटेल ग्रॉस मार्जिन निकालने का सीधा सूत्र:<br>
+        <code>ग्रॉस मार्जिन (%) = ((बिक्री मूल्य - खरीद मूल्य) / बिक्री मूल्य) * 100</code><br>
+        • <strong>किराना एवं एफएमसीजी:</strong> 12% से 18% ग्रॉस मार्जिन<br>
+        • <strong>रेडीमेड कपड़े व बुटीक:</strong> 30% से 45% मार्जिन<br>
+        • <strong>फूड व क्लाउड किचन:</strong> 40% से 60% ग्रॉस मार्जिन<br>
+        आप नीचे <strong>Business Health Ledger</strong> में प्रतिदिन की बिक्री और खर्च दर्ज करके शुद्ध मुनाफा ट्रैक कर सकते हैं!`,
+
+        "dpr": `<strong>बैंक-अनुकूल विस्तृत परियोजना रिपोर्ट (Bank-Compliant DPR):</strong><br>
+        बैंक से लोन स्वीकृति के लिए डीपीआर अनिवार्य दस्तावेज है। इसमें 5 प्रमुख भाग होते हैं:<br>
+        1. प्रमोटर प्रोफाइल और उद्यम पृष्ठभूमि<br>
+        2. मशीनरी, दुकान एवं इंफ्रास्ट्रक्चर लागत<br>
+        3. 3-महीने की वर्किंग कैपिटल आवश्यकताएं<br>
+        4. पूंजी के साधन (स्वयं की पूंजी vs बैंक लोन)<br>
+        5. डेट-इक्विटी अनुपात और ब्रेक-ईवन विश्लेषण।<br>
+        <button type="button" class="chat-action-btn" onclick="openDprModal()"><i class="fa-solid fa-file-pdf"></i> आधिकारिक बैंक DPR रिपोर्ट खोलें</button>`,
+
+        "udyam": `<strong>एमएसएमई उद्यम पंजीकरण (100% निशुल्क):</strong><br>
+        भारत सरकार के आधिकारिक पोर्टल <code>udyamregistration.gov.in</code> पर आधार और पैन से केवल 10 मिनट में निशुल्क पंजीकरण होता है। इस प्रमाण पत्र से मुद्रा, पीएमईजीपी और प्राथमिकता ऋण के सभी लाभ मिलते हैं।`,
+
+        "loan_process": `<strong>बैंक लोन स्वीकृति की चरणबद्ध प्रक्रिया:</strong><br>
+        <div class="chat-guide-card">
+            <div class="chat-guide-step"><span class="chat-step-num">1</span> <span>अपनी <strong>बैंक-रेडी DPR रिपोर्ट</strong> तैयार करें (ऊपर दिए बटन से डाउनलोड करें)।</span></div>
+            <div class="chat-guide-step"><span class="chat-step-num">2</span> <span>निशुल्क <strong>उद्यम पंजीकरण (Udyam Registration)</strong> प्राप्त करें।</span></div>
+            <div class="chat-guide-step"><span class="chat-step-num">3</span> <span>मशीनरी या दुकान के सामान के अधिकृत डीलर्स से कोटेशन लें।</span></div>
+            <div class="chat-guide-step"><span class="chat-step-num">4</span> <span>मुद्रा या पीएमईजीपी पोर्टल पर आवेदन कर बैंक शाखा में फाइल जमा करें।</span></div>
+        </div>`,
+
+        "schemes": `<strong>भारत सरकार की प्रमुख एमएसएमई योजनाएं:</strong><br>
+        • <strong>PMEGP:</strong> 15% से 35% सीधी सरकारी सब्सिडी<br>
+        • <strong>मुद्रा लोन:</strong> ₹10 लाख तक बिना गारंटी ऋण<br>
+        • <strong>पीएम स्वनिधि:</strong> स्ट्रीट वेंडर्स हेतु ₹50,000 तक ऋण<br>
+        • <strong>स्टैंड-अप इंडिया:</strong> महिलाओं व SC/ST हेतु ₹1 करोड़ तक ऋण<br>
+        • <strong>CGTMSE:</strong> ₹5 करोड़ तक शून्य बंधक गारंटी।<br>
+        <div class="chat-options-group">
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('मुद्रा लोन योजना क्या है और कैसे मिलेगा?')"><i class="fa-solid fa-hand-holding-dollar"></i> मुद्रा लोन की जानकारी</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('PMEGP योजना में 35% सब्सिडी कैसे मिलती है?')"><i class="fa-solid fa-percent"></i> PMEGP सब्सिडी</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('मुझे नया बिजनेस शुरू करना है, स्टेप-बाय-स्टेप गाइड करें')"><i class="fa-solid fa-compass"></i> बिजनेस गाइडेंस</button>
+        </div>`,
+
+        "profile": `<strong>उद्यम प्रोफाइल एवं स्कोरकार्ड:</strong><br>
+        आप <strong>Business Profile</strong> पेज पर जाकर अपनी निवेश क्षमता, व्यवसाय चरण, श्रेणी और क्षेत्र सुरक्षित कर सकते हैं। वहां AI तैयारी स्कोर की गणना होती है और आपके लिए उपयुक्त योजनाओं की सूची मिलती है।`,
+
+        "greeting": `नमस्ते {USER}! 🙏 मैं आपका समर्थ एआई बिजनेस साथी हूँ।<br>
+        मैं आपको सरकारी योजनाओं, बैंक लोन सब्सिडी, पूंजी बजट और बैंक-रेडी डीपीआर बनाने में पूरी सहायता करता हूँ।<br>
+        आप क्या करना चाहते हैं? नीचे दिए विकल्पों में से चुनें या अपना प्रश्न पूछें:
+        <div class="chat-options-group">
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('मुझे नया बिजनेस शुरू करना है, स्टेप-बाय-स्टेप गाइड करें')"><i class="fa-solid fa-compass"></i> नया बिजनेस गाइडेंस 🚀</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('किराना स्टोर के लिए ₹5 लाख का बजट प्लान करें')"><i class="fa-solid fa-store"></i> किराना स्टोर बजट 🏪</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('मुद्रा लोन योजना क्या है और कैसे मिलेगा?')"><i class="fa-solid fa-hand-holding-dollar"></i> मुद्रा लोन 💰</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('PMEGP योजना में 35% सब्सिडी कैसे मिलती है?')"><i class="fa-solid fa-percent"></i> PMEGP सब्सिडी 📑</button>
+        </div>`,
+
+        "help": `<strong>मैं आपकी इन सभी क्षेत्रों में मदद कर सकता हूँ:</strong><br>
+        • <strong>सरकारी योजनाएं:</strong> मुद्रा, पीएमईजीपी, पीएम स्वनिधि और सब्सिडी विवरण।<br>
+        • <strong>पूंजी आवंटन एवं बजट:</strong> दुकान या फैक्ट्री हेतु फंड का सही नियोजन।<br>
+        • <strong>खर्च प्रबंधन:</strong> नया खर्च जोड़ना (जैसे: <em>'डिलीवरी बाइक जोड़ें ₹45,000'</em>, <em>'स्टॉक 40% करें'</em>)।<br>
+        • <strong>बैंक DPR रिपोर्ट:</strong> बैंक लोन के लिए आधिकारिक प्रोजेक्ट रिपोर्ट 1-क्लिक में तैयार करना।<br>
+        • <strong>मार्गदर्शन:</strong> नए व्यवसाय की चरणबद्ध योजना।`
     };
+
+    // 3. English Knowledge Base
+    const smartResponsesEnglish = {
+        "mudra": `<strong>Pradhan Mantri Mudra Yojana (PMMY):</strong><br>
+        Under PMMY, micro-enterprises can access collateral-free institutional credit up to ₹10 Lakhs with three tiers:<br>
+        • <strong>Shishu:</strong> Loans up to ₹50,000 (startup phase)<br>
+        • <strong>Kishore:</strong> Loans from ₹50,000 to ₹5 Lakhs (equipment & stock)<br>
+        • <strong>Tarun:</strong> Loans from ₹5 Lakhs to ₹10 Lakhs (expansion phase)<br>
+        <div class="chat-options-group">
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Plan ₹500,000 budget for Grocery Store')"><i class="fa-solid fa-calculator"></i> Plan ₹500k Budget</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('What documents are required for Mudra loan?')"><i class="fa-solid fa-file-lines"></i> Required Documents</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('How to get 35% government subsidy under PMEGP?')"><i class="fa-solid fa-percent"></i> PMEGP 35% Subsidy</button>
+        </div>`,
+
+        "pmegp": `<strong>PMEGP Subsidy Scheme (Prime Minister Employment Generation Programme):</strong><br>
+        The central government sanctions project funding with direct <strong>Margin Money Subsidy</strong>:<br>
+        • <strong>Manufacturing Projects:</strong> Sanctioned up to ₹50 Lakhs<br>
+        • <strong>Service / Retail Enterprises:</strong> Sanctioned up to ₹20 Lakhs<br>
+        • <strong>Subsidy Percentages:</strong><br>
+        &nbsp;&nbsp;- <strong>General Category:</strong> 15% Urban | 25% Rural<br>
+        &nbsp;&nbsp;- <strong>Special Categories (Women, SC/ST, OBC, Minorities):</strong> 25% Urban | <strong>Up to 35% Rural Subsidy!</strong><br>
+        <div class="chat-options-group">
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Calculate 35% subsidy for 10 Lakh rural project')"><i class="fa-solid fa-coins"></i> Calculate 35% Subsidy</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('How to apply online for PMEGP?')"><i class="fa-solid fa-laptop"></i> Application Guide</button>
+        </div>`,
+
+        "svanidhi": `<strong>PM SVANidhi Scheme:</strong><br>
+        A micro-credit facility providing street vendors and nano-retailers with collateral-free working capital loans starting at ₹10,000, scaling to ₹20,000 and ₹50,000 upon timely repayment. It includes an attractive <strong>7% interest subsidy rebate</strong> and monthly digital transaction cashback incentives.`,
+
+        "standup": `<strong>Stand-Up India Scheme:</strong><br>
+        Facilitates institutional bank loans between <strong>₹10 Lakhs and ₹1 Crore</strong> to at least one SC/ST borrower and at least one woman entrepreneur per bank branch for setting up greenfield enterprises.`,
+
+        "cgtmse": `<strong>CGTMSE Collateral-Free Credit Guarantee (Up to ₹5 Cr):</strong><br>
+        Provides credit guarantee coverage up to ₹5 Crores for micro and small enterprises without requiring third-party guarantee or immovable property collateral.`,
+
+        "margin": `<strong>Retail Profit Margin & Pricing Principles:</strong><br>
+        Use the standard retail gross margin equation:<br>
+        <code>Gross Margin (%) = ((Selling Price - Purchase Cost) / Selling Price) * 100</code><br>
+        • <strong>Grocery & FMCG:</strong> Healthy gross margins typically range between 12% and 18%<br>
+        • <strong>Apparel & Garments:</strong> Typically 30% to 45%<br>
+        • <strong>Food Services & Cloud Kitchens:</strong> Typically 40% to 60%<br>
+        Track daily transactions in our <strong>Business Health Ledger</strong> below to monitor your operating margins and net profit in real-time!`,
+
+        "dpr": `<strong>Bank-Compliant Detailed Project Report (DPR):</strong><br>
+        A bank-compliant Detailed Project Report requires five essential sections:<br>
+        1. Promoter Background & MSME Readiness Profile<br>
+        2. Plant, Machinery & Infrastructure Setup Cost<br>
+        3. 3-Month Working Capital Requirements<br>
+        4. Means of Finance (Promoter Equity vs Bank Credit)<br>
+        5. Debt-Equity Ratio & Break-Even Analysis.<br>
+        <button type="button" class="chat-action-btn" onclick="openDprModal()"><i class="fa-solid fa-file-pdf"></i> Open Bank-Ready DPR Draft</button>`,
+
+        "udyam": `<strong>MSME Udyam Registration (100% Free):</strong><br>
+        Official portal: <code>udyamregistration.gov.in</code>. Free online registration takes only 10 minutes using your Aadhaar and PAN card. Necessary for priority sector credit, Mudra, and government subsidy clearances.`,
+
+        "loan_process": `<strong>Bank Loan Sanction Workflow:</strong><br>
+        <div class="chat-guide-card">
+            <div class="chat-guide-step"><span class="chat-step-num">1</span> <span>Generate your <strong>Bank-Ready DPR Draft</strong> using our 1-click exporter.</span></div>
+            <div class="chat-guide-step"><span class="chat-step-num">2</span> <span>Obtain your free <strong>MSME Udyam Certificate</strong>.</span></div>
+            <div class="chat-guide-step"><span class="chat-step-num">3</span> <span>Gather 2-3 supplier quotations for your equipment/stock items.</span></div>
+            <div class="chat-guide-step"><span class="chat-step-num">4</span> <span>Submit application via Mudra / PMEGP portal to your chosen bank branch.</span></div>
+        </div>`,
+
+        "schemes": `<strong>Government Schemes Overview:</strong><br>
+        Key Indian schemes supported on this platform include:<br>
+        • <strong>PMEGP:</strong> 15% - 35% capital subsidy<br>
+        • <strong>Mudra Loan:</strong> Collateral-free credit up to ₹10 Lakhs<br>
+        • <strong>PM SVANidhi:</strong> Nano working capital up to ₹50,000<br>
+        • <strong>Stand-Up India:</strong> Greenfield funding up to ₹1 Crore<br>
+        • <strong>CGTMSE:</strong> Zero mortgage guarantee up to ₹5 Crores.<br>
+        <div class="chat-options-group">
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('What is Mudra Loan eligibility and how to apply?')"><i class="fa-solid fa-hand-holding-dollar"></i> Mudra Loan Guide</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('How to get 35% government subsidy under PMEGP?')"><i class="fa-solid fa-percent"></i> PMEGP Subsidy</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('I want to start a new business, guide me step-by-step')"><i class="fa-solid fa-compass"></i> Step-by-Step Roadmap</button>
+        </div>`,
+
+        "profile": `<strong>Enterprise Profile & Scorecard:</strong><br>
+        Visit the <strong>Business Profile</strong> page to calibrate your promoter equity, business stage, category, and sector. The engine computes your MSME Readiness Score and filters personalized scheme linkages.`,
+
+        "greeting": `Hello {USER}! 👋 I am your Samarth AI Business Advisor.<br>
+        I can guide you through government schemes, bank loan subsidies, capital budgeting, and bank-ready DPR generation.<br>
+        How can I assist your business today? Choose an option below or type your question:
+        <div class="chat-options-group">
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('I want to start a new business, guide me step-by-step')"><i class="fa-solid fa-compass"></i> Step-by-Step Business Guide 🚀</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Plan ₹500,000 budget for Grocery Store')"><i class="fa-solid fa-store"></i> Plan Grocery Budget 🏪</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('What is Mudra Loan eligibility and how to apply?')"><i class="fa-solid fa-hand-holding-dollar"></i> Mudra Loan Guide 💰</button>
+            <button type="button" class="chat-option-btn" onclick="aiQuickSelect('How to get 35% government subsidy under PMEGP?')"><i class="fa-solid fa-percent"></i> PMEGP 35% Subsidy 📑</button>
+        </div>`,
+
+        "help": `<strong>I can assist you with:</strong><br>
+        • <strong>Government Schemes:</strong> Mudra, PMEGP, PM SVANidhi, Stand-Up India.<br>
+        • <strong>Capital Allocation & Budgeting:</strong> Planning business startup outlays.<br>
+        • <strong>Expense Management:</strong> Adding custom expenditure (e.g. <em>'Add delivery bike ₹45k'</em>, <em>'Increase stock to 40%'</em>).<br>
+        • <strong>1-Click Bank DPR Report:</strong> Generating bank-compliant appraisal reports.<br>
+        • <strong>Step-by-Step Business Roadmap:</strong> Tailoring schemes and fund models to your venture.`
+    };
+
+    // Determine user's query language dynamically
+    function resolveQueryLanguage(query) {
+        if (detectDevanagari(query)) return "hi";
+        if (currentAiLanguage === "hi") return "hi";
+        if (currentAiLanguage === "hinglish") return "hinglish";
+        if (detectHinglish(query)) return "hinglish";
+        return currentAiLanguage || "en";
+    }
 
     // Language Toggle Event Listeners
     function setAiLanguage(lang, notify = true) {
@@ -1290,12 +1637,28 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
+        // Update Placeholder and Suggestion Chips
+        renderChipsForLanguage(lang);
+        if (aiInput) {
+            if (lang === "hi") {
+                aiInput.placeholder = "हिंदी में पूछें: 'नया बिजनेस गाइड करें', 'डिलीवरी बाइक जोड़ें ₹45,000', 'मुद्रा लोन कैसे लें'...";
+            } else if (lang === "hinglish") {
+                aiInput.placeholder = "Hinglish me poochiye: 'Delivery bike add karo ₹45k', 'Stock 40% karo', 'Mudra loan kaise le'...";
+            } else {
+                aiInput.placeholder = "Ask in English: 'Plan grocery budget ₹500k', 'Add delivery bike ₹45,000', 'How to apply for Mudra loan'...";
+            }
+        }
+
         if (notify) {
-            if (lang === "hinglish") {
-                appendMessage("🙏 <strong>Language: Hinglish active.</strong> Ab main aapse aam bolchal ki Hinglish me baat karunga. Aap sarkari schemes, bank loans aur expenses ke baare me bejhijhak pooch sakte hain!", "bot");
+            const userName = getCurrentUserName();
+            if (lang === "hi") {
+                appendMessage(`🙏 <strong>भाषा: हिंदी (Hindi) सक्रिय है।</strong><br>नमस्ते ${userName} जी! अब मैं आपसे हिंदी में बातचीत करूँगा। आप सरकारी योजनाओं, सब्सिडी, बैंक लोन या बजट के बारे में बेझिझक पूछ सकते हैं!`, "bot");
+                showToast("AI भाषा हिंदी सेट की गई", "fa-language");
+            } else if (lang === "hinglish") {
+                appendMessage(`🙏 <strong>Language: Hinglish active.</strong><br>Namaste ${userName} ji! Ab main aapse aam bolchal ki Hinglish me baat karunga. Aap sarkari schemes, bank loans aur expenses ke baare me pooch sakte hain!`, "bot");
                 showToast("AI Language set to Hinglish", "fa-language");
             } else {
-                appendMessage("🌐 <strong>Language: English active.</strong> Switched to English mode. You can now ask questions about schemes, DPR reports, and capital management in English.", "bot");
+                appendMessage(`🌐 <strong>Language: English active.</strong><br>Hello ${userName}! Switched to English mode. You can now consult on government schemes, DPR requirements, and capital budgeting in English.`, "bot");
                 showToast("AI Language set to English", "fa-globe");
             }
         }
@@ -1309,7 +1672,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Initialize Language Toggle State
-    setAiLanguage(currentAiLanguage, false);
+    setAiLanguage(currentAiLanguage || "hinglish", false);
 
     function appendMessage(text, sender = "bot") {
         if (!chatViewport) return;
@@ -1325,29 +1688,387 @@ document.addEventListener("DOMContentLoaded", function () {
         chatViewport.scrollTop = chatViewport.scrollHeight;
     }
 
+    function showTypingIndicator() {
+        if (!chatViewport) return null;
+        const bubble = document.createElement("div");
+        bubble.className = "chat-bubble bot";
+        bubble.id = "chat-typing-indicator";
+        bubble.innerHTML = `
+            <div class="bubble-icon"><i class="fa-solid fa-robot"></i></div>
+            <div class="bubble-content">
+                <div class="typing-indicator">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            </div>
+        `;
+        chatViewport.appendChild(bubble);
+        chatViewport.scrollTop = chatViewport.scrollHeight;
+        return bubble;
+    }
+
+    function removeTypingIndicator() {
+        const ind = document.getElementById("chat-typing-indicator");
+        if (ind) ind.remove();
+    }
+
+    // ================= MULTI-TURN GUIDED CONSULTATION HANDLER =================
+    function startGuidedConsultation(lang) {
+        aiConsultationState.active = true;
+        aiConsultationState.step = 1;
+        aiConsultationState.industry = null;
+        aiConsultationState.amount = null;
+        aiConsultationState.location = null;
+        aiConsultationState.category = null;
+
+        const userName = getCurrentUserName();
+
+        if (lang === "hi") {
+            return `<strong>नमस्ते ${userName} जी! 🚀 आइए आपका बिजनेस रोडमैप तैयार करते हैं।</strong><br>
+            आपके लिए सबसे उपयुक्त <strong>सरकारी सब्सिडी योजना (PMEGP/मुद्रा)</strong>, बैंक लोन और सही पूंजी आवंटन तैयार करने के लिए मुझे केवल 3 प्रश्नों के उत्तर दें:<br><br>
+            <strong>प्रश्न 1:</strong> आप किस क्षेत्र/व्यापार में उद्यम शुरू करना चाहते हैं?
+            <div class="chat-options-group">
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. किराना / जनरल स्टोर')">🏪 किराना / जनरल स्टोर</button>
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. फूड / रेस्टोरेंट / क्लाउड किचन')">🍲 फूड / क्लाउड किचन</button>
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. लघु विनिर्माण / वर्कशॉप')">⚙️ विनिर्माण / वर्कशॉप</button>
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. कपड़े / रेडीमेड गारमेंट्स')">👗 कपड़े / गारमेंट्स</button>
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. टेक / इलेक्ट्रॉनिक्स / सर्विस')">💻 टेक / इलेक्ट्रॉनिक्स</button>
+            </div>`;
+        } else if (lang === "en") {
+            return `<strong>Welcome ${userName}! 🚀 Let's build your personalized MSME Roadmap.</strong><br>
+            To recommend the ideal <strong>Government Subsidy (PMEGP/Mudra)</strong>, bank credit facility, and capital budget, let's answer 3 quick questions:<br><br>
+            <strong>Question 1:</strong> Which trade or industry do you plan to establish?
+            <div class="chat-options-group">
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. Grocery / FMCG Retail')">🏪 Grocery / FMCG Retail</button>
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. Food / Cloud Kitchen / Cafe')">🍲 Food / Cloud Kitchen</button>
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. Light Manufacturing / Workshop')">⚙️ Light Manufacturing</button>
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. Apparel & Garments Boutique')">👗 Apparel & Garments</button>
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. Tech / Electronics Repair')">💻 Tech / Electronics</button>
+            </div>`;
+        } else {
+            return `<strong>Bohot badhiya ${userName} ji! 🚀 Aaiye aapka personalized Business Roadmap plan karte hain.</strong><br>
+            Aapke liye best <strong>Government Subsidy (PMEGP / Mudra Loan)</strong>, bank loan aur capital budget plan karne ke liye mujhe bas 3 quick sawalon ke jawab dijiye:<br><br>
+            <strong>Sawal 1:</strong> Aap kis trade / industry me apna vyapar shuru karna chahte hain?
+            <div class="chat-options-group">
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. Kirana / Grocery Store')">🏪 Kirana / Grocery Store</button>
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. Food / Cloud Kitchen / Cafe')">🍲 Food / Cloud Kitchen</button>
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. Manufacturing / Workshop')">⚙️ Small Manufacturing</button>
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. Garments & Kapda Boutique')">👗 Garments & Boutique</button>
+                <button type="button" class="chat-option-btn" onclick="aiQuickSelect('1. Tech / Mobile / Electronics')">💻 Tech / Electronics</button>
+            </div>`;
+        }
+    }
+
+    function handleConsultationStep(query, lang) {
+        const q = query.toLowerCase();
+
+        // STEP 1: Process Trade / Industry
+        if (aiConsultationState.step === 1) {
+            let matchedTrade = "grocery";
+            let tradeTitle = "Kirana / Grocery Store";
+
+            if (q.includes("food") || q.includes("kitchen") || q.includes("cafe") || q.includes("restaurant") || q.includes("फूड")) {
+                matchedTrade = "food";
+                tradeTitle = (lang === "hi") ? "फूड एवं क्लाउड किचन" : "Food / Cloud Kitchen";
+            } else if (q.includes("mfg") || q.includes("manufactur") || q.includes("workshop") || q.includes("विनिर्माण")) {
+                matchedTrade = "manufacturing";
+                tradeTitle = (lang === "hi") ? "लघु विनिर्माण (मैन्युफैक्चरिंग)" : "Light Manufacturing";
+            } else if (q.includes("cloth") || q.includes("garment") || q.includes("boutique") || q.includes("कपड़े")) {
+                matchedTrade = "garments";
+                tradeTitle = (lang === "hi") ? "रेडीमेड कपड़े व बुटीक" : "Garments & Boutique";
+            } else if (q.includes("tech") || q.includes("electron") || q.includes("service") || q.includes("इलेक्ट्रॉनिक्स")) {
+                matchedTrade = "electronics";
+                tradeTitle = (lang === "hi") ? "इलेक्ट्रॉनिक्स व टेक रिपेयर" : "Electronics & Tech";
+            } else {
+                matchedTrade = "grocery";
+                tradeTitle = (lang === "hi") ? "किराना व रिटेल स्टोर" : "Kirana / Grocery Retail";
+            }
+
+            aiConsultationState.industry = matchedTrade;
+            aiConsultationState.tradeTitle = tradeTitle;
+            aiConsultationState.step = 2;
+
+            if (lang === "hi") {
+                return `✅ <strong>चुना गया उद्योग:</strong> ${tradeTitle}<br><br>
+                <strong>प्रश्न 2:</strong> इस व्यवसाय को स्थापित करने के लिए आपका अनुमानित कुल बजट या बैंक लोन की आवश्यकता कितनी है?
+                <div class="chat-options-group">
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('2. ₹50,000 (शिशु मुद्रा - बिना गारंटी)')">💰 ₹50,000 (शिशु मुद्रा)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('2. ₹5 लाख (किशोर मुद्रा लोन)')">💰 ₹5 लाख (किशोर मुद्रा)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('2. ₹10 लाख (तरुण मुद्रा लोन)')">💰 ₹10 लाख (तरुण मुद्रा)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('2. ₹25 लाख (PMEGP 35% सब्सिडी लोन)')">💰 ₹25 लाख (PMEGP सब्सिडी)</button>
+                </div>`;
+            } else if (lang === "en") {
+                return `✅ <strong>Selected Sector:</strong> ${tradeTitle}<br><br>
+                <strong>Question 2:</strong> What is your estimated total project capital or bank loan outlay?
+                <div class="chat-options-group">
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('2. ₹50,000 (Shishu Micro Loan)')">💰 ₹50,000 (Shishu Mudra)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('2. ₹500,000 (Kishore Mudra Loan)')">💰 ₹500,000 (Kishore Mudra)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('2. ₹1,000,000 (Tarun Mudra Loan)')">💰 ₹1,000,000 (Tarun Mudra)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('2. ₹2,500,000 (PMEGP Capital Subsidy)')">💰 ₹2,500,000 (PMEGP Subsidy)</button>
+                </div>`;
+            } else {
+                return `✅ <strong>Selected Industry:</strong> ${tradeTitle}<br><br>
+                <strong>Sawal 2:</strong> Is dukan / enterprise ko shuru karne ke liye aapka estimated total budget ya bank loan kitna hai?
+                <div class="chat-options-group">
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('2. ₹50,000 (Shishu Micro Loan)')">💰 ₹50,000 (Shishu Mudra)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('2. ₹5 Lakh (Kishore Mudra Loan)')">💰 ₹5 Lakh (Kishore Mudra)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('2. ₹10 Lakh (Tarun Mudra Loan)')">💰 ₹10 Lakh (Tarun Mudra)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('2. ₹25 Lakh (PMEGP Subsidy Loan)')">💰 ₹25 Lakh (PMEGP Subsidy)</button>
+                </div>`;
+            }
+        }
+
+        // STEP 2: Process Amount
+        if (aiConsultationState.step === 2) {
+            let targetAmt = 500000;
+            if (q.includes("50,000") || q.includes("50000") || q.includes("shishu") || q.includes("शिशु")) {
+                targetAmt = 50000;
+            } else if (q.includes("25") || q.includes("2500000") || q.includes("pmegp")) {
+                targetAmt = 2500000;
+            } else if (q.includes("10") || q.includes("1000000") || q.includes("tarun") || q.includes("तरुण")) {
+                targetAmt = 1000000;
+            } else {
+                targetAmt = 500000;
+            }
+
+            aiConsultationState.amount = targetAmt;
+            aiConsultationState.step = 3;
+
+            if (lang === "hi") {
+                return `✅ <strong>परियोजना राशि:</strong> ${formatINR(targetAmt)}<br><br>
+                <strong>प्रश्न 3 (अंतिम):</strong> आपकी इकाई का स्थान और आवेदक की श्रेणी क्या है? (इससे आपकी सरकारी सब्सिडी 35% तक बढ़ सकती है)
+                <div class="chat-options-group">
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('3. ग्रामीण क्षेत्र + विशेष वर्ग (35% सब्सिडी)')">🏡 ग्रामीण क्षेत्र (35% सब्सिडी)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('3. शहरी क्षेत्र + महिला उद्यमी (25% सब्सिडी)')">🏙️ शहरी क्षेत्र (25% सब्सिडी)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('3. सामान्य वर्ग - शहरी (15% सब्सिडी)')">🏢 सामान्य वर्ग (15% सब्सिडी)</button>
+                </div>`;
+            } else if (lang === "en") {
+                return `✅ <strong>Project Outlay:</strong> ${formatINR(targetAmt)}<br><br>
+                <strong>Question 3 (Final):</strong> What is your geographical location and applicant category? (Determines subsidy up to 35%)
+                <div class="chat-options-group">
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('3. Rural Location + Special Category (35% Subsidy)')">🏡 Rural Area (35% Subsidy)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('3. Urban Location + Woman Borrower (25% Subsidy)')">🏙️ Urban Area (25% Subsidy)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('3. Urban Location + General Category (15% Subsidy)')">🏢 General Category (15% Subsidy)</button>
+                </div>`;
+            } else {
+                return `✅ <strong>Project Outlay:</strong> ${formatINR(targetAmt)}<br><br>
+                <strong>Sawal 3 (Final Step):</strong> Aapka business Rural me hoga ya Urban me, aur applicant category kya hai? (Isse 35% tak subsidy decide hoti hai)
+                <div class="chat-options-group">
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('3. Rural Location + Special Category (35% Subsidy)')">🏡 Rural Area (35% Subsidy)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('3. Urban Location + Mahila Entrepreneur (25% Subsidy)')">🏙️ Urban Area (25% Subsidy)</button>
+                    <button type="button" class="chat-option-btn" onclick="aiQuickSelect('3. Urban Location + General Category (15% Subsidy)')">🏢 General Category (15% Subsidy)</button>
+                </div>`;
+            }
+        }
+
+        // STEP 3: Complete Consultation & Synthesize Live Roadmap
+        if (aiConsultationState.step === 3) {
+            let subsidyPct = 0.25;
+            let ownPct = 0.10;
+            let locationText = "Urban";
+
+            if (q.includes("rural") || q.includes("ग्रामीण") || q.includes("35%")) {
+                subsidyPct = 0.35;
+                ownPct = 0.05;
+                locationText = (lang === "hi") ? "ग्रामीण (Rural)" : "Rural";
+            } else if (q.includes("mahila") || q.includes("woman") || q.includes("महिला") || q.includes("special")) {
+                subsidyPct = 0.25;
+                ownPct = 0.05;
+                locationText = (lang === "hi") ? "शहरी (महिला/स्पेशल)" : "Urban (Special/Woman)";
+            } else {
+                subsidyPct = 0.15;
+                ownPct = 0.10;
+                locationText = (lang === "hi") ? "शहरी (General)" : "Urban (General)";
+            }
+
+            const total = aiConsultationState.amount || 500000;
+            const industry = aiConsultationState.industry || "grocery";
+            const tradeTitle = aiConsultationState.tradeTitle || "Kirana / Retail Store";
+
+            const ownAmount = Math.round(total * ownPct);
+            const subsidyAmount = Math.round(total * subsidyPct);
+            const loanAmount = total - ownAmount;
+
+            // Apply directly to platform fund planner and sliders
+            applyAiBudgetModel(industry, total);
+            if (loanRange) loanRange.value = loanAmount;
+            if (savingsRange) savingsRange.value = ownAmount;
+            calculateFinance();
+
+            // End consultation state
+            aiConsultationState.active = false;
+            aiConsultationState.step = 0;
+
+            const targetScheme = (total <= 1000000)
+                ? (total <= 50000 ? "Pradhan Mantri Mudra Yojana (Shishu)" : "Pradhan Mantri Mudra Yojana (Kishore / Tarun)")
+                : "PMEGP (Prime Minister Employment Generation Programme)";
+
+            if (lang === "hi") {
+                return `🎉 <strong>बधाई! आपका पूर्ण बिजनेस रोडमैप तैयार है:</strong><br>
+                <div class="chat-guide-card">
+                    <div style="font-weight: 800; color: #1e3a8a; font-size: 0.95rem; margin-bottom: 4px;">
+                        <i class="fa-solid fa-award"></i> अनुशंसित योजना: ${targetScheme}
+                    </div>
+                    <div class="chat-expense-row">
+                        <span>कुल परियोजना लागत:</span>
+                        <strong>${formatINR(total)}</strong>
+                    </div>
+                    <div class="chat-expense-row">
+                        <span>स्वयं का अंशदान (Margin Money):</span>
+                        <strong style="color: #059669;">${formatINR(ownAmount)} (${Math.round(ownPct * 100)}%)</strong>
+                    </div>
+                    <div class="chat-expense-row">
+                        <span>बैंक ऋण सुविधा (Loan Required):</span>
+                        <strong style="color: #2563eb;">${formatINR(loanAmount)} (${Math.round((loanAmount / total) * 100)}%)</strong>
+                    </div>
+                    <div class="chat-expense-row">
+                        <span>संभावित सरकारी सब्सिडी (PMEGP/PMMY):</span>
+                        <strong style="color: #d97706;"><i class="fa-solid fa-gift"></i> ${formatINR(subsidyAmount)} (${Math.round(subsidyPct * 100)}%)</strong>
+                    </div>
+                </div>
+                <div style="margin-top: 8px; font-size: 0.88rem; color: #475569;">
+                    ✨ AI ने आपके <strong>कैपिटल एलोकेशन ब्रेकडाउन</strong> और लोन स्प्लिट को <strong>${tradeTitle}</strong> के अनुसार 100% संतुलित कर दिया है!
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
+                    <button type="button" class="chat-action-btn" onclick="scrollToAllocation()">
+                        <i class="fa-solid fa-chart-pie"></i> लाइव एलोकेशन ब्रेकडाउन देखें
+                    </button>
+                    <button type="button" class="chat-action-btn" style="background: linear-gradient(135deg, #059669 0%, #047857 100%);" onclick="openDprModal()">
+                        <i class="fa-solid fa-file-pdf"></i> बैंक-रेडी DPR ड्राफ्ट खोलें
+                    </button>
+                </div>`;
+            } else if (lang === "en") {
+                return `🎉 <strong>Congratulations! Your Complete Business Roadmap is Ready:</strong><br>
+                <div class="chat-guide-card">
+                    <div style="font-weight: 800; color: #1e3a8a; font-size: 0.95rem; margin-bottom: 4px;">
+                        <i class="fa-solid fa-award"></i> Target Credit Scheme: ${targetScheme}
+                    </div>
+                    <div class="chat-expense-row">
+                        <span>Total Project Outlay:</span>
+                        <strong>${formatINR(total)}</strong>
+                    </div>
+                    <div class="chat-expense-row">
+                        <span>Promoter Equity Margin:</span>
+                        <strong style="color: #059669;">${formatINR(ownAmount)} (${Math.round(ownPct * 100)}%)</strong>
+                    </div>
+                    <div class="chat-expense-row">
+                        <span>Requested Bank Loan:</span>
+                        <strong style="color: #2563eb;">${formatINR(loanAmount)} (${Math.round((loanAmount / total) * 100)}%)</strong>
+                    </div>
+                    <div class="chat-expense-row">
+                        <span>Estimated Government Subsidy:</span>
+                        <strong style="color: #d97706;"><i class="fa-solid fa-gift"></i> ${formatINR(subsidyAmount)} (${Math.round(subsidyPct * 100)}%)</strong>
+                    </div>
+                </div>
+                <div style="margin-top: 8px; font-size: 0.88rem; color: #475569;">
+                    ✨ AI has adjusted your <strong>Capital Allocation Breakdown</strong> and debt-equity ratios for <strong>${tradeTitle}</strong> to 100% equilibrium!
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
+                    <button type="button" class="chat-action-btn" onclick="scrollToAllocation()">
+                        <i class="fa-solid fa-chart-pie"></i> View Live Allocation
+                    </button>
+                    <button type="button" class="chat-action-btn" style="background: linear-gradient(135deg, #059669 0%, #047857 100%);" onclick="openDprModal()">
+                        <i class="fa-solid fa-file-pdf"></i> View Bank-Ready DPR Draft
+                    </button>
+                </div>`;
+            } else {
+                return `🎉 <strong>Mubarak ho! Aapka Complete Business Roadmap taiyar ho gaya hai:</strong><br>
+                <div class="chat-guide-card">
+                    <div style="font-weight: 800; color: #1e3a8a; font-size: 0.95rem; margin-bottom: 4px;">
+                        <i class="fa-solid fa-award"></i> Recommended Scheme: ${targetScheme}
+                    </div>
+                    <div class="chat-expense-row">
+                        <span>Total Project Cost:</span>
+                        <strong>${formatINR(total)}</strong>
+                    </div>
+                    <div class="chat-expense-row">
+                        <span>Promoter Margin (Apna Paisa):</span>
+                        <strong style="color: #059669;">${formatINR(ownAmount)} (${Math.round(ownPct * 100)}%)</strong>
+                    </div>
+                    <div class="chat-expense-row">
+                        <span>Bank Loan Required:</span>
+                        <strong style="color: #2563eb;">${formatINR(loanAmount)} (${Math.round((loanAmount / total) * 100)}%)</strong>
+                    </div>
+                    <div class="chat-expense-row">
+                        <span>Potential Govt Subsidy:</span>
+                        <strong style="color: #d97706;"><i class="fa-solid fa-gift"></i> ${formatINR(subsidyAmount)} (${Math.round(subsidyPct * 100)}%)</strong>
+                    </div>
+                </div>
+                <div style="margin-top: 8px; font-size: 0.88rem; color: #475569;">
+                    ✨ AI ne aapke <strong>Capital Allocation Breakdown</strong> aur loan split ko <strong>${tradeTitle}</strong> ke anusaar 100% balance kar diya hai!
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
+                    <button type="button" class="chat-action-btn" onclick="scrollToAllocation()">
+                        <i class="fa-solid fa-chart-pie"></i> Live Allocation Breakdown Dekhein
+                    </button>
+                    <button type="button" class="chat-action-btn" style="background: linear-gradient(135deg, #059669 0%, #047857 100%);" onclick="openDprModal()">
+                        <i class="fa-solid fa-file-pdf"></i> Bank-Ready DPR Draft Kholein
+                    </button>
+                </div>`;
+            }
+        }
+    }
+
+    // ================= MAIN AI QUERY PROCESSOR =================
     function processAiQuery(query) {
-        if (!query.trim()) return;
+        if (!query || !query.trim()) return;
         appendMessage(query, "user");
         if (aiInput) aiInput.value = "";
 
-        setTimeout(() => {
-            const q = query.toLowerCase().trim();
-            const isHinglish = currentAiLanguage === "hinglish" || detectHinglish(query);
+        showTypingIndicator();
 
-            // 1. First check if user is asking to manage, customize, or plan expenses
+        setTimeout(() => {
+            removeTypingIndicator();
+
+            const rawQuery = query.trim();
+            const q = rawQuery.toLowerCase();
+            const lang = resolveQueryLanguage(rawQuery);
+            const userName = getCurrentUserName();
+
+            // 1. Check if user triggered Guided Consultation
+            const isGuideTrigger = (
+                q.includes("naya business") || q.includes("new business") || q.includes("start business") ||
+                q.includes("shuru karna") || q.includes("guide karo") || q.includes("guide me") ||
+                q.includes("step by step") || q.includes("kaise shuru") || q.includes("नया बिजनेस") ||
+                q.includes("बिजनेस गाइड") || q.includes("व्यवसाय शुरू") || q.includes("business roadmap")
+            );
+
+            if (isGuideTrigger && !aiConsultationState.active) {
+                const guideHtml = startGuidedConsultation(lang);
+                appendMessage(guideHtml, "bot");
+                return;
+            }
+
+            // If active consultation is in progress, route to handler
+            if (aiConsultationState.active) {
+                // If user clicks reset or exit
+                if (q.includes("cancel") || q.includes("stop") || q.includes("reset") || q.includes("band karo")) {
+                    aiConsultationState.active = false;
+                    appendMessage((lang === "hi") ? "मार्गदर्शन रीसेट कर दिया गया है। आप कोई अन्य प्रश्न पूछ सकते हैं।" : "Guided consultation has been reset. You can ask any new question!", "bot");
+                    return;
+                }
+                const stepReply = handleConsultationStep(rawQuery, lang);
+                if (stepReply) {
+                    appendMessage(stepReply, "bot");
+                    return;
+                }
+            }
+
+            // 2. Check Natural Language Expense & Capital Allocation Commands
             const expenseResult = handleAiExpenseCommand(query, { isChatbot: true });
             if (expenseResult && expenseResult.handled) {
                 const total = (parseFloat(loanRange?.value) || 0) + (parseFloat(savingsRange?.value) || 0);
                 const totalPctSum = Math.round(activeAllocationConfig.reduce((sum, item) => sum + item.pct, 0) * 100);
 
-                const viewBtnText = isHinglish
-                    ? '<i class="fa-solid fa-chart-pie"></i> Live Allocation Breakdown Dekhein'
-                    : '<i class="fa-solid fa-chart-pie"></i> View Live Allocation Breakdown';
+                const viewBtnText = (lang === "hi")
+                    ? '<i class="fa-solid fa-chart-pie"></i> लाइव पूंजी आवंटन देखें'
+                    : (lang === "en" ? '<i class="fa-solid fa-chart-pie"></i> View Live Allocation' : '<i class="fa-solid fa-chart-pie"></i> Live Allocation Breakdown Dekhein');
 
-                const totalCapLabel = isHinglish ? "Total Capital:" : "Total Capital:";
-                const activeCatLabel = isHinglish ? "Active Categories:" : "Active Categories:";
-                const allocStatLabel = isHinglish ? "Allocation Status:" : "Allocation Status:";
-                const balancedText = isHinglish ? `${totalPctSum}% Balanced` : `${totalPctSum}% Balanced`;
+                const totalCapLabel = (lang === "hi") ? "कुल पूंजी:" : "Total Capital:";
+                const activeCatLabel = (lang === "hi") ? "सक्रिय श्रेणियां:" : "Active Categories:";
+                const allocStatLabel = (lang === "hi") ? "संतुलन स्थिति:" : "Allocation Status:";
+                const balancedText = (lang === "hi") ? `${totalPctSum}% संतुलित` : `${totalPctSum}% Balanced`;
 
                 let chatResponseHtml = `
                     <div style="margin-bottom: 6px;">${expenseResult.message}</div>
@@ -1371,44 +2092,77 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
 
                 appendMessage(chatResponseHtml, "bot");
-                showToast(isHinglish ? "Capital Allocation AI dwara update ho gaya!" : "Capital Allocation Breakdown updated via AI!", "fa-circle-check");
+                showToast((lang === "hi") ? "पूंजी आवंटन AI द्वारा अपडेट किया गया!" : "Capital Allocation Breakdown updated via AI!", "fa-circle-check");
                 return;
             }
 
-            // 2. Bilingual Knowledge Base Matching
-            const kb = isHinglish ? smartResponsesHinglish : smartResponsesEnglish;
+            // 3. Knowledge Base Matching (Hindi, Hinglish, English)
+            let kb = smartResponsesHinglish;
+            if (lang === "hi") kb = smartResponsesHindi;
+            else if (lang === "en") kb = smartResponsesEnglish;
+
             let matchedReply = null;
 
-            if (q.includes("namaste") || q.includes("pranam") || q.includes("hello") || q.includes("hi ") || q === "hi" || q.includes("hey") || q.includes("kaise ho")) {
-                matchedReply = kb["greeting"];
-            } else if (q.includes("mudra") || q.includes("pmmy") || q.includes("shishu") || q.includes("kishore") || q.includes("tarun")) {
+            if (q.includes("namaste") || q.includes("pranam") || q.includes("hello") || q.includes("hi ") || q === "hi" || q.includes("hey") || q.includes("kaise ho") || q.includes("नमस्ते") || q.includes("प्रणाम")) {
+                matchedReply = kb["greeting"].replace("{USER}", userName);
+            } else if (q.includes("mudra") || q.includes("pmmy") || q.includes("shishu") || q.includes("kishore") || q.includes("tarun") || q.includes("मुद्रा") || q.includes("शिशु") || q.includes("किशोर") || q.includes("तरुण")) {
                 matchedReply = kb["mudra"];
-            } else if (q.includes("pmegp") || q.includes("subsidy") || q.includes("margin money")) {
+            } else if (q.includes("pmegp") || q.includes("subsidy") || q.includes("margin money") || q.includes("सब्सिडी") || q.includes("छूट")) {
                 matchedReply = kb["pmegp"];
-            } else if (q.includes("svanidhi") || q.includes("street vendor") || q.includes("thela") || q.includes("rehdi") || q.includes("vendor")) {
+            } else if (q.includes("svanidhi") || q.includes("street vendor") || q.includes("thela") || q.includes("rehdi") || q.includes("स्वनिधि") || q.includes("रेहड़ी") || q.includes("पटरी")) {
                 matchedReply = kb["svanidhi"];
-            } else if (q.includes("stand up") || q.includes("standup") || q.includes("mahila") || (q.includes("women") && q.includes("loan"))) {
+            } else if (q.includes("stand up") || q.includes("standup") || q.includes("mahila") || q.includes("women") || q.includes("महिला") || q.includes("स्टैंड-अप")) {
                 matchedReply = kb["standup"];
-            } else if (q.includes("cgtmse") || q.includes("guarantee") || q.includes("without collateral")) {
+            } else if (q.includes("cgtmse") || q.includes("guarantee") || q.includes("without collateral") || q.includes("बिना गारंटी")) {
                 matchedReply = kb["cgtmse"];
-            } else if (q.includes("margin") || q.includes("profit") || q.includes("munafa") || q.includes("markup") || q.includes("kamai")) {
+            } else if (q.includes("udyam") || q.includes("msme cert") || q.includes("registration") || q.includes("पंजीकरण") || q.includes("उद्यम")) {
+                matchedReply = kb["udyam"];
+            } else if (q.includes("process") || q.includes("kaise apply") || q.includes("how to apply") || q.includes("document") || q.includes("आवेदन") || q.includes("दस्तावेज") || q.includes("प्रक्रिया")) {
+                matchedReply = kb["loan_process"];
+            } else if (q.includes("margin") || q.includes("profit") || q.includes("munafa") || q.includes("markup") || q.includes("kamai") || q.includes("मुनाफा") || q.includes("मार्जिन")) {
                 matchedReply = kb["margin"];
-            } else if (q.includes("dpr") || q.includes("bank report") || q.includes("project report") || q.includes("loan file")) {
+            } else if (q.includes("dpr") || q.includes("bank report") || q.includes("project report") || q.includes("loan file") || q.includes("डीपीआर") || q.includes("रिपोर्ट")) {
                 matchedReply = kb["dpr"];
-            } else if (q.includes("scheme") || q.includes("yojana") || q.includes("yojna") || q.includes("sarkari") || q.includes("list")) {
+            } else if (q.includes("scheme") || q.includes("yojana") || q.includes("yojna") || q.includes("sarkari") || q.includes("योजना") || q.includes("सरकारी")) {
                 matchedReply = kb["schemes"];
-            } else if (q.includes("profile") || q.includes("score") || q.includes("scorecard") || q.includes("eligibility") || q.includes("patrata")) {
+            } else if (q.includes("profile") || q.includes("score") || q.includes("scorecard") || q.includes("eligibility") || q.includes("patrata") || q.includes("पात्रता")) {
                 matchedReply = kb["profile"];
-            } else if (q.includes("help") || q.includes("madad") || q.includes("kya kar sakte") || q.includes("features") || q.includes("guide")) {
+            } else if (q.includes("help") || q.includes("madad") || q.includes("kya kar sakte") || q.includes("features") || q.includes("guide") || q.includes("मदद") || q.includes("सहायता")) {
                 matchedReply = kb["help"];
             } else {
-                matchedReply = isHinglish
-                    ? "Yeh ek bohot badhiya sawal hai! Iske baare me vistrit jaankari ke liye aap pehle hamare <strong>Profile Page</strong> par jakar apni business details fill karein taaki hum exact subsidy calculate kar sakein. Ya phir aap mujhse schemes (Mudra, PMEGP), bank DPR, ya budget expenses (jaise: <em>'Stock 40% karo'</em>, <em>'Delivery bike add karo ₹40,000'</em>) ke baare me pooch sakte hain!"
-                    : "That is a great question! For detailed analysis, we recommend completing your Profile details first to evaluate exact subsidy eligibility. You can also tell me to customize your expenses (e.g. <em>'Add delivery bike ₹40k'</em>, <em>'Increase stock to 40%'</em>) or ask about Mudra/PMEGP loan rules.";
+                if (lang === "hi") {
+                    matchedReply = `यह एक बहुत अच्छा प्रश्न है! आपकी सहायता के लिए हमारे पास कई टूल्स हैं:<br>
+                    • सरकारी योजनाएं (मुद्रा, PMEGP)<br>
+                    • नया बिजनेस स्टेप-बाय-स्टेप रोडमैप<br>
+                    • बैंक-रेडी DPR ड्राफ्ट एवं खर्च बजटिंग<br>
+                    <div class="chat-options-group">
+                        <button type="button" class="chat-option-btn" onclick="aiQuickSelect('मुझे नया बिजनेस शुरू करना है, स्टेप-बाय-स्टेप गाइड करें')"><i class="fa-solid fa-compass"></i> नया बिजनेस गाइडेंस 🚀</button>
+                        <button type="button" class="chat-option-btn" onclick="aiQuickSelect('मुद्रा लोन योजना क्या है और कैसे मिलेगा?')"><i class="fa-solid fa-hand-holding-dollar"></i> मुद्रा लोन 💰</button>
+                        <button type="button" class="chat-option-btn" onclick="aiQuickSelect('PMEGP योजना में 35% सब्सिडी कैसे मिलती है?')"><i class="fa-solid fa-percent"></i> 35% सब्सिडी 📑</button>
+                    </div>`;
+                } else if (lang === "en") {
+                    matchedReply = `That is an excellent inquiry! To give you exact tailored guidance:<br>
+                    • Explore Government Programs (PMMY, PMEGP, CGTMSE)<br>
+                    • Generate Step-by-Step Business Setup Roadmaps<br>
+                    • Tailor Capital Outlays (e.g., <em>'Add delivery bike ₹45k'</em>)<br>
+                    <div class="chat-options-group">
+                        <button type="button" class="chat-option-btn" onclick="aiQuickSelect('I want to start a new business, guide me step-by-step')"><i class="fa-solid fa-compass"></i> Guided Business Roadmap 🚀</button>
+                        <button type="button" class="chat-option-btn" onclick="aiQuickSelect('What is Mudra Loan eligibility and how to apply?')"><i class="fa-solid fa-hand-holding-dollar"></i> Mudra Loan Guide 💰</button>
+                        <button type="button" class="chat-option-btn" onclick="aiQuickSelect('How to get 35% government subsidy under PMEGP?')"><i class="fa-solid fa-percent"></i> PMEGP Subsidy 📑</button>
+                    </div>`;
+                } else {
+                    matchedReply = `Yeh ek bohot badhiya sawal hai! Iske baare me step-by-step guidance ke liye aap in options me se select kar sakte hain ya apna direct sawal poochiye:<br>
+                    <div class="chat-options-group">
+                        <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Mujhe naya business shuru karna hai, guide karo')"><i class="fa-solid fa-compass"></i> Step-by-Step Business Guide 🚀</button>
+                        <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Mudra loan kaise milega?')"><i class="fa-solid fa-hand-holding-dollar"></i> Mudra Loan Guide 💰</button>
+                        <button type="button" class="chat-option-btn" onclick="aiQuickSelect('PMEGP scheme me 35% subsidy kaise milegi?')"><i class="fa-solid fa-percent"></i> PMEGP 35% Subsidy 📑</button>
+                        <button type="button" class="chat-option-btn" onclick="aiQuickSelect('Kirana store ka budget plan karo')"><i class="fa-solid fa-store"></i> Plan Grocery Budget 🏪</button>
+                    </div>`;
+                }
             }
 
             appendMessage(matchedReply, "bot");
-        }, 400);
+        }, 450);
     }
 
     if (aiSubmitBtn && aiInput) {
@@ -1417,13 +2171,6 @@ document.addEventListener("DOMContentLoaded", function () {
             if (e.key === "Enter") processAiQuery(aiInput.value);
         });
     }
-
-    chips.forEach(chip => {
-        chip.addEventListener("click", function () {
-            const prompt = this.getAttribute("data-prompt");
-            processAiQuery(prompt);
-        });
-    });
 
 
     // ==========================================
