@@ -412,48 +412,41 @@ button, input, select {
     margin-bottom: 1.8rem;
 }
 
-.demo-login-btn {
-    width: 100%;
-    background: #fffbeb;
-    border: 1.5px solid #fde68a;
-    color: #92400e;
-    font-size: 0.95rem;
-    padding: 12px;
-    border-radius: var(--radius-md);
-    margin-bottom: 1.5rem;
+.auth-security-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-bottom: 0.9rem;
+    letter-spacing: 0.02em;
 }
 
-.demo-login-btn:hover {
-    background: #fef3c7;
-    border-color: #f59e0b;
-}
-
-.auth-divider {
+.auth-security-notice {
+    margin-top: 0.75rem;
+    text-align: center;
+    font-size: 0.78rem;
+    color: #64748b;
     display: flex;
     align-items: center;
-    text-align: center;
-    margin-bottom: 1.5rem;
+    justify-content: center;
+    gap: 6px;
+    font-weight: 500;
 }
 
-.auth-divider::before,
-.auth-divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid var(--border);
-}
-
-.auth-divider span {
-    padding: 0 12px;
-    font-size: 0.72rem;
-    font-weight: 800;
-    color: var(--text-light);
-    letter-spacing: 0.05em;
+.auth-security-notice i {
+    color: #059669;
 }
 
 .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 1.25rem;
 }
 
 .auth-options {
@@ -461,20 +454,34 @@ button, input, select {
     justify-content: space-between;
     align-items: center;
     font-size: 0.85rem;
+    margin-top: -0.25rem;
 }
 
 .remember-label {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
     color: var(--text-muted);
     font-weight: 600;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.remember-label input[type="checkbox"] {
+    accent-color: var(--primary);
     cursor: pointer;
 }
 
 .forgot-link {
     color: var(--primary);
     font-weight: 700;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
 }
 
 .auth-switch {
@@ -488,101 +495,11 @@ button, input, select {
     color: var(--primary);
     font-weight: 700;
     margin-left: 4px;
+    text-decoration: none;
 }
 
-/* Credentials Info Box */
-.credential-info-badge {
-    background: #f8fafc;
-    border: 1.5px dashed #cbd5e1;
-    border-radius: var(--radius-md);
-    padding: 12px 14px;
-    margin-bottom: 1.25rem;
-    transition: var(--transition);
-}
-
-.credential-info-badge:hover {
-    border-color: #94a3b8;
-    background: #f1f5f9;
-}
-
-.cred-info-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.cred-pill {
-    font-size: 0.76rem;
-    font-weight: 800;
-    color: var(--primary);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.btn-copy-fill {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    color: var(--primary);
-    padding: 4px 10px;
-    border-radius: var(--radius-full);
-    font-size: 0.75rem;
-    font-weight: 700;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    transition: var(--transition);
-}
-
-.btn-copy-fill:hover {
-    background: var(--primary);
-    color: #ffffff;
-    border-color: var(--primary);
-}
-
-.cred-info-body {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    background: #ffffff;
-    padding: 8px 12px;
-    border-radius: var(--radius-sm);
-    border: 1px solid #e2e8f0;
-}
-
-.cred-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.82rem;
-}
-
-.cred-label {
-    color: var(--text-light);
-    font-weight: 600;
-}
-
-.cred-value {
-    background: #f1f5f9;
-    color: #0f172a;
-    padding: 2px 7px;
-    border-radius: 5px;
-    font-family: monospace;
-    font-size: 0.88rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    border: 1px solid #e2e8f0;
-}
-
-.cred-divider-v {
-    width: 1px;
-    height: 20px;
-    background: #e2e8f0;
+.auth-switch a:hover {
+    text-decoration: underline;
 }
 
 /* Input Wrappers with Prefix/Suffix Icons */

@@ -53,39 +53,11 @@
         <!-- Right Login Card -->
         <div class="auth-card">
             <div class="auth-card-header">
-                <h2>Welcome Back 👋</h2>
-                <p>Sign in with your authorized credentials to access your business dashboard.</p>
-            </div>
-
-            <!-- Credentials Hint Badge -->
-            <div class="credential-info-badge">
-                <div class="cred-info-top">
-                    <div class="cred-pill"><i class="fa-solid fa-shield-halved"></i> Authorized Demo Login</div>
-                    <button type="button" id="copy-autofill-btn" class="btn-copy-fill" title="Auto-fill credentials into form">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Auto Fill
-                    </button>
+                <div class="auth-security-pill">
+                    <i class="fa-solid fa-shield-halved"></i> Official Portal • 256-Bit SSL Encrypted
                 </div>
-                <div class="cred-info-body">
-                    <div class="cred-item">
-                        <span class="cred-label"><i class="fa-solid fa-id-badge"></i> ID:</span>
-                        <code class="cred-value" id="sample-id">piyush123</code>
-                    </div>
-                    <div class="cred-divider-v"></div>
-                    <div class="cred-item">
-                        <span class="cred-label"><i class="fa-solid fa-key"></i> Pass:</span>
-                        <code class="cred-value" id="sample-pass">1234567</code>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Demo Button for Hackathon Evaluators -->
-            <button type="button" id="quick-demo-btn" class="btn btn-secondary demo-login-btn">
-                <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i>
-                <span>One-Click Instant Login (Piyush)</span>
-            </button>
-
-            <div class="auth-divider">
-                <span>OR ENTER CREDENTIALS MANUALLY</span>
+                <h2>Portal Sign In 🔐</h2>
+                <p>Enter your authorized enterprise credentials to access your business dashboard.</p>
             </div>
 
             <!-- In-Form Alert Box -->
@@ -93,10 +65,10 @@
 
             <form id="auth-form" class="auth-form" novalidate>
                 <div class="form-group">
-                    <label for="auth-email"><i class="fa-solid fa-user-shield"></i> Login ID</label>
+                    <label for="auth-email"><i class="fa-solid fa-id-badge"></i> Login ID / Username</label>
                     <div class="input-with-icon">
                         <i class="fa-solid fa-user input-prefix-icon"></i>
-                        <input type="text" id="auth-email" placeholder="Enter Login ID (e.g. piyush123)" autocomplete="username" spellcheck="false" autofocus required>
+                        <input type="text" id="auth-email" placeholder="Enter your authorized Login ID" autocomplete="username" spellcheck="false" autofocus required>
                     </div>
                 </div>
 
@@ -104,7 +76,7 @@
                     <label for="auth-password"><i class="fa-solid fa-lock"></i> Password</label>
                     <div class="password-input-wrapper">
                         <i class="fa-solid fa-key input-prefix-icon"></i>
-                        <input type="password" id="auth-password" placeholder="Enter Password (e.g. 1234567)" autocomplete="current-password" required>
+                        <input type="password" id="auth-password" placeholder="Enter your password" autocomplete="current-password" required>
                         <button type="button" id="toggle-password-btn" class="password-toggle-btn" title="Show/Hide Password" aria-label="Toggle password visibility">
                             <i class="fa-regular fa-eye" id="toggle-eye-icon"></i>
                         </button>
@@ -113,14 +85,18 @@
 
                 <div class="auth-options">
                     <label class="remember-label">
-                        <input type="checkbox" id="remember-me" checked> Remember on this device
+                        <input type="checkbox" id="remember-me" checked> Remember Login ID
                     </label>
                     <a href="javascript:void(0)" id="forgot-password-link" class="forgot-link">Forgot password?</a>
                 </div>
 
                 <button type="submit" id="submit-btn" class="btn btn-primary btn-lg full-btn">
-                    <span id="submit-btn-text">Sign In to Dashboard</span> <i id="submit-btn-icon" class="fa-solid fa-arrow-right"></i>
+                    <span id="submit-btn-text">Sign In to Dashboard</span> <i id="submit-btn-icon" class="fa-solid fa-arrow-right-to-bracket"></i>
                 </button>
+
+                <div class="auth-security-notice">
+                    <i class="fa-solid fa-shield-check"></i> Single Sign-On protected by MSME Security Protocol
+                </div>
             </form>
 
             <div class="auth-switch">
@@ -150,7 +126,7 @@
             </div>
             <div class="auth-modal-actions" id="modal-actions">
                 <button type="button" class="btn btn-secondary btn-sm" id="modal-cancel-btn">Close</button>
-                <button type="button" class="btn btn-primary btn-sm" id="modal-primary-btn">Auto-Fill & Sign In</button>
+                <button type="button" class="btn btn-primary btn-sm" id="modal-primary-btn">Acknowledge</button>
             </div>
         </div>
     </div>
@@ -173,8 +149,6 @@
         const authPassword = document.getElementById("auth-password");
         const togglePasswordBtn = document.getElementById("toggle-password-btn");
         const toggleEyeIcon = document.getElementById("toggle-eye-icon");
-        const quickDemoBtn = document.getElementById("quick-demo-btn");
-        const copyAutofillBtn = document.getElementById("copy-autofill-btn");
         const authAlert = document.getElementById("auth-alert");
         const submitBtn = document.getElementById("submit-btn");
         const submitBtnText = document.getElementById("submit-btn-text");
@@ -189,6 +163,13 @@
         const modalPrimaryBtn = document.getElementById("modal-primary-btn");
         const forgotPasswordLink = document.getElementById("forgot-password-link");
         const toggleAuthMode = document.getElementById("toggle-auth-mode");
+
+        // Auto-load remembered Login ID
+        const rememberedId = localStorage.getItem("samarth_remembered_id");
+        if (rememberedId && authEmail) {
+            authEmail.value = rememberedId;
+            if (authPassword) authPassword.focus();
+        }
 
         // Toast Notification System
         function showToast(message, type = "info") {
@@ -266,31 +247,7 @@
             });
         }
 
-        // Quick Auto-Fill credentials
-        function autoFillCredentials() {
-            authEmail.value = AUTH_ID;
-            authPassword.value = AUTH_PASS;
-            authEmail.classList.remove("input-error");
-            authPassword.classList.remove("input-error");
-            hideAlert();
-            showToast("Credentials auto-filled! Click Sign In to continue.", "info");
-            authPassword.focus();
-        }
-
-        if (copyAutofillBtn) {
-            copyAutofillBtn.addEventListener("click", autoFillCredentials);
-        }
-
-        // One-Click Instant Demo Login
-        if (quickDemoBtn) {
-            quickDemoBtn.addEventListener("click", () => {
-                authEmail.value = AUTH_ID;
-                authPassword.value = AUTH_PASS;
-                performLogin(AUTH_NAME, AUTH_ID);
-            });
-        }
-
-        // Form Submit Handler (Manual Credentials Check)
+        // Form Submit Handler (Strict Manual Verification)
         if (authForm) {
             authForm.addEventListener("submit", (e) => {
                 e.preventDefault();
@@ -313,20 +270,20 @@
                     return;
                 }
 
-                // Verify ID & Password
+                // Verify ID & Password (Manual Entry)
                 const isIdValid = (enteredId.toLowerCase() === AUTH_ID.toLowerCase());
                 const isPassValid = (enteredPass === AUTH_PASS);
 
                 if (isIdValid && isPassValid) {
                     performLogin(AUTH_NAME, AUTH_ID);
                 } else {
-                    // Invalid Credentials Feedback
+                    // Invalid Credentials Feedback (No leakage)
                     authEmail.classList.add("input-error");
                     authPassword.classList.add("input-error");
                     authForm.classList.add("shake");
                     setTimeout(() => authForm.classList.remove("shake"), 500);
 
-                    showAlert(`<strong>Galat Login ID ya Password!</strong><br>Sahi Login ID: <code>${AUTH_ID}</code> aur Password: <code>${AUTH_PASS}</code> enter karein.`, "error");
+                    showAlert("<strong>Galat Login ID ya Password!</strong><br>Kripya apna sahi Username aur Password enter karein.", "error");
                     showToast("Invalid credentials! Please try again.", "error");
                     
                     authPassword.value = "";
@@ -369,18 +326,15 @@
             forgotPasswordLink.addEventListener("click", () => {
                 openModal(
                     '<i class="fa-solid fa-key" style="color: #2563eb;"></i> Password Assistance',
-                    `<p>For this project demonstration, you can sign in using the following authorized system credentials:</p>
-                     <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
-                        <div style="margin-bottom: 6px;"><strong>Login ID:</strong> <code style="font-size: 1rem; color: #2563eb; font-weight: bold;">piyush123</code></div>
-                        <div><strong>Password:</strong> <code style="font-size: 1rem; color: #2563eb; font-weight: bold;">1234567</code></div>
-                     </div>
-                     <p style="font-size: 0.85rem; color: #64748b;">Click "Auto-Fill & Sign In" to automatically populate the form and log in directly.</p>`,
-                    'Auto-Fill & Sign In',
+                    `<p>Authorized enterprise access requires your designated Login ID and Password.</p>
+                     <p>If you have forgotten your password or need credential assistance, please contact your portal administrator or district MSME nodal officer.</p>
+                     <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-top: 10px; font-size: 0.85rem; color: #475569;">
+                        <i class="fa-solid fa-circle-info" style="color: #2563eb;"></i> Enter your designated credentials manually on the sign in form.
+                     </div>`,
+                    'Close & Return to Sign In',
                     () => {
                         closeModal();
-                        authEmail.value = AUTH_ID;
-                        authPassword.value = AUTH_PASS;
-                        performLogin(AUTH_NAME, AUTH_ID);
+                        authEmail.focus();
                     }
                 );
             });
@@ -390,18 +344,16 @@
         if (toggleAuthMode) {
             toggleAuthMode.addEventListener("click", () => {
                 openModal(
-                    '<i class="fa-solid fa-user-plus" style="color: #2563eb;"></i> Entrepreneur Registration',
+                    '<i class="fa-solid fa-user-plus" style="color: #2563eb;"></i> Enterprise Registration',
                     `<p>New business registrations are synced directly via MSME Udyam / Aadhaar verification.</p>
-                     <p>For immediate evaluation & testing, the pre-configured entrepreneur profile <strong>Piyush (piyush123)</strong> is ready with all modules enabled (Govt Schemes, AI Fund Planner, DPR Generator).</p>
-                     <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-size: 0.88rem; color: #1e40af;">
-                        <i class="fa-solid fa-circle-check"></i> Demo Access: ID <strong>piyush123</strong> | Password <strong>1234567</strong>
+                     <p>Pre-authorized access is active for this portal. Please enter your authorized credentials manually to access all modules (Govt Schemes, AI Fund Planner, DPR Generator).</p>
+                     <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; margin-top: 10px; font-size: 0.85rem; color: #1e40af;">
+                        <i class="fa-solid fa-shield-check"></i> Single Sign-On enabled. Enter your credentials on the login screen.
                      </div>`,
-                    'Log in with Demo Account',
+                    'Return to Sign In',
                     () => {
                         closeModal();
-                        authEmail.value = AUTH_ID;
-                        authPassword.value = AUTH_PASS;
-                        performLogin(AUTH_NAME, AUTH_ID);
+                        authEmail.focus();
                     }
                 );
             });
