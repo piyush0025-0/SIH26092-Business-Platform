@@ -461,7 +461,7 @@
                 </div>
 
                 <div class="callout-box" style="border-left-color: #2563eb;">
-                    <strong>Main Responsibility:</strong> Project introduction, smart session routing, manual credentials auth (<code>piyush123</code> / <code>1234567</code>), enterprise profile engine, multi-page navbar integration, and live deployment.
+                    <strong>Main Responsibility:</strong> Project introduction, smart session routing, multi-view authentication architecture (<code>login.html</code>), custom MSME account creation, 8-digit password security enforcement, zero-leak identity-verified password reset, enterprise profile engine, and live deployment.
                 </div>
 
                 <h3 class="subheading"><i class="fa-solid fa-code"></i> Codebase Locations & Files</h3>
@@ -479,10 +479,16 @@
                     <div class="file-card">
                         <div class="file-card-top">
                             <span class="file-name"><i class="fa-solid fa-file-code"></i> login.html</span>
-                            <span class="line-badge">Lines 54–105 & 140–245</span>
+                            <span class="line-badge">Lines 54–235 & 238–520</span>
                         </div>
                         <div class="file-desc">
-                            <strong>Secure Manual Authentication:</strong> Clean enterprise login form with 256-bit SSL UI banner. Front-screen credential leaks and auto-fill buttons have been removed for genuine security. Evaluator manually enters <code>piyush123</code> & <code>1234567</code>. Input verification, shake animation on error, and <code>localStorage.setItem("samarth_user_session", ...)</code> session management.
+                            <strong>Multi-View Enterprise Authentication & User Management:</strong>
+                            <ul style="margin: 6px 0 0 1.2rem; line-height: 1.5;">
+                                <li><strong>Sign In View (<code>#signin-view</code>):</strong> Secure manual credential entry (pre-seeded demo account <code>piyush123</code> / 8-digit password <code>12345678</code>, with <code>1234567</code> legacy fallback).</li>
+                                <li><strong>Create Account View (<code>#register-view</code>):</strong> Complete MSME signup flow allowing users to register Full Name, User ID, Enterprise Name, 10-digit Mobile, and minimum 8-digit Password with live validation and persistence in <code>samarth_registered_users</code>.</li>
+                                <li><strong>Forgot Password View (<code>#forgot-view</code>):</strong> Zero-leak 2-step verification protocol. Step 1 verifies registered User ID + 10-digit Mobile; Step 2 unlocks setting a new 8-digit password without exposing sensitive info publicly.</li>
+                                <li><strong>UI Features:</strong> Live 8-character password length counter, interactive show/hide password toggles, shake animations on errors, and single sign-on session creation.</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -518,6 +524,11 @@
                 </div>
 
                 <div class="qa-card">
+                    <div class="qa-q"><i class="fa-solid fa-circle-question" style="color: #2563eb;"></i> Possible Judge Question: "Naya user kaise account banata hai aur forgot password kaise secure hai?"</div>
+                    <div class="qa-a"><strong>Answer:</strong> 'Create Account' form se naya user apna unique ID, enterprise name aur min 8-digit password register kar sakta hai jo browser ke dynamic user database (<code>samarth_registered_users</code>) me save hota hai. 'Forgot Password' me bina kisi public data leak ke, pehle registered username aur 10-digit mobile verify hota hai, uske baad hi naya 8-digit password set karne ki permission milti hai.</div>
+                </div>
+
+                <div class="qa-card" style="margin-top: 8px;">
                     <div class="qa-q"><i class="fa-solid fa-circle-question" style="color: #2563eb;"></i> Possible Judge Question: "Website ka data kahan store hota hai?"</div>
                     <div class="qa-a"><strong>Answer:</strong> Current prototype browser ke <code>localStorage</code> me client-side session store karta hai taaki bina server setup ke instant chal sake. Production roadmap mein ise cloud PostgreSQL/MongoDB aur secure JWT authentication se replace kiya jayega.</div>
                 </div>
@@ -767,7 +778,7 @@
                             <td><strong>1</strong></td>
                             <td><strong>Piyush</strong></td>
                             <td>Problem Statement, Architecture & Login</td>
-                            <td><code>login.html</code> (ID: piyush123) ➔ <code>dashboard.html</code> ➔ <code>profile.html</code></td>
+                            <td><code>login.html</code> (Manual Login / Create Account / Secure Reset) ➔ <code>dashboard.html</code> ➔ <code>profile.html</code></td>
                             <td><strong>90 sec</strong></td>
                         </tr>
                         <tr>

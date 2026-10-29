@@ -443,6 +443,83 @@ button, input, select {
     color: #059669;
 }
 
+/* Auth Multi-View Transitions */
+.auth-view {
+    display: none;
+    flex-direction: column;
+    animation: authFadeIn 0.3s ease;
+}
+
+.auth-view.active {
+    display: flex;
+}
+
+@keyframes authFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 600px) {
+    .auth-form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.password-hint {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+}
+
+.password-hint.valid {
+    color: var(--emerald);
+    font-weight: 700;
+}
+
+.password-hint.invalid {
+    color: var(--rose);
+}
+
+.recovery-step-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.recovery-step-badge.step-verified {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+    color: #059669;
+}
+
+.btn-emerald {
+    background: var(--emerald) !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+.btn-emerald:hover {
+    background: #047857 !important;
+}
+
 .auth-form {
     display: flex;
     flex-direction: column;

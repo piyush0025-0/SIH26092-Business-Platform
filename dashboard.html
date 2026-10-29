@@ -754,6 +754,10 @@
                 if (profName) profName.value = userName;
                 const dprPromoter = document.getElementById("dpr-promoter-name");
                 if (dprPromoter) dprPromoter.textContent = userName;
+                const dprContact = document.getElementById("dpr-promoter-contact");
+                if (dprContact && user.mobile) dprContact.textContent = user.mobile;
+                const dprBiz = document.getElementById("dpr-promoter-sector");
+                if (dprBiz && user.businessName) dprBiz.textContent = user.businessName;
             } catch(e) {}
         }
 

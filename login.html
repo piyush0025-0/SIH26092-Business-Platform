@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Samarth Business Platform (SIH26092)</title>
+    <title>Login & Enterprise Access | Samarth Business (SIH26092)</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,128 +50,303 @@
             </div>
         </div>
 
-        <!-- Right Login Card -->
+        <!-- Right Authentication Card -->
         <div class="auth-card">
-            <div class="auth-card-header">
-                <div class="auth-security-pill">
-                    <i class="fa-solid fa-shield-halved"></i> Official Portal • 256-Bit SSL Encrypted
-                </div>
-                <h2>Portal Sign In 🔐</h2>
-                <p>Enter your authorized enterprise credentials to access your business dashboard.</p>
-            </div>
-
-            <!-- In-Form Alert Box -->
+            <!-- Shared In-Form Alert Box -->
             <div id="auth-alert" class="auth-alert" style="display: none;"></div>
 
-            <form id="auth-form" class="auth-form" novalidate>
-                <div class="form-group">
-                    <label for="auth-email"><i class="fa-solid fa-id-badge"></i> Login ID / Username</label>
-                    <div class="input-with-icon">
-                        <i class="fa-solid fa-user input-prefix-icon"></i>
-                        <input type="text" id="auth-email" placeholder="Enter your authorized Login ID" autocomplete="username" spellcheck="false" autofocus required>
+            <!-- ================= VIEW 1: SIGN IN ================= -->
+            <div id="signin-view" class="auth-view active">
+                <div class="auth-card-header">
+                    <div class="auth-security-pill">
+                        <i class="fa-solid fa-shield-halved"></i> Official Portal • 256-Bit SSL Encrypted
                     </div>
+                    <h2>Portal Sign In 🔐</h2>
+                    <p>Enter your authorized enterprise credentials to access your business dashboard.</p>
                 </div>
 
-                <div class="form-group">
-                    <label for="auth-password"><i class="fa-solid fa-lock"></i> Password</label>
-                    <div class="password-input-wrapper">
-                        <i class="fa-solid fa-key input-prefix-icon"></i>
-                        <input type="password" id="auth-password" placeholder="Enter your password" autocomplete="current-password" required>
-                        <button type="button" id="toggle-password-btn" class="password-toggle-btn" title="Show/Hide Password" aria-label="Toggle password visibility">
-                            <i class="fa-regular fa-eye" id="toggle-eye-icon"></i>
+                <form id="signin-form" class="auth-form" novalidate>
+                    <div class="form-group">
+                        <label for="auth-email"><i class="fa-solid fa-id-badge"></i> Login ID / Username</label>
+                        <div class="input-with-icon">
+                            <i class="fa-solid fa-user input-prefix-icon"></i>
+                            <input type="text" id="auth-email" placeholder="Enter Login ID (e.g. piyush123)" autocomplete="username" spellcheck="false" autofocus required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="auth-password"><i class="fa-solid fa-lock"></i> Password</label>
+                        <div class="password-input-wrapper">
+                            <i class="fa-solid fa-key input-prefix-icon"></i>
+                            <input type="password" id="auth-password" placeholder="Enter your 8-digit password" autocomplete="current-password" required>
+                            <button type="button" id="toggle-signin-pass" class="password-toggle-btn" title="Show/Hide Password" aria-label="Toggle password visibility">
+                                <i class="fa-regular fa-eye" id="eye-signin"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="auth-options">
+                        <label class="remember-label">
+                            <input type="checkbox" id="remember-me" checked> Remember Login ID
+                        </label>
+                        <a href="javascript:void(0)" id="to-forgot-btn" class="forgot-link">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" id="signin-btn" class="btn btn-primary btn-lg full-btn">
+                        <span id="signin-btn-text">Sign In to Dashboard</span> <i id="signin-btn-icon" class="fa-solid fa-arrow-right-to-bracket"></i>
+                    </button>
+
+                    <div class="auth-security-notice">
+                        <i class="fa-solid fa-shield-check"></i> Single Sign-On protected by MSME Security Protocol
+                    </div>
+                </form>
+
+                <div class="auth-switch">
+                    <span>New to Samarth Business?</span>
+                    <a href="javascript:void(0)" id="to-register-btn">Create an Account</a>
+                </div>
+
+                <div style="text-align: center; margin-top: 1.2rem;">
+                    <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer" class="btn-github">
+                        <i class="fa-brands fa-github"></i> <span>View Project on GitHub</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- ================= VIEW 2: REGISTER / CREATE ACCOUNT ================= -->
+            <div id="register-view" class="auth-view">
+                <div class="auth-card-header">
+                    <div class="auth-security-pill">
+                        <i class="fa-solid fa-user-plus"></i> New Enterprise Enrollment • Free
+                    </div>
+                    <h2>Create MSME Account 🚀</h2>
+                    <p>Register your enterprise to unlock AI fund planning, govt schemes & bank DPR.</p>
+                </div>
+
+                <form id="register-form" class="auth-form" novalidate>
+                    <div class="auth-form-row">
+                        <div class="form-group">
+                            <label for="reg-name"><i class="fa-solid fa-signature"></i> Full Name</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-user input-prefix-icon"></i>
+                                <input type="text" id="reg-name" placeholder="e.g. Piyush Sharma" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reg-username"><i class="fa-solid fa-id-badge"></i> Desired User ID</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-at input-prefix-icon"></i>
+                                <input type="text" id="reg-username" placeholder="e.g. piyush123" autocomplete="username" spellcheck="false" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="auth-form-row">
+                        <div class="form-group">
+                            <label for="reg-bizname"><i class="fa-solid fa-building"></i> Enterprise Name</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-shop input-prefix-icon"></i>
+                                <input type="text" id="reg-bizname" placeholder="e.g. Piyush Handicrafts" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reg-mobile"><i class="fa-solid fa-phone"></i> Registered Mobile</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-mobile-screen input-prefix-icon"></i>
+                                <input type="tel" id="reg-mobile" placeholder="10-digit mobile number" maxlength="10" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="auth-form-row">
+                        <div class="form-group">
+                            <label for="reg-password"><i class="fa-solid fa-lock"></i> Password (Min. 8 Digits)</label>
+                            <div class="password-input-wrapper">
+                                <i class="fa-solid fa-key input-prefix-icon"></i>
+                                <input type="password" id="reg-password" placeholder="At least 8 digits/chars" minlength="8" autocomplete="new-password" required>
+                                <button type="button" id="toggle-reg-pass" class="password-toggle-btn" title="Show/Hide Password" aria-label="Toggle password visibility">
+                                    <i class="fa-regular fa-eye" id="eye-reg"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reg-confirm-password"><i class="fa-solid fa-check-double"></i> Confirm Password</label>
+                            <div class="password-input-wrapper">
+                                <i class="fa-solid fa-lock input-prefix-icon"></i>
+                                <input type="password" id="reg-confirm-password" placeholder="Re-enter password" minlength="8" autocomplete="new-password" required>
+                                <button type="button" id="toggle-reg-conf-pass" class="password-toggle-btn" title="Show/Hide Password" aria-label="Toggle password visibility">
+                                    <i class="fa-regular fa-eye" id="eye-reg-conf"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="reg-password-hint" class="password-hint">
+                        <i class="fa-solid fa-shield-halved"></i> Password must be at least 8 digits or characters.
+                    </div>
+
+                    <button type="submit" id="reg-submit-btn" class="btn btn-primary btn-lg full-btn btn-emerald">
+                        <span id="reg-btn-text">Create Account & Sign In</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                    <div class="auth-security-notice">
+                        <i class="fa-solid fa-shield-check"></i> Account details are securely saved in your browser session
+                    </div>
+                </form>
+
+                <div class="auth-switch">
+                    <span>Already have an account?</span>
+                    <a href="javascript:void(0)" id="to-signin-from-reg">Sign In</a>
+                </div>
+            </div>
+
+            <!-- ================= VIEW 3: FORGOT PASSWORD (SECURE RECOVERY) ================= -->
+            <div id="forgot-view" class="auth-view">
+                <div class="auth-card-header">
+                    <div class="auth-security-pill">
+                        <i class="fa-solid fa-shield-halved"></i> Identity-Verified Reset Protocol
+                    </div>
+                    <h2>Password Recovery 🔑</h2>
+                    <p>Verify your registered identity details to securely update your 8-digit password.</p>
+                </div>
+
+                <!-- STEP 1: Verify Identity -->
+                <div id="forgot-step-1">
+                    <div class="recovery-step-badge">
+                        <i class="fa-solid fa-1"></i> Step 1 of 2: Verify Registered Identity
+                    </div>
+
+                    <form id="forgot-verify-form" class="auth-form" novalidate>
+                        <div class="form-group">
+                            <label for="forgot-username"><i class="fa-solid fa-id-badge"></i> Registered Login ID / Username</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-user input-prefix-icon"></i>
+                                <input type="text" id="forgot-username" placeholder="Enter your Login ID (e.g. piyush123)" autocomplete="username" spellcheck="false" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="forgot-mobile"><i class="fa-solid fa-phone"></i> Registered 10-Digit Mobile Number</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-mobile-screen input-prefix-icon"></i>
+                                <input type="tel" id="forgot-mobile" placeholder="Enter 10-digit registered mobile" maxlength="10" required>
+                            </div>
+                        </div>
+
+                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; font-size: 0.82rem; color: #64748b; line-height: 1.5;">
+                            <i class="fa-solid fa-lock" style="color: #2563eb;"></i> For maximum data privacy, no passwords or sensitive information are ever displayed on screen.
+                        </div>
+
+                        <button type="submit" id="forgot-verify-btn" class="btn btn-primary btn-lg full-btn">
+                            <span>Verify Details</span> <i class="fa-solid fa-shield-check"></i>
                         </button>
+                    </form>
+                </div>
+
+                <!-- STEP 2: Set New Password (Hidden until Step 1 is verified) -->
+                <div id="forgot-step-2" style="display: none;">
+                    <div class="recovery-step-badge step-verified">
+                        <i class="fa-solid fa-circle-check"></i> Step 2 of 2: Set New 8-Digit Password
                     </div>
+
+                    <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 10px 14px; font-size: 0.88rem; color: #065f46; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-circle-check" style="color: #059669; font-size: 1.1rem;"></i>
+                        <div>Identity verified for account <strong>@<span id="forgot-verified-user">user</span></strong></div>
+                    </div>
+
+                    <form id="forgot-reset-form" class="auth-form" novalidate>
+                        <div class="form-group">
+                            <label for="forgot-new-password"><i class="fa-solid fa-lock"></i> New Password (Min. 8 Digits)</label>
+                            <div class="password-input-wrapper">
+                                <i class="fa-solid fa-key input-prefix-icon"></i>
+                                <input type="password" id="forgot-new-password" placeholder="Enter new 8-digit password" minlength="8" autocomplete="new-password" required>
+                                <button type="button" id="toggle-forgot-pass" class="password-toggle-btn" title="Show/Hide Password" aria-label="Toggle password visibility">
+                                    <i class="fa-regular fa-eye" id="eye-forgot"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="forgot-confirm-password"><i class="fa-solid fa-check-double"></i> Confirm New Password</label>
+                            <div class="password-input-wrapper">
+                                <i class="fa-solid fa-lock input-prefix-icon"></i>
+                                <input type="password" id="forgot-confirm-password" placeholder="Re-enter new password" minlength="8" autocomplete="new-password" required>
+                                <button type="button" id="toggle-forgot-conf-pass" class="password-toggle-btn" title="Show/Hide Password" aria-label="Toggle password visibility">
+                                    <i class="fa-regular fa-eye" id="eye-forgot-conf"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="forgot-password-hint" class="password-hint">
+                            <i class="fa-solid fa-shield-halved"></i> Must contain at least 8 digits or characters.
+                        </div>
+
+                        <button type="submit" id="forgot-reset-btn" class="btn btn-primary btn-lg full-btn btn-emerald">
+                            <span>Update & Save Password</span> <i class="fa-solid fa-key"></i>
+                        </button>
+                    </form>
                 </div>
 
-                <div class="auth-options">
-                    <label class="remember-label">
-                        <input type="checkbox" id="remember-me" checked> Remember Login ID
-                    </label>
-                    <a href="javascript:void(0)" id="forgot-password-link" class="forgot-link">Forgot password?</a>
+                <div class="auth-switch">
+                    <a href="javascript:void(0)" id="to-signin-from-forgot">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Portal Sign In
+                    </a>
                 </div>
-
-                <button type="submit" id="submit-btn" class="btn btn-primary btn-lg full-btn">
-                    <span id="submit-btn-text">Sign In to Dashboard</span> <i id="submit-btn-icon" class="fa-solid fa-arrow-right-to-bracket"></i>
-                </button>
-
-                <div class="auth-security-notice">
-                    <i class="fa-solid fa-shield-check"></i> Single Sign-On protected by MSME Security Protocol
-                </div>
-            </form>
-
-            <div class="auth-switch">
-                <span>New to Samarth Business?</span>
-                <a href="javascript:void(0)" id="toggle-auth-mode">Create an Account</a>
-            </div>
-
-            <div style="text-align: center; margin-top: 1.2rem;">
-                <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer" class="btn-github">
-                    <i class="fa-brands fa-github"></i> <span>View Project on GitHub</span>
-                </a>
             </div>
         </div>
     </div>
 
-    <!-- Interactive Information Modal Dialog -->
-    <div id="auth-modal" class="auth-modal-overlay">
-        <div class="auth-modal-card">
-            <div class="auth-modal-header">
-                <h3 id="modal-title"><i class="fa-solid fa-circle-info"></i> Account Information</h3>
-                <button type="button" id="modal-close-btn" class="auth-modal-close" aria-label="Close modal">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="auth-modal-body" id="modal-body">
-                <!-- Injected via JavaScript -->
-            </div>
-            <div class="auth-modal-actions" id="modal-actions">
-                <button type="button" class="btn btn-secondary btn-sm" id="modal-cancel-btn">Close</button>
-                <button type="button" class="btn btn-primary btn-sm" id="modal-primary-btn">Acknowledge</button>
-            </div>
-        </div>
-    </div>
-
+    <!-- ================= SCRIPT LOGIC ================= -->
     <script>
-        // Check if user is already logged in
+        // Check if user already has an active session
         if (localStorage.getItem("samarth_user_session")) {
             window.location.href = "dashboard.html";
         }
 
-        // Configuration
-        const AUTH_ID = "piyush123";
-        const AUTH_PASS = "1234567";
-        const AUTH_NAME = "Piyush";
-        const AUTH_EMAIL = "piyush123@msme.in";
+        // ================= USER DATABASE ENGINE =================
+        const DEFAULT_ACCOUNTS = [
+            {
+                username: "piyush123",
+                password: "12345678",      // 8-digit password
+                altPassword: "1234567",   // backwards-compatible 7-digit fallback
+                name: "Piyush",
+                businessName: "Piyush Handicrafts & MSME Works",
+                mobile: "9876543210",
+                email: "piyush123@msme.in"
+            }
+        ];
 
-        // DOM Elements
-        const authForm = document.getElementById("auth-form");
-        const authEmail = document.getElementById("auth-email");
-        const authPassword = document.getElementById("auth-password");
-        const togglePasswordBtn = document.getElementById("toggle-password-btn");
-        const toggleEyeIcon = document.getElementById("toggle-eye-icon");
-        const authAlert = document.getElementById("auth-alert");
-        const submitBtn = document.getElementById("submit-btn");
-        const submitBtnText = document.getElementById("submit-btn-text");
-        const submitBtnIcon = document.getElementById("submit-btn-icon");
-
-        // Modal Elements
-        const authModal = document.getElementById("auth-modal");
-        const modalTitle = document.getElementById("modal-title");
-        const modalBody = document.getElementById("modal-body");
-        const modalCloseBtn = document.getElementById("modal-close-btn");
-        const modalCancelBtn = document.getElementById("modal-cancel-btn");
-        const modalPrimaryBtn = document.getElementById("modal-primary-btn");
-        const forgotPasswordLink = document.getElementById("forgot-password-link");
-        const toggleAuthMode = document.getElementById("toggle-auth-mode");
-
-        // Auto-load remembered Login ID
-        const rememberedId = localStorage.getItem("samarth_remembered_id");
-        if (rememberedId && authEmail) {
-            authEmail.value = rememberedId;
-            if (authPassword) authPassword.focus();
+        function getRegisteredUsers() {
+            try {
+                const stored = localStorage.getItem("samarth_registered_users");
+                if (stored) {
+                    const list = JSON.parse(stored);
+                    if (Array.isArray(list) && list.length > 0) {
+                        // Ensure demo user piyush123 is always present
+                        const hasDefault = list.some(u => u.username.toLowerCase() === "piyush123");
+                        if (!hasDefault) {
+                            list.unshift(DEFAULT_ACCOUNTS[0]);
+                            localStorage.setItem("samarth_registered_users", JSON.stringify(list));
+                        }
+                        return list;
+                    }
+                }
+            } catch(e) {}
+            localStorage.setItem("samarth_registered_users", JSON.stringify(DEFAULT_ACCOUNTS));
+            return DEFAULT_ACCOUNTS;
         }
 
-        // Toast Notification System
+        function saveRegisteredUsers(users) {
+            localStorage.setItem("samarth_registered_users", JSON.stringify(users));
+        }
+
+        // Initialize user database
+        getRegisteredUsers();
+
+        // ================= NOTIFICATION & ALERT UTILITIES =================
         function showToast(message, type = "info") {
             const container = document.getElementById("toast-container");
             if (!container) return;
@@ -193,8 +368,10 @@
             }, 3500);
         }
 
-        // Inline Alert System
+        const authAlert = document.getElementById("auth-alert");
+
         function showAlert(message, type = "error") {
+            if (!authAlert) return;
             const iconClass = type === "error" 
                 ? "fa-circle-exclamation" 
                 : (type === "success" ? "fa-circle-check" : "fa-circle-info");
@@ -202,162 +379,399 @@
             authAlert.className = `auth-alert ${type}`;
             authAlert.innerHTML = `<i class="fa-solid ${iconClass}"></i> <div>${message}</div>`;
             authAlert.style.display = "flex";
+            authAlert.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }
 
         function hideAlert() {
-            authAlert.style.display = "none";
+            if (authAlert) authAlert.style.display = "none";
         }
 
-        // Perform Successful Login
-        function performLogin(userName, userId) {
-            submitBtn.disabled = true;
-            submitBtnText.textContent = "Verifying & Signing In...";
-            submitBtnIcon.className = "fa-solid fa-circle-notch fa-spin";
+        // ================= MULTI-VIEW NAVIGATION =================
+        let currentVerifiedUser = null;
 
-            showAlert(`<strong>Login Successful!</strong> Welcome back, ${userName}. Loading your dashboard...`, "success");
-            showToast(`Welcome ${userName}! Opening dashboard...`, "success");
+        function switchView(viewName) {
+            hideAlert();
+            const views = {
+                signin: document.getElementById("signin-view"),
+                register: document.getElementById("register-view"),
+                forgot: document.getElementById("forgot-view")
+            };
+
+            Object.keys(views).forEach(key => {
+                if (views[key]) {
+                    views[key].classList.toggle("active", key === viewName);
+                }
+            });
+
+            if (viewName === "signin") {
+                const idInput = document.getElementById("auth-email");
+                if (idInput && !idInput.value) idInput.focus();
+            } else if (viewName === "register") {
+                document.getElementById("reg-name")?.focus();
+            } else if (viewName === "forgot") {
+                currentVerifiedUser = null;
+                const step1 = document.getElementById("forgot-step-1");
+                const step2 = document.getElementById("forgot-step-2");
+                if (step1) step1.style.display = "block";
+                if (step2) step2.style.display = "none";
+                document.getElementById("forgot-username")?.focus();
+            }
+        }
+
+        // Switch View Buttons
+        document.getElementById("to-register-btn")?.addEventListener("click", () => switchView("register"));
+        document.getElementById("to-signin-from-reg")?.addEventListener("click", () => switchView("signin"));
+        document.getElementById("to-forgot-btn")?.addEventListener("click", () => switchView("forgot"));
+        document.getElementById("to-signin-from-forgot")?.addEventListener("click", () => switchView("signin"));
+
+        // ================= PASSWORD VISIBILITY TOGGLE HELPER =================
+        function setupPasswordToggle(btnId, inputId, eyeIconId) {
+            const btn = document.getElementById(btnId);
+            const input = document.getElementById(inputId);
+            const eye = document.getElementById(eyeIconId);
+            if (!btn || !input || !eye) return;
+
+            btn.addEventListener("click", () => {
+                const isPassword = input.type === "password";
+                input.type = isPassword ? "text" : "password";
+                eye.className = isPassword ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
+                btn.title = isPassword ? "Hide Password" : "Show Password";
+            });
+        }
+
+        setupPasswordToggle("toggle-signin-pass", "auth-password", "eye-signin");
+        setupPasswordToggle("toggle-reg-pass", "reg-password", "eye-reg");
+        setupPasswordToggle("toggle-reg-conf-pass", "reg-confirm-password", "eye-reg-conf");
+        setupPasswordToggle("toggle-forgot-pass", "forgot-new-password", "eye-forgot");
+        setupPasswordToggle("toggle-forgot-conf-pass", "forgot-confirm-password", "eye-forgot-conf");
+
+        // ================= DYNAMIC 8-DIGIT PASSWORD HINTS =================
+        function bindPasswordHint(inputId, hintId) {
+            const input = document.getElementById(inputId);
+            const hint = document.getElementById(hintId);
+            if (!input || !hint) return;
+
+            input.addEventListener("input", () => {
+                const val = input.value;
+                if (!val) {
+                    hint.className = "password-hint";
+                    hint.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Password must be at least 8 digits or characters.';
+                } else if (val.length < 8) {
+                    hint.className = "password-hint invalid";
+                    hint.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Password must be at least 8 digits (${val.length}/8 entered)`;
+                } else {
+                    hint.className = "password-hint valid";
+                    hint.innerHTML = '<i class="fa-solid fa-circle-check"></i> Strong password length (8+ digits verified)';
+                }
+            });
+        }
+
+        bindPasswordHint("reg-password", "reg-password-hint");
+        bindPasswordHint("forgot-new-password", "forgot-password-hint");
+
+        // ================= LOGIN SUBMISSION HANDLER =================
+        const signinForm = document.getElementById("signin-form");
+        const authEmail = document.getElementById("auth-email");
+        const authPassword = document.getElementById("auth-password");
+        const signinBtn = document.getElementById("signin-btn");
+        const signinBtnText = document.getElementById("signin-btn-text");
+        const signinBtnIcon = document.getElementById("signin-btn-icon");
+
+        // Auto-load remembered Login ID
+        const rememberedId = localStorage.getItem("samarth_remembered_id");
+        if (rememberedId && authEmail) {
+            authEmail.value = rememberedId;
+            if (authPassword) authPassword.focus();
+        }
+
+        function performLogin(user) {
+            signinBtn.disabled = true;
+            signinBtnText.textContent = "Verifying & Signing In...";
+            signinBtnIcon.className = "fa-solid fa-circle-notch fa-spin";
+
+            showAlert(`<strong>Sign In Successful!</strong> Welcome back, ${user.name}. Loading your MSME dashboard...`, "success");
+            showToast(`Welcome back, ${user.name}! Opening dashboard...`, "success");
 
             const session = {
-                name: userName,
-                username: userId,
-                email: AUTH_EMAIL,
+                name: user.name,
+                username: user.username,
+                email: user.email || `${user.username}@msme.in`,
+                businessName: user.businessName || "My MSME Enterprise",
+                mobile: user.mobile || "",
                 loginTime: new Date().toISOString()
             };
             localStorage.setItem("samarth_user_session", JSON.stringify(session));
 
             const rememberMe = document.getElementById("remember-me");
             if (rememberMe && rememberMe.checked) {
-                localStorage.setItem("samarth_remembered_id", userId);
+                localStorage.setItem("samarth_remembered_id", user.username);
             } else {
                 localStorage.removeItem("samarth_remembered_id");
             }
 
             setTimeout(() => {
                 window.location.href = "dashboard.html";
-            }, 650);
+            }, 600);
         }
 
-        // Show/Hide Password Toggle
-        if (togglePasswordBtn) {
-            togglePasswordBtn.addEventListener("click", () => {
-                const isPassword = authPassword.type === "password";
-                authPassword.type = isPassword ? "text" : "password";
-                toggleEyeIcon.className = isPassword ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
-                togglePasswordBtn.title = isPassword ? "Hide Password" : "Show Password";
-            });
-        }
-
-        // Form Submit Handler (Strict Manual Verification)
-        if (authForm) {
-            authForm.addEventListener("submit", (e) => {
+        if (signinForm) {
+            signinForm.addEventListener("submit", (e) => {
                 e.preventDefault();
 
                 const enteredId = authEmail.value.trim();
                 const enteredPass = authPassword.value.trim();
 
-                // Clear previous errors
                 authEmail.classList.remove("input-error");
                 authPassword.classList.remove("input-error");
-                authForm.classList.remove("shake");
+                signinForm.classList.remove("shake");
 
-                // Empty validations
                 if (!enteredId || !enteredPass) {
                     showAlert("<strong>Kripya sabhi details bharein!</strong> Login ID aur Password dono required hain.", "error");
                     if (!enteredId) authEmail.classList.add("input-error");
                     if (!enteredPass) authPassword.classList.add("input-error");
-                    authForm.classList.add("shake");
-                    setTimeout(() => authForm.classList.remove("shake"), 500);
+                    signinForm.classList.add("shake");
+                    setTimeout(() => signinForm.classList.remove("shake"), 500);
                     return;
                 }
 
-                // Verify ID & Password (Manual Entry)
-                const isIdValid = (enteredId.toLowerCase() === AUTH_ID.toLowerCase());
-                const isPassValid = (enteredPass === AUTH_PASS);
+                const users = getRegisteredUsers();
+                const foundUser = users.find(u => 
+                    u.username.toLowerCase() === enteredId.toLowerCase() &&
+                    (u.password === enteredPass || (u.altPassword && u.altPassword === enteredPass))
+                );
 
-                if (isIdValid && isPassValid) {
-                    performLogin(AUTH_NAME, AUTH_ID);
+                if (foundUser) {
+                    performLogin(foundUser);
                 } else {
-                    // Invalid Credentials Feedback (No leakage)
                     authEmail.classList.add("input-error");
                     authPassword.classList.add("input-error");
-                    authForm.classList.add("shake");
-                    setTimeout(() => authForm.classList.remove("shake"), 500);
+                    signinForm.classList.add("shake");
+                    setTimeout(() => signinForm.classList.remove("shake"), 500);
 
-                    showAlert("<strong>Galat Login ID ya Password!</strong><br>Kripya apna sahi Username aur Password enter karein.", "error");
+                    showAlert("<strong>Galat Login ID ya Password!</strong><br>Kripya apna sahi Username aur 8-digit Password enter karein.", "error");
                     showToast("Invalid credentials! Please try again.", "error");
-                    
                     authPassword.value = "";
                     authPassword.focus();
                 }
             });
         }
 
-        // Remove error states on typing
-        [authEmail, authPassword].forEach(input => {
-            input.addEventListener("input", () => {
-                input.classList.remove("input-error");
-                if (!authEmail.classList.contains("input-error") && !authPassword.classList.contains("input-error")) {
+        // ================= REGISTER / CREATE ACCOUNT HANDLER =================
+        const registerForm = document.getElementById("register-form");
+        if (registerForm) {
+            registerForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById("reg-name").value.trim();
+                const username = document.getElementById("reg-username").value.trim();
+                const bizName = document.getElementById("reg-bizname").value.trim();
+                const mobile = document.getElementById("reg-mobile").value.trim();
+                const password = document.getElementById("reg-password").value.trim();
+                const confirmPassword = document.getElementById("reg-confirm-password").value.trim();
+
+                registerForm.classList.remove("shake");
+
+                // Validation 1: All required
+                if (!name || !username || !bizName || !mobile || !password || !confirmPassword) {
+                    showAlert("<strong>Sabhi details bharein!</strong> Name, Username, Business Name, Mobile aur Password sabhi zaroori hain.", "error");
+                    registerForm.classList.add("shake");
+                    setTimeout(() => registerForm.classList.remove("shake"), 500);
+                    return;
+                }
+
+                // Validation 2: Username format (alphanumeric, min 3 chars)
+                if (!/^[a-zA-Z0-9_]{3,25}$/.test(username)) {
+                    showAlert("<strong>User ID Invalid!</strong> Login ID kam se kam 3 characters ka hona chahiye (letters aur numbers, bina space).", "error");
+                    document.getElementById("reg-username").focus();
+                    return;
+                }
+
+                // Validation 3: 10-digit mobile number
+                if (!/^[0-9]{10}$/.test(mobile)) {
+                    showAlert("<strong>Mobile Number Galat Hai!</strong> Kripya 10-digit valid mobile number enter karein.", "error");
+                    document.getElementById("reg-mobile").focus();
+                    return;
+                }
+
+                // Validation 4: Password min 8 digits/characters
+                if (password.length < 8) {
+                    showAlert("<strong>Password Chota Hai!</strong> Password kam se kam 8 digit ya characters ka hona anivarya hai.", "error");
+                    document.getElementById("reg-password").focus();
+                    return;
+                }
+
+                // Validation 5: Password confirmation match
+                if (password !== confirmPassword) {
+                    showAlert("<strong>Password Match Nahi Hua!</strong> Dono password fields me same password enter karein.", "error");
+                    document.getElementById("reg-confirm-password").focus();
+                    return;
+                }
+
+                // Validation 6: Unique username check
+                const users = getRegisteredUsers();
+                const alreadyExists = users.some(u => u.username.toLowerCase() === username.toLowerCase());
+                if (alreadyExists) {
+                    showAlert(`<strong>User ID '${username}' pehle se maujood hai!</strong> Kripya koi dusra User ID choose karein.`, "error");
+                    document.getElementById("reg-username").focus();
+                    return;
+                }
+
+                // Create and save new user
+                const newUser = {
+                    username: username,
+                    password: password,
+                    name: name,
+                    businessName: bizName,
+                    mobile: mobile,
+                    email: `${username}@msme.in`
+                };
+
+                users.push(newUser);
+                saveRegisteredUsers(users);
+
+                // Pre-seed profile data for rich dashboard experience
+                const profileData = {
+                    name: name,
+                    businessName: bizName,
+                    contact: mobile,
+                    email: newUser.email,
+                    stage: "Early Stage (< 3 Years)",
+                    category: "General / MSME",
+                    sector: "Manufacturing & Retail Services",
+                    location: "Semi-Urban Industrial Cluster"
+                };
+                localStorage.setItem("samarth_profile_data", JSON.stringify(profileData));
+
+                showToast(`Congratulations ${name}! Account ban gaya hai.`, "success");
+
+                // Switch to Sign In view, prefill credentials
+                switchView("signin");
+                authEmail.value = username;
+                authPassword.value = "";
+                authPassword.focus();
+
+                showAlert(`<strong>Account Ban Gaya! 🎉</strong> Aapka User ID <strong>${username}</strong> successfully register ho gaya hai. Ab apna 8-digit password daal kar sign in karein.`, "success");
+            });
+        }
+
+        // ================= FORGOT PASSWORD / SECURE RECOVERY HANDLER =================
+        const forgotVerifyForm = document.getElementById("forgot-verify-form");
+        const forgotResetForm = document.getElementById("forgot-reset-form");
+
+        // STEP 1: Verify Username + 10-digit Mobile
+        if (forgotVerifyForm) {
+            forgotVerifyForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const enteredUser = document.getElementById("forgot-username").value.trim();
+                const enteredMobile = document.getElementById("forgot-mobile").value.trim();
+
+                forgotVerifyForm.classList.remove("shake");
+
+                if (!enteredUser || !enteredMobile) {
+                    showAlert("<strong>Kripya sabhi details bharein!</strong> Login ID aur Registered Mobile Number dono required hain.", "error");
+                    forgotVerifyForm.classList.add("shake");
+                    setTimeout(() => forgotVerifyForm.classList.remove("shake"), 500);
+                    return;
+                }
+
+                if (!/^[0-9]{10}$/.test(enteredMobile)) {
+                    showAlert("<strong>Mobile Number Galat Hai!</strong> 10-digit valid mobile number enter karein.", "error");
+                    return;
+                }
+
+                const users = getRegisteredUsers();
+                const matchedUser = users.find(u => 
+                    u.username.toLowerCase() === enteredUser.toLowerCase() &&
+                    String(u.mobile).trim() === enteredMobile
+                );
+
+                if (matchedUser) {
+                    currentVerifiedUser = matchedUser.username;
                     hideAlert();
+                    showToast("Identity verified! Set your new 8-digit password.", "success");
+
+                    document.getElementById("forgot-verified-user").textContent = matchedUser.username;
+                    document.getElementById("forgot-step-1").style.display = "none";
+                    document.getElementById("forgot-step-2").style.display = "block";
+                    document.getElementById("forgot-new-password").focus();
+                } else {
+                    forgotVerifyForm.classList.add("shake");
+                    setTimeout(() => forgotVerifyForm.classList.remove("shake"), 500);
+                    showAlert("<strong>Details Match Nahi Hui!</strong> Diya gaya Login ID aur Registered Mobile Number match nahi ho rahe. Kripya check karke dubara try karein.", "error");
                 }
             });
-        });
-
-        // Modal Helpers
-        function openModal(title, htmlContent, primaryBtnText, onPrimaryClick) {
-            modalTitle.innerHTML = title;
-            modalBody.innerHTML = htmlContent;
-            modalPrimaryBtn.textContent = primaryBtnText;
-            modalPrimaryBtn.onclick = onPrimaryClick;
-            authModal.style.display = "flex";
         }
 
-        function closeModal() {
-            authModal.style.display = "none";
-        }
+        // STEP 2: Update Password to New 8-Digit Password
+        if (forgotResetForm) {
+            forgotResetForm.addEventListener("submit", (e) => {
+                e.preventDefault();
 
-        modalCloseBtn.addEventListener("click", closeModal);
-        modalCancelBtn.addEventListener("click", closeModal);
-        authModal.addEventListener("click", (e) => {
-            if (e.target === authModal) closeModal();
-        });
+                if (!currentVerifiedUser) {
+                    showAlert("Session expire ho gaya. Kripya step 1 dubara verify karein.", "error");
+                    switchView("forgot");
+                    return;
+                }
 
-        // "Forgot Password?" Link Handler
-        if (forgotPasswordLink) {
-            forgotPasswordLink.addEventListener("click", () => {
-                openModal(
-                    '<i class="fa-solid fa-key" style="color: #2563eb;"></i> Password Assistance',
-                    `<p>Authorized enterprise access requires your designated Login ID and Password.</p>
-                     <p>If you have forgotten your password or need credential assistance, please contact your portal administrator or district MSME nodal officer.</p>
-                     <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-top: 10px; font-size: 0.85rem; color: #475569;">
-                        <i class="fa-solid fa-circle-info" style="color: #2563eb;"></i> Enter your designated credentials manually on the sign in form.
-                     </div>`,
-                    'Close & Return to Sign In',
-                    () => {
-                        closeModal();
-                        authEmail.focus();
-                    }
-                );
+                const newPass = document.getElementById("forgot-new-password").value.trim();
+                const confirmNewPass = document.getElementById("forgot-confirm-password").value.trim();
+
+                forgotResetForm.classList.remove("shake");
+
+                if (!newPass || !confirmNewPass) {
+                    showAlert("<strong>Naya password enter karein!</strong> Dono fields required hain.", "error");
+                    forgotResetForm.classList.add("shake");
+                    setTimeout(() => forgotResetForm.classList.remove("shake"), 500);
+                    return;
+                }
+
+                if (newPass.length < 8) {
+                    showAlert("<strong>Password Chota Hai!</strong> Naya password kam se kam 8 digit ya characters ka hona chahiye.", "error");
+                    document.getElementById("forgot-new-password").focus();
+                    return;
+                }
+
+                if (newPass !== confirmNewPass) {
+                    showAlert("<strong>Passwords Match Nahi Hue!</strong> Dono password fields identical honi chahiye.", "error");
+                    document.getElementById("forgot-confirm-password").focus();
+                    return;
+                }
+
+                // Update in user database
+                const users = getRegisteredUsers();
+                const userIndex = users.findIndex(u => u.username.toLowerCase() === currentVerifiedUser.toLowerCase());
+
+                if (userIndex !== -1) {
+                    users[userIndex].password = newPass;
+                    // remove legacy altPassword if present
+                    delete users[userIndex].altPassword;
+                    saveRegisteredUsers(users);
+
+                    showToast("Password updated successfully!", "success");
+
+                    const resetUsername = currentVerifiedUser;
+                    currentVerifiedUser = null;
+
+                    // Switch back to Sign In
+                    switchView("signin");
+                    authEmail.value = resetUsername;
+                    authPassword.value = "";
+                    authPassword.focus();
+
+                    showAlert(`<strong>Password Badal Diya Gaya Hai! ✅</strong> Account <strong>@${resetUsername}</strong> ka password safalta-purvak update ho gaya hai. Ab naye 8-digit password se sign in karein.`, "success");
+                } else {
+                    showAlert("User database error. Kripya dubara koshish karein.", "error");
+                }
             });
         }
 
-        // "Create an Account" Link Handler
-        if (toggleAuthMode) {
-            toggleAuthMode.addEventListener("click", () => {
-                openModal(
-                    '<i class="fa-solid fa-user-plus" style="color: #2563eb;"></i> Enterprise Registration',
-                    `<p>New business registrations are synced directly via MSME Udyam / Aadhaar verification.</p>
-                     <p>Pre-authorized access is active for this portal. Please enter your authorized credentials manually to access all modules (Govt Schemes, AI Fund Planner, DPR Generator).</p>
-                     <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; margin-top: 10px; font-size: 0.85rem; color: #1e40af;">
-                        <i class="fa-solid fa-shield-check"></i> Single Sign-On enabled. Enter your credentials on the login screen.
-                     </div>`,
-                    'Return to Sign In',
-                    () => {
-                        closeModal();
-                        authEmail.focus();
-                    }
-                );
+        // Clear error states on input
+        document.querySelectorAll("input").forEach(input => {
+            input.addEventListener("input", () => {
+                input.classList.remove("input-error");
             });
-        }
+        });
     </script>
 </body>
 </html>
