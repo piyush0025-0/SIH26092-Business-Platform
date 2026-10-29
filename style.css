@@ -2609,6 +2609,320 @@ input[type="range"]::-webkit-slider-thumb {
     box-shadow: 0 0 0 3px var(--primary-glow);
 }
 
+/* ==========================================================================
+   DIGITAL KHATA & FINANCIAL LEDGER STYLES (LEDGER.HTML & DASHBOARD)
+   ========================================================================== */
+.ledger-hero-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.ledger-kpi {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.4rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: var(--transition);
+}
+
+.ledger-kpi:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.ledger-kpi-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.ledger-kpi-val {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--dark);
+    letter-spacing: -0.02em;
+}
+
+.ledger-kpi-sub {
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ledger-controls-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.ledger-filter-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 12px;
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    .ledger-filter-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .ledger-filter-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ledger-filter-row input,
+.ledger-filter-row select {
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 0.88rem;
+    outline: none;
+    transition: var(--transition);
+    background: #ffffff;
+}
+
+.ledger-filter-row input:focus,
+.ledger-filter-row select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+.ledger-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+}
+
+.ledger-card-header {
+    padding: 1.25rem 1.8rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fafafa;
+}
+
+.ledger-card-header h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ledger-table-wrap {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.ledger-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.ledger-table th {
+    background: #f8fafc;
+    color: var(--text-muted);
+    font-weight: 800;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.ledger-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    color: var(--dark);
+    vertical-align: middle;
+}
+
+.ledger-table tbody tr {
+    transition: background 0.15s ease;
+}
+
+.ledger-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.txn-desc-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.txn-title {
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.txn-ref {
+    font-size: 0.76rem;
+    color: var(--text-light);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.type-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.type-pill.sale {
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+}
+
+.type-pill.purchase {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+}
+
+.type-pill.expense {
+    background: #fffbeb;
+    color: #d97706;
+    border: 1px solid #fde68a;
+}
+
+.mode-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+.txn-amt {
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.txn-amt.positive {
+    color: var(--emerald);
+}
+
+.txn-amt.negative {
+    color: #dc2626;
+}
+
+.txn-amt.warning {
+    color: #d97706;
+}
+
+.action-btn-del {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: var(--transition);
+}
+
+.action-btn-del:hover {
+    color: #ef4444;
+    background: #fee2e2;
+}
+
+.cashflow-meter-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.cashflow-progress-bar {
+    height: 12px;
+    border-radius: 9999px;
+    overflow: hidden;
+    display: flex;
+    background: #e2e8f0;
+    margin: 12px 0 10px;
+}
+
+.cashflow-segment {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.cashflow-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.cashflow-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cashflow-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* Print styles for statement */
+@media print {
+    .page-banner-actions,
+    .ledger-controls-card,
+    .navbar,
+    .footer,
+    .action-btn-del {
+        display: none !important;
+    }
+    .page-container {
+        padding: 0 !important;
+    }
+}
+
 /* Footer */
 .footer {
     background: var(--dark);

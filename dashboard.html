@@ -37,6 +37,7 @@
             <a href="schemes.html"><i class="fa-solid fa-landmark"></i> <span>Govt Schemes</span></a>
             <a href="profile.html"><i class="fa-regular fa-user"></i> <span>Business Profile</span></a>
             <a href="expenses.html"><i class="fa-solid fa-calculator"></i> <span>Expenses & Capital</span></a>
+            <a href="ledger.html"><i class="fa-solid fa-book-journal-whills"></i> <span>Digital Khata</span></a>
             <a href="#assistant"><i class="fa-solid fa-robot"></i> <span>AI Co-Pilot</span></a>
         </nav>
 
@@ -430,10 +431,15 @@
 
     <!-- ================= BUSINESS MANAGEMENT ================= -->
     <section class="business-section" id="business">
-        <div class="section-heading">
-            <span class="section-tag">DAILY BOOKKEEPING</span>
-            <h2>Business Health & Financial Ledger</h2>
-            <p>Record daily sales and overheads to automatically monitor your operating margins and net profit:</p>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+            <div class="section-heading" style="margin-bottom: 0;">
+                <span class="section-tag">DAILY BOOKKEEPING</span>
+                <h2>Business Health & Financial Ledger</h2>
+                <p>Record daily sales and overheads to automatically monitor your operating margins and net profit:</p>
+            </div>
+            <a href="ledger.html" class="btn btn-primary">
+                <i class="fa-solid fa-book-journal-whills"></i> <span>Open Full Digital Khata</span>
+            </a>
         </div>
 
         <div class="business-dashboard-grid">
@@ -442,7 +448,7 @@
                     <span>TOTAL SALES</span>
                     <i class="fa-solid fa-arrow-trend-up"></i>
                 </div>
-                <h3 id="stat-sales-val">₹85,000</h3>
+                <h3 id="stat-sales-val">₹1,05,000</h3>
                 <span class="trend-badge positive">+14.2% Growth</span>
             </div>
 
@@ -460,7 +466,7 @@
                     <span>OPERATING EXPENSES</span>
                     <i class="fa-solid fa-receipt"></i>
                 </div>
-                <h3 id="stat-expenses-val">₹11,000</h3>
+                <h3 id="stat-expenses-val">₹21,000</h3>
                 <span class="trend-badge warning">Rent & Utilities</span>
             </div>
 
@@ -469,8 +475,8 @@
                     <span>ESTIMATED NET PROFIT</span>
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
-                <h3 id="stat-profit-val">₹26,000</h3>
-                <span class="trend-badge positive font-bold">Healthy Margin (30.5%)</span>
+                <h3 id="stat-profit-val">₹36,000</h3>
+                <span class="trend-badge positive font-bold" id="dashboard-profit-margin-pill">Healthy Margin (34.3%)</span>
             </div>
         </div>
 
@@ -488,6 +494,36 @@
                 <button id="add-txn-btn" class="btn btn-secondary">
                     <i class="fa-solid fa-plus"></i> Record Entry
                 </button>
+            </div>
+        </div>
+
+        <!-- Recent Transactions Mini Journal -->
+        <div class="ledger-card" style="margin-top: 1.5rem; margin-bottom: 0;">
+            <div class="ledger-card-header">
+                <h3>
+                    <i class="fa-solid fa-clock-rotate-left" style="color: var(--primary);"></i>
+                    <span>Recent Journal Entries</span>
+                </h3>
+                <a href="ledger.html" class="btn btn-sm btn-primary">
+                    <span>View All Records in Digital Khata</span> <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="ledger-table-wrap">
+                <table class="ledger-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 140px;">Date & Time</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Payment Mode</th>
+                            <th>Flow Type</th>
+                            <th style="text-align: right;">Amount (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dashboard-recent-ledger-tbody">
+                        <!-- Populated dynamically via script.js -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
@@ -514,6 +550,7 @@
                 <a href="schemes.html">Government Schemes</a>
                 <a href="expenses.html">Capital & Expense Studio</a>
                 <a href="profile.html">Business Profile & Scorecard</a>
+                <a href="ledger.html">Digital Khata & Ledger</a>
                 <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub Repository</a>
             </div>
 

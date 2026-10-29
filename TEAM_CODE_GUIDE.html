@@ -743,14 +743,28 @@
                     <div class="file-card">
                         <div class="file-card-top">
                             <span class="file-name"><i class="fa-solid fa-file-code"></i> script.js</span>
-                            <span class="line-badge">Lines 1560–1620</span>
+                            <span class="line-badge">Lines 1560–1680</span>
                         </div>
                         <div class="file-desc">
-                            <strong>Digital Khata Engine:</strong>
+                            <strong>Digital Khata Engine & LocalStorage Sync:</strong>
                             <div class="formula-box">
                                 Net Profit = Total Sales - (Inventory Purchases + Operating Expenses)
                             </div>
-                            <code>refreshKpis()</code> dynamically colors Net Profit Green (<code>#059669</code>) on profit or Red (<code>#e11d48</code>) on loss.
+                            <code>getLedgerData()</code>, <code>saveLedgerData()</code> & <code>refreshKpis()</code> dynamically sync data across <code>dashboard.html</code> and <code>ledger.html</code> via <code>samarth_ledger_transactions</code>, color-coding Net Profit Green (<code>#059669</code>) on profit or Red (<code>#e11d48</code>) on loss.
+                        </div>
+                    </div>
+
+                    <div class="file-card">
+                        <div class="file-card-top">
+                            <span class="file-name"><i class="fa-solid fa-file-code"></i> ledger.html</span>
+                            <span class="line-badge">Dedicated Page</span>
+                        </div>
+                        <div class="file-desc">
+                            <strong>Dedicated Digital Khata & Financial Ledger Portal:</strong>
+                            <br>• <strong>Full Journal History:</strong> Live transaction log with timestamp, category tag, payment mode pill (UPI, Cash, Net Banking), and debit/credit color indicators.
+                            <br>• <strong>Real-time KPI Suite:</strong> Total Revenue, Purchases, Overheads, Net Margin %, and Entry Count synced in real-time.
+                            <br>• <strong>Smart Multi-Filters:</strong> Filter by Type (Sales/Purchase/Expense), Payment Mode, Date sorting, and instant keyword search.
+                            <br>• <strong>Financial Actions:</strong> "+ Add Transaction" modal, "Export CSV" for accountant audits, and official "Print Statement" formatting.
                         </div>
                     </div>
                 </div>
@@ -808,7 +822,7 @@
                             <td><strong>4</strong></td>
                             <td><strong>Sakshi</strong></td>
                             <td>Trilingual AI Advisor & Digital Khata</td>
-                            <td>Hindi/Hinglish Guided Business Roadmap ➔ Capital auto-split ➔ Digital Khata</td>
+                            <td>Hindi/Hinglish Guided Business Roadmap ➔ Capital auto-split ➔ Digital Khata (<code>ledger.html</code>)</td>
                             <td><strong>60 sec</strong></td>
                         </tr>
                         <tr>

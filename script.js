@@ -2174,31 +2174,173 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // 7. BUSINESS LEDGER / KHATA LOGGER
+    // 7. BUSINESS LEDGER / KHATA LOGGER (SHARED SYNC)
     // ==========================================
+    const DEFAULT_LEDGER_DATA = [
+        {
+            id: "txn_1",
+            date: "2026-10-29T16:30:00",
+            desc: "Evening Retail Counter Sales & Daily Billing",
+            category: "Counter Sales",
+            mode: "UPI / QR",
+            type: "sale",
+            amount: 28500,
+            ref: "REC-2026-104"
+        },
+        {
+            id: "txn_2",
+            date: "2026-10-29T14:15:00",
+            desc: "FMCG Grocery & Packed Spices Consignment",
+            category: "Raw Material / Inventory",
+            mode: "Bank Transfer",
+            type: "purchase",
+            amount: 32000,
+            ref: "BILL-INV-891"
+        },
+        {
+            id: "txn_3",
+            date: "2026-10-29T11:45:00",
+            desc: "Morning Customer Walk-ins & Cash Purchases",
+            category: "Counter Sales",
+            mode: "Cash",
+            type: "sale",
+            amount: 34500,
+            ref: "REC-2026-103"
+        },
+        {
+            id: "txn_4",
+            date: "2026-10-28T18:20:00",
+            desc: "Commercial Electricity Bill & Meter Charges",
+            category: "Electricity / Bills",
+            mode: "UPI / QR",
+            type: "expense",
+            amount: 6500,
+            ref: "UPPCL-E-BILL"
+        },
+        {
+            id: "txn_5",
+            date: "2026-10-28T15:00:00",
+            desc: "Dairy, Milk & Bakery Supplies Consignment",
+            category: "Raw Material / Inventory",
+            mode: "UPI / QR",
+            type: "purchase",
+            amount: 16000,
+            ref: "DAIRY-VEND-44"
+        },
+        {
+            id: "txn_6",
+            date: "2026-10-27T17:10:00",
+            desc: "Corporate Bulk Festive Snack Packs Order",
+            category: "Online / Bulk Order",
+            mode: "Bank Transfer",
+            type: "sale",
+            amount: 42000,
+            ref: "CORP-PO-551"
+        },
+        {
+            id: "txn_7",
+            date: "2026-10-27T12:00:00",
+            desc: "Monthly Shop Rent to Commercial Landlord",
+            category: "Shop Rent",
+            mode: "Bank Transfer",
+            type: "expense",
+            amount: 14500,
+            ref: "RENT-OCT-2026"
+        }
+    ];
+
+    function getLedgerData() {
+        try {
+            const stored = localStorage.getItem("samarth_ledger_transactions");
+            if (stored) {
+                const list = JSON.parse(stored);
+                if (Array.isArray(list) && list.length > 0) return list;
+            }
+        } catch(e) {}
+        localStorage.setItem("samarth_ledger_transactions", JSON.stringify(DEFAULT_LEDGER_DATA));
+        return DEFAULT_LEDGER_DATA;
+    }
+
+    function saveLedgerData(list) {
+        localStorage.setItem("samarth_ledger_transactions", JSON.stringify(list));
+    }
+
     const addTxnBtn = document.getElementById("add-txn-btn");
     const txnDesc = document.getElementById("txn-desc");
     const txnType = document.getElementById("txn-type");
     const txnAmount = document.getElementById("txn-amount");
 
-    let currentSales = 85000;
-    let currentPurchases = 48000;
-    let currentExpenses = 11000;
+    function renderDashboardLedger() {
+        const transactions = getLedgerData();
 
-    function refreshKpis() {
+        const currentSales = transactions.filter(t => t.type === 'sale').reduce((sum, t) => sum + Number(t.amount), 0);
+        const currentPurchases = transactions.filter(t => t.type === 'purchase').reduce((sum, t) => sum + Number(t.amount), 0);
+        const currentExpenses = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + Number(t.amount), 0);
+        const netProfit = currentSales - (currentPurchases + currentExpenses);
+        const marginPct = currentSales > 0 ? ((netProfit / currentSales) * 100).toFixed(1) : 0;
+
         const salesEl = document.getElementById("stat-sales-val");
         const purchasesEl = document.getElementById("stat-purchases-val");
         const expensesEl = document.getElementById("stat-expenses-val");
         const profitEl = document.getElementById("stat-profit-val");
+        const marginPill = document.getElementById("dashboard-profit-margin-pill");
 
         if (salesEl) salesEl.textContent = formatINR(currentSales);
         if (purchasesEl) purchasesEl.textContent = formatINR(currentPurchases);
         if (expensesEl) expensesEl.textContent = formatINR(currentExpenses);
 
-        const netProfit = currentSales - (currentPurchases + currentExpenses);
         if (profitEl) {
             profitEl.textContent = formatINR(netProfit);
             profitEl.style.color = netProfit >= 0 ? "var(--emerald)" : "var(--rose)";
+        }
+        if (marginPill) {
+            marginPill.textContent = `Healthy Margin (${marginPct}%)`;
+        }
+
+        // Render recent mini table
+        const recentTbody = document.getElementById("dashboard-recent-ledger-tbody");
+        if (recentTbody) {
+            recentTbody.innerHTML = "";
+            const recent = transactions.slice(0, 5);
+            recent.forEach(t => {
+                const tr = document.createElement("tr");
+
+                let typeClass = "sale";
+                let typeIcon = "fa-plus";
+                let typeText = "Sale (+)";
+                let amtClass = "positive";
+                let amtPrefix = "+";
+
+                if (t.type === "purchase") {
+                    typeClass = "purchase";
+                    typeIcon = "fa-boxes-stacked";
+                    typeText = "Purchase (-)";
+                    amtClass = "negative";
+                    amtPrefix = "-";
+                } else if (t.type === "expense") {
+                    typeClass = "expense";
+                    typeIcon = "fa-receipt";
+                    typeText = "Expense (-)";
+                    amtClass = "warning";
+                    amtPrefix = "-";
+                }
+
+                let dStr = t.date;
+                try {
+                    const d = new Date(t.date);
+                    dStr = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+                } catch(e) {}
+
+                tr.innerHTML = `
+                    <td style="font-size: 0.82rem; color: #64748b; font-weight: 600;">${dStr}</td>
+                    <td><strong>${t.desc}</strong></td>
+                    <td style="font-size: 0.82rem; color: #475569;">${t.category || 'General'}</td>
+                    <td><span class="mode-pill">${t.mode || 'Cash'}</span></td>
+                    <td><span class="type-pill ${typeClass}"><i class="fa-solid ${typeIcon}"></i> ${typeText}</span></td>
+                    <td class="txn-amt ${amtClass}">${amtPrefix}${formatINR(t.amount)}</td>
+                `;
+                recentTbody.appendChild(tr);
+            });
         }
     }
 
@@ -2206,29 +2348,39 @@ document.addEventListener("DOMContentLoaded", function () {
         addTxnBtn.addEventListener("click", function () {
             const amount = parseFloat(txnAmount?.value);
             const desc = txnDesc?.value.trim();
-            const type = txnType?.value;
+            const type = txnType?.value || "sale";
 
             if (!amount || isNaN(amount) || amount <= 0) {
-                showToast("Please enter a valid transaction amount!", "fa-triangle-exclamation");
+                showToast("Please enter a valid positive transaction amount!", "fa-triangle-exclamation");
                 return;
             }
 
-            if (type === "sale") {
-                currentSales += amount;
-                showToast(`Sale recorded: +${formatINR(amount)}`);
-            } else if (type === "purchase") {
-                currentPurchases += amount;
-                showToast(`Inventory purchase recorded: -${formatINR(amount)}`);
-            } else if (type === "expense") {
-                currentExpenses += amount;
-                showToast(`Operating expense recorded: -${formatINR(amount)}`);
-            }
+            const cleanDesc = desc || (type === "sale" ? "Daily Counter Sales" : (type === "purchase" ? "Stock Restock" : "Operating Expense"));
+            const newTxn = {
+                id: "txn_" + Date.now(),
+                date: new Date().toISOString(),
+                desc: cleanDesc,
+                category: type === "sale" ? "Counter Sales" : (type === "purchase" ? "Raw Material / Inventory" : "Packaging & Misc"),
+                mode: "UPI / QR",
+                type: type,
+                amount: amount,
+                ref: "TXN-" + Math.floor(1000 + Math.random() * 9000)
+            };
 
-            refreshKpis();
+            const list = getLedgerData();
+            list.unshift(newTxn);
+            saveLedgerData(list);
+
+            renderDashboardLedger();
+
+            showToast(`${type.toUpperCase()} recorded: ${formatINR(amount)}`, "fa-circle-check");
+
             if (txnDesc) txnDesc.value = "";
             if (txnAmount) txnAmount.value = "";
         });
     }
+
+    renderDashboardLedger();
 
     console.log("Samarth Business Platform (SIH26092) Engine Ready.");
 });

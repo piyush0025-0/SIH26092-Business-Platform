@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Khata & Financial Ledger | Samarth Business (SIH26092)</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="detail-body">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div>
+                <h2>Samarth<span>Business</span></h2>
+                <span class="sub-brand">Digital Khata Portal • SIH26092</span>
+            </div>
+        </div>
+
+        <nav class="nav-links">
+            <a href="dashboard.html"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a>
+            <a href="schemes.html"><i class="fa-solid fa-landmark"></i> <span>Govt Schemes</span></a>
+            <a href="profile.html"><i class="fa-regular fa-user"></i> <span>Business Profile</span></a>
+            <a href="expenses.html"><i class="fa-solid fa-calculator"></i> <span>Expenses & Capital</span></a>
+            <a href="ledger.html" class="active"><i class="fa-solid fa-book-journal-whills"></i> <span>Digital Khata</span></a>
+            <a href="dashboard.html#assistant"><i class="fa-solid fa-robot"></i> <span>AI Co-Pilot</span></a>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- User Profile Greeting & Logout -->
+            <div class="user-greeting-badge">
+                <i class="fa-regular fa-circle-user"></i>
+                <span id="user-display-name">Piyush</span>
+            </div>
+            <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer" class="btn-github" title="View Source Code on GitHub">
+                <i class="fa-brands fa-github"></i> <span>GitHub</span>
+            </a>
+            <a href="expenses.html" class="btn btn-sm btn-secondary">
+                <i class="fa-solid fa-file-pdf" style="color: #e11d48;"></i> <span>Bank DPR</span>
+            </a>
+            <button id="logout-btn" class="btn btn-sm btn-outline-danger">
+                <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
+            </button>
+        </div>
+    </header>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="page-container">
+        <!-- Page Banner -->
+        <div class="page-banner">
+            <div class="page-banner-content">
+                <div class="page-breadcrumbs">
+                    <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                    <span>Digital Khata & Financial Ledger</span>
+                </div>
+                <h1><i class="fa-solid fa-book-journal-whills" style="color: var(--primary);"></i> Digital Khata & Financial Ledger</h1>
+                <p>Record daily sales, vendor purchases, and operational overheads to monitor operating profit margins, cash balances, and maintain bank-verifiable credit records.</p>
+            </div>
+            <div class="page-banner-actions">
+                <button type="button" class="btn btn-primary" id="open-record-modal-btn">
+                    <i class="fa-solid fa-plus-circle"></i> <span>Add Transaction</span>
+                </button>
+                <button type="button" class="btn btn-secondary" id="export-csv-btn">
+                    <i class="fa-solid fa-file-excel" style="color: #10b981;"></i> <span>Export CSV</span>
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> <span>Print Statement</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= HERO FINANCIAL METRICS (6 KPIS) ================= -->
+        <div class="ledger-hero-kpis">
+            <div class="ledger-kpi" style="border-top: 4px solid var(--emerald);">
+                <div class="ledger-kpi-top">
+                    <span>Total Sales / Revenue</span>
+                    <i class="fa-solid fa-arrow-trend-up" style="color: var(--emerald);"></i>
+                </div>
+                <div class="ledger-kpi-val" id="ledger-sales-val">₹1,05,000</div>
+                <div class="ledger-kpi-sub" style="color: var(--emerald);">
+                    <i class="fa-solid fa-circle-check"></i> <span>Operating Cash Inflow</span>
+                </div>
+            </div>
+
+            <div class="ledger-kpi" style="border-top: 4px solid var(--primary);">
+                <div class="ledger-kpi-top">
+                    <span>Inventory Purchases</span>
+                    <i class="fa-solid fa-boxes-stacked" style="color: var(--primary);"></i>
+                </div>
+                <div class="ledger-kpi-val" id="ledger-purchases-val">₹48,000</div>
+                <div class="ledger-kpi-sub" style="color: var(--primary);">
+                    <i class="fa-solid fa-warehouse"></i> <span>Stock Replenished</span>
+                </div>
+            </div>
+
+            <div class="ledger-kpi" style="border-top: 4px solid var(--amber);">
+                <div class="ledger-kpi-top">
+                    <span>Operating Expenses</span>
+                    <i class="fa-solid fa-receipt" style="color: var(--amber);"></i>
+                </div>
+                <div class="ledger-kpi-val" id="ledger-expenses-val">₹21,000</div>
+                <div class="ledger-kpi-sub" style="color: var(--amber);">
+                    <i class="fa-solid fa-bolt"></i> <span>Rent, Bills & Staff</span>
+                </div>
+            </div>
+
+            <div class="ledger-kpi" style="border-top: 4px solid #059669; background: #f0fdf4;">
+                <div class="ledger-kpi-top">
+                    <span>Estimated Net Profit</span>
+                    <i class="fa-solid fa-sack-dollar" style="color: #059669;"></i>
+                </div>
+                <div class="ledger-kpi-val" id="ledger-profit-val" style="color: #059669;">₹36,000</div>
+                <div class="ledger-kpi-sub" style="color: #059669;">
+                    <i class="fa-solid fa-chart-line"></i> <span id="ledger-margin-pill">Healthy Margin (34.3%)</span>
+                </div>
+            </div>
+
+            <div class="ledger-kpi" style="border-top: 4px solid #8b5cf6;">
+                <div class="ledger-kpi-top">
+                    <span>Operating Margin</span>
+                    <i class="fa-solid fa-percent" style="color: #8b5cf6;"></i>
+                </div>
+                <div class="ledger-kpi-val" id="ledger-margin-val" style="color: #6d28d9;">34.29%</div>
+                <div class="ledger-kpi-sub" style="color: #6d28d9;">
+                    <i class="fa-solid fa-shield-halved"></i> <span>Benchmark: 15% - 40%</span>
+                </div>
+            </div>
+
+            <div class="ledger-kpi" style="border-top: 4px solid var(--slate);">
+                <div class="ledger-kpi-top">
+                    <span>Total Recorded Entries</span>
+                    <i class="fa-solid fa-list-check" style="color: var(--slate);"></i>
+                </div>
+                <div class="ledger-kpi-val" id="ledger-count-val">7</div>
+                <div class="ledger-kpi-sub" style="color: var(--text-muted);">
+                    <i class="fa-solid fa-clock-rotate-left"></i> <span>Synced in Browser</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= CASHFLOW & MARGIN PROPORTION BAR ================= -->
+        <div class="cashflow-meter-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h4 style="font-size: 1rem; font-weight: 800; color: var(--dark); display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-chart-pie" style="color: var(--primary);"></i> Revenue & Cost Outflow Proportions
+                </h4>
+                <span class="badge-pill pill-emerald"><i class="fa-solid fa-circle-check"></i> Profitable MSME Cashflow</span>
+            </div>
+            
+            <div class="cashflow-progress-bar">
+                <div class="cashflow-segment" id="meter-purchases" style="width: 45.71%; background: #2563eb;" title="Inventory Purchases"></div>
+                <div class="cashflow-segment" id="meter-expenses" style="width: 20.00%; background: #f59e0b;" title="Operating Expenses"></div>
+                <div class="cashflow-segment" id="meter-profit" style="width: 34.29%; background: #10b981;" title="Net Profit"></div>
+            </div>
+
+            <div class="cashflow-legend">
+                <div class="cashflow-legend-item">
+                    <span class="cashflow-dot" style="background: #2563eb;"></span>
+                    <span>Inventory Cost: <strong id="pct-purchases-label">45.7%</strong></span>
+                </div>
+                <div class="cashflow-legend-item">
+                    <span class="cashflow-dot" style="background: #f59e0b;"></span>
+                    <span>Operating Overheads: <strong id="pct-expenses-label">20.0%</strong></span>
+                </div>
+                <div class="cashflow-legend-item">
+                    <span class="cashflow-dot" style="background: #10b981;"></span>
+                    <span>Net Margin Retained: <strong id="pct-profit-label">34.3%</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= INTERACTIVE FILTER & SEARCH BAR ================= -->
+        <div class="ledger-controls-card">
+            <div class="ledger-filter-row">
+                <div class="input-with-icon">
+                    <i class="fa-solid fa-magnifying-glass input-prefix-icon"></i>
+                    <input type="text" id="filter-search" placeholder="Search by description, party name, or bill no...">
+                </div>
+
+                <select id="filter-type">
+                    <option value="all">All Types (All Flows)</option>
+                    <option value="sale">Sales / Inflow (+)</option>
+                    <option value="purchase">Inventory Purchase (-)</option>
+                    <option value="expense">Operating Expense (-)</option>
+                </select>
+
+                <select id="filter-mode">
+                    <option value="all">All Payment Modes</option>
+                    <option value="UPI / QR">UPI / QR Code</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Bank Transfer">Bank Transfer / NEFT</option>
+                </select>
+
+                <select id="filter-sort">
+                    <option value="newest">Date: Newest First</option>
+                    <option value="oldest">Date: Oldest First</option>
+                    <option value="amount-high">Amount: High to Low</option>
+                    <option value="amount-low">Amount: Low to High</option>
+                </select>
+
+                <button type="button" class="btn btn-secondary btn-sm" id="reset-filters-btn" title="Reset all filters">
+                    <i class="fa-solid fa-rotate-left"></i> <span>Reset</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= COMPLETE LEDGER JOURNAL TABLE ================= -->
+        <div class="ledger-card">
+            <div class="ledger-card-header">
+                <h3>
+                    <i class="fa-solid fa-list-check" style="color: var(--primary);"></i>
+                    <span>Journal Entries Log</span>
+                    <span class="badge-pill pill-indigo" id="filtered-count-badge" style="margin-left: 8px;">7 Entries</span>
+                </h3>
+                <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
+                    <i class="fa-solid fa-shield-check" style="color: #059669;"></i> Bank-Appraisal Standard Bookkeeping
+                </div>
+            </div>
+
+            <div class="ledger-table-wrap">
+                <table class="ledger-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 130px;">Date & Time</th>
+                            <th>Description & Reference</th>
+                            <th>Category</th>
+                            <th>Payment Mode</th>
+                            <th>Flow Type</th>
+                            <th style="text-align: right; width: 140px;">Amount (₹)</th>
+                            <th style="text-align: center; width: 80px;" class="no-print">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ledger-tbody">
+                        <!-- Populated dynamically via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State Container -->
+            <div id="ledger-empty-state" style="display: none; text-align: center; padding: 4rem 2rem;">
+                <i class="fa-solid fa-file-circle-question" style="font-size: 3rem; color: #94a3b8; margin-bottom: 1rem;"></i>
+                <h3 style="color: var(--dark); margin-bottom: 6px;">No transactions match your search</h3>
+                <p style="color: var(--text-muted); font-size: 0.92rem; max-width: 450px; margin: 0 auto 1.5rem;">
+                    Try adjusting your filters or record a new transaction entry into your digital journal.
+                </p>
+                <button type="button" class="btn btn-primary" onclick="openRecordModal()">
+                    <i class="fa-solid fa-plus-circle"></i> Add Transaction Now
+                </button>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- ================= ADD / EDIT TRANSACTION MODAL ================= -->
+    <div id="record-modal-overlay" class="custom-modal-overlay">
+        <div class="custom-modal-card" style="max-width: 550px;">
+            <div class="custom-modal-header">
+                <h3><i class="fa-solid fa-plus-circle" style="color: var(--primary);"></i> Record New Transaction</h3>
+                <button type="button" id="record-modal-close" class="custom-modal-close" aria-label="Close modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="record-txn-form" class="custom-modal-form">
+                <!-- Transaction Type Buttons -->
+                <div class="form-group">
+                    <label><i class="fa-solid fa-shuffle"></i> Transaction Flow Type</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                        <button type="button" class="btn btn-sm btn-outline-success txn-type-select active" data-type="sale" style="border-radius: 8px; font-weight: 700;">
+                            <i class="fa-solid fa-plus"></i> Sale (+)
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-primary txn-type-select" data-type="purchase" style="border-radius: 8px; font-weight: 700;">
+                            <i class="fa-solid fa-boxes-stacked"></i> Purchase (-)
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-warning txn-type-select" data-type="expense" style="border-radius: 8px; font-weight: 700;">
+                            <i class="fa-solid fa-receipt"></i> Expense (-)
+                        </button>
+                    </div>
+                    <input type="hidden" id="modal-txn-type" value="sale">
+                </div>
+
+                <div class="form-group">
+                    <label for="modal-txn-desc"><i class="fa-solid fa-tag"></i> Description / Party Name</label>
+                    <input type="text" id="modal-txn-desc" placeholder="e.g. Counter Cash Sales, Wholesale Spices restock, Shop rent" required>
+                </div>
+
+                <div class="modal-form-row">
+                    <div class="form-group">
+                        <label for="modal-txn-amount"><i class="fa-solid fa-indian-rupee-sign"></i> Amount (₹)</label>
+                        <input type="number" id="modal-txn-amount" min="1" step="any" placeholder="e.g. 25000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-txn-category"><i class="fa-solid fa-layer-group"></i> Category</label>
+                        <select id="modal-txn-category">
+                            <option value="Counter Sales">🏪 Retail Counter Sales</option>
+                            <option value="Online / Bulk Order">📦 Bulk / Corporate Order</option>
+                            <option value="Raw Material / Inventory">📦 Goods / Stock Purchase</option>
+                            <option value="Shop Rent">🏢 Shop / Godown Rent</option>
+                            <option value="Electricity / Bills">⚡ Electricity & Utilities</option>
+                            <option value="Staff Wages">👥 Staff Wages / Salary</option>
+                            <option value="Logistics & Delivery">🛵 Transport & Delivery</option>
+                            <option value="Packaging & Misc">🏷️ Packaging & Misc</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-form-row">
+                    <div class="form-group">
+                        <label for="modal-txn-mode"><i class="fa-solid fa-credit-card"></i> Payment Mode</label>
+                        <select id="modal-txn-mode">
+                            <option value="UPI / QR">📱 UPI / QR Code</option>
+                            <option value="Cash">💵 Cash</option>
+                            <option value="Bank Transfer">🏦 Bank Transfer / NEFT</option>
+                            <option value="Cheque">📜 Cheque</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-txn-ref"><i class="fa-solid fa-receipt"></i> Bill / Ref No. (Optional)</label>
+                        <input type="text" id="modal-txn-ref" placeholder="e.g. INV-1049">
+                    </div>
+                </div>
+
+                <div class="custom-modal-actions">
+                    <button type="button" id="record-modal-cancel" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-check"></i> <span>Save Entry to Ledger</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="brand">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h2>Samarth<span>Business</span></h2>
+                        <span class="sub-brand">National Project • SIH26092</span>
+                    </div>
+                </div>
+                <p>National Business Empowerment Platform for Indian MSMEs & Micro-Entrepreneurs.</p>
+            </div>
+            <div class="footer-links">
+                <strong>Platform Navigation</strong>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="schemes.html">Government Schemes</a>
+                <a href="profile.html">Business Profile</a>
+                <a href="expenses.html">Expenses & Capital</a>
+                <a href="ledger.html">Digital Khata</a>
+                <a href="https://github.com/piyush0025-0/SIH26092-Business-Platform" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> GitHub Repository</a>
+            </div>
+            <div class="footer-official">
+                <p class="sih-tag"><i class="fa-solid fa-award"></i> Problem Statement ID: SIH26092</p>
+                <p class="copyright">© 2026 Samarth Business Platform. Dedicated to Indian MSME growth.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ================= SCRIPT LOGIC ================= -->
+    <script>
+        // Check session
+        const session = localStorage.getItem("samarth_user_session");
+        if (!session) {
+            window.location.href = "login.html";
+        } else {
+            try {
+                const user = JSON.parse(session);
+                const userName = user.name || "Piyush";
+                const userDisplay = document.getElementById("user-display-name");
+                if (userDisplay) userDisplay.textContent = userName;
+            } catch(e) {}
+        }
+
+        // Logout
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", () => {
+                localStorage.removeItem("samarth_user_session");
+                window.location.href = "login.html";
+            });
+        }
+
+        // Toast System
+        function showToast(message, type = "info") {
+            const container = document.getElementById("toast-container");
+            if (!container) return;
+            const toast = document.createElement("div");
+            toast.className = `toast toast-${type}`;
+            const iconClass = type === "success" 
+                ? "fa-circle-check" 
+                : (type === "error" ? "fa-circle-exclamation" : "fa-circle-info");
+
+            toast.innerHTML = `<i class="fa-solid ${iconClass}"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                toast.style.transform = "translateX(100%)";
+                toast.style.transition = "all 0.3s ease";
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // ================= PRE-SEEDED DEFAULT TRANSACTIONS =================
+        // Exactly matches the ₹1,05,000 / ₹48,000 / ₹21,000 / ₹36,000 KPIs!
+        const DEFAULT_TRANSACTIONS = [
+            {
+                id: "txn_1",
+                date: "2026-10-29T16:30:00",
+                desc: "Evening Retail Counter Sales & Daily Billing",
+                category: "Counter Sales",
+                mode: "UPI / QR",
+                type: "sale",
+                amount: 28500,
+                ref: "REC-2026-104"
+            },
+            {
+                id: "txn_2",
+                date: "2026-10-29T14:15:00",
+                desc: "FMCG Grocery & Packed Spices Consignment",
+                category: "Raw Material / Inventory",
+                mode: "Bank Transfer",
+                type: "purchase",
+                amount: 32000,
+                ref: "BILL-INV-891"
+            },
+            {
+                id: "txn_3",
+                date: "2026-10-29T11:45:00",
+                desc: "Morning Customer Walk-ins & Cash Purchases",
+                category: "Counter Sales",
+                mode: "Cash",
+                type: "sale",
+                amount: 34500,
+                ref: "REC-2026-103"
+            },
+            {
+                id: "txn_4",
+                date: "2026-10-28T18:20:00",
+                desc: "Commercial Electricity Bill & Meter Charges",
+                category: "Electricity / Bills",
+                mode: "UPI / QR",
+                type: "expense",
+                amount: 6500,
+                ref: "UPPCL-E-BILL"
+            },
+            {
+                id: "txn_5",
+                date: "2026-10-28T15:00:00",
+                desc: "Dairy, Milk & Bakery Supplies Consignment",
+                category: "Raw Material / Inventory",
+                mode: "UPI / QR",
+                type: "purchase",
+                amount: 16000,
+                ref: "DAIRY-VEND-44"
+            },
+            {
+                id: "txn_6",
+                date: "2026-10-27T17:10:00",
+                desc: "Corporate Bulk Festive Snack Packs Order",
+                category: "Online / Bulk Order",
+                mode: "Bank Transfer",
+                type: "sale",
+                amount: 42000,
+                ref: "CORP-PO-551"
+            },
+            {
+                id: "txn_7",
+                date: "2026-10-27T12:00:00",
+                desc: "Monthly Shop Rent to Commercial Landlord",
+                category: "Shop Rent",
+                mode: "Bank Transfer",
+                type: "expense",
+                amount: 14500,
+                ref: "RENT-OCT-2026"
+            }
+        ];
+
+        function getStoredTransactions() {
+            try {
+                const stored = localStorage.getItem("samarth_ledger_transactions");
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+                }
+            } catch(e) {}
+            localStorage.setItem("samarth_ledger_transactions", JSON.stringify(DEFAULT_TRANSACTIONS));
+            return DEFAULT_TRANSACTIONS;
+        }
+
+        function saveTransactions(list) {
+            localStorage.setItem("samarth_ledger_transactions", JSON.stringify(list));
+        }
+
+        let transactions = getStoredTransactions();
+
+        // Currency Formatter
+        function formatINR(val) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumFractionDigits: 0
+            }).format(val);
+        }
+
+        // Date Formatter
+        function formatDateTime(isoString) {
+            try {
+                const d = new Date(isoString);
+                return d.toLocaleDateString('en-IN', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                }) + ', ' + d.toLocaleTimeString('en-IN', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                });
+            } catch(e) {
+                return isoString;
+            }
+        }
+
+        // ================= RECALCULATE & RENDER METRICS =================
+        function updateMetrics() {
+            const totalSales = transactions.filter(t => t.type === 'sale').reduce((sum, t) => sum + Number(t.amount), 0);
+            const totalPurchases = transactions.filter(t => t.type === 'purchase').reduce((sum, t) => sum + Number(t.amount), 0);
+            const totalExpenses = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + Number(t.amount), 0);
+            const netProfit = totalSales - (totalPurchases + totalExpenses);
+            const marginPct = totalSales > 0 ? ((netProfit / totalSales) * 100).toFixed(2) : 0;
+
+            document.getElementById("ledger-sales-val").textContent = formatINR(totalSales);
+            document.getElementById("ledger-purchases-val").textContent = formatINR(totalPurchases);
+            document.getElementById("ledger-expenses-val").textContent = formatINR(totalExpenses);
+            
+            const profitEl = document.getElementById("ledger-profit-val");
+            profitEl.textContent = formatINR(netProfit);
+            profitEl.style.color = netProfit >= 0 ? "#059669" : "#dc2626";
+
+            document.getElementById("ledger-margin-val").textContent = `${marginPct}%`;
+            document.getElementById("ledger-margin-pill").textContent = `Healthy Margin (${marginPct}%)`;
+            document.getElementById("ledger-count-val").textContent = transactions.length;
+
+            // Update Progress Bar
+            const totalOutlay = totalSales > 0 ? totalSales : (totalPurchases + totalExpenses);
+            if (totalOutlay > 0) {
+                const pctPur = Math.max(0, Math.min(100, (totalPurchases / totalOutlay) * 100));
+                const pctExp = Math.max(0, Math.min(100, (totalExpenses / totalOutlay) * 100));
+                const pctPro = Math.max(0, Math.min(100, 100 - pctPur - pctExp));
+
+                document.getElementById("meter-purchases").style.width = `${pctPur}%`;
+                document.getElementById("meter-expenses").style.width = `${pctExp}%`;
+                document.getElementById("meter-profit").style.width = `${pctPro}%`;
+
+                document.getElementById("pct-purchases-label").textContent = `${pctPur.toFixed(1)}%`;
+                document.getElementById("pct-expenses-label").textContent = `${pctExp.toFixed(1)}%`;
+                document.getElementById("pct-profit-label").textContent = `${pctPro.toFixed(1)}%`;
+            }
+        }
+
+        // ================= RENDER TABLE =================
+        function renderTable() {
+            const tbody = document.getElementById("ledger-tbody");
+            const emptyState = document.getElementById("ledger-empty-state");
+            const filterSearch = document.getElementById("filter-search").value.toLowerCase().trim();
+            const filterType = document.getElementById("filter-type").value;
+            const filterMode = document.getElementById("filter-mode").value;
+            const filterSort = document.getElementById("filter-sort").value;
+
+            // Filter logic
+            let filtered = transactions.filter(t => {
+                const matchesSearch = !filterSearch || 
+                    t.desc.toLowerCase().includes(filterSearch) || 
+                    (t.ref && t.ref.toLowerCase().includes(filterSearch)) ||
+                    t.category.toLowerCase().includes(filterSearch);
+                const matchesType = (filterType === 'all') || (t.type === filterType);
+                const matchesMode = (filterMode === 'all') || (t.mode === filterMode);
+                return matchesSearch && matchesType && matchesMode;
+            });
+
+            // Sort logic
+            filtered.sort((a, b) => {
+                if (filterSort === 'newest') return new Date(b.date) - new Date(a.date);
+                if (filterSort === 'oldest') return new Date(a.date) - new Date(b.date);
+                if (filterSort === 'amount-high') return b.amount - a.amount;
+                if (filterSort === 'amount-low') return a.amount - b.amount;
+                return 0;
+            });
+
+            document.getElementById("filtered-count-badge").textContent = `${filtered.length} Entries`;
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = "";
+                emptyState.style.display = "block";
+                return;
+            }
+
+            emptyState.style.display = "none";
+            tbody.innerHTML = "";
+
+            filtered.forEach(txn => {
+                const tr = document.createElement("tr");
+
+                let typeClass = "sale";
+                let typeIcon = "fa-plus";
+                let typeText = "Sale (+)";
+                let amtClass = "positive";
+                let amtPrefix = "+";
+
+                if (txn.type === "purchase") {
+                    typeClass = "purchase";
+                    typeIcon = "fa-boxes-stacked";
+                    typeText = "Purchase (-)";
+                    amtClass = "negative";
+                    amtPrefix = "-";
+                } else if (txn.type === "expense") {
+                    typeClass = "expense";
+                    typeIcon = "fa-receipt";
+                    typeText = "Expense (-)";
+                    amtClass = "warning";
+                    amtPrefix = "-";
+                }
+
+                let modeIcon = "fa-credit-card";
+                if (txn.mode.includes("UPI")) modeIcon = "fa-qrcode";
+                else if (txn.mode.includes("Cash")) modeIcon = "fa-money-bill-wave";
+                else if (txn.mode.includes("Bank")) modeIcon = "fa-building-columns";
+
+                tr.innerHTML = `
+                    <td style="font-size: 0.82rem; color: #64748b; font-weight: 600;">
+                        ${formatDateTime(txn.date)}
+                    </td>
+                    <td>
+                        <div class="txn-desc-cell">
+                            <span class="txn-title">${txn.desc}</span>
+                            ${txn.ref ? `<span class="txn-ref">REF: ${txn.ref}</span>` : ''}
+                        </div>
+                    </td>
+                    <td>
+                        <span style="font-size: 0.85rem; font-weight: 600; color: #334155;">
+                            ${txn.category}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="mode-pill">
+                            <i class="fa-solid ${modeIcon}"></i> ${txn.mode}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="type-pill ${typeClass}">
+                            <i class="fa-solid ${typeIcon}"></i> ${typeText}
+                        </span>
+                    </td>
+                    <td class="txn-amt ${amtClass}">
+                        ${amtPrefix}${formatINR(txn.amount)}
+                    </td>
+                    <td style="text-align: center;" class="no-print">
+                        <button type="button" class="action-btn-del" onclick="deleteTransaction('${txn.id}')" title="Delete Entry" aria-label="Delete entry">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Delete Transaction
+        window.deleteTransaction = function(id) {
+            if (confirm("Are you sure you want to delete this journal transaction?")) {
+                transactions = transactions.filter(t => t.id !== id);
+                saveTransactions(transactions);
+                updateMetrics();
+                renderTable();
+                showToast("Transaction removed from journal.", "info");
+            }
+        };
+
+        // Filter event listeners
+        ["filter-search", "filter-type", "filter-mode", "filter-sort"].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener("input", renderTable);
+                el.addEventListener("change", renderTable);
+            }
+        });
+
+        // Reset Filters
+        document.getElementById("reset-filters-btn")?.addEventListener("click", () => {
+            document.getElementById("filter-search").value = "";
+            document.getElementById("filter-type").value = "all";
+            document.getElementById("filter-mode").value = "all";
+            document.getElementById("filter-sort").value = "newest";
+            renderTable();
+        });
+
+        // ================= MODAL FUNCTIONALITY =================
+        const recordModal = document.getElementById("record-modal-overlay");
+        const openModalBtn = document.getElementById("open-record-modal-btn");
+        const closeModalBtn = document.getElementById("record-modal-close");
+        const cancelModalBtn = document.getElementById("record-modal-cancel");
+        const recordForm = document.getElementById("record-txn-form");
+        const modalTxnType = document.getElementById("modal-txn-type");
+
+        window.openRecordModal = function() {
+            recordForm.reset();
+            modalTxnType.value = "sale";
+            document.querySelectorAll(".txn-type-select").forEach(b => {
+                b.classList.toggle("active", b.getAttribute("data-type") === "sale");
+            });
+            recordModal.style.display = "flex";
+            document.getElementById("modal-txn-desc").focus();
+        };
+
+        function closeRecordModal() {
+            recordModal.style.display = "none";
+        }
+
+        if (openModalBtn) openModalBtn.addEventListener("click", openRecordModal);
+        if (closeModalBtn) closeModalBtn.addEventListener("click", closeRecordModal);
+        if (cancelModalBtn) cancelModalBtn.addEventListener("click", closeRecordModal);
+        if (recordModal) {
+            recordModal.addEventListener("click", (e) => {
+                if (e.target === recordModal) closeRecordModal();
+            });
+        }
+
+        // Type Buttons in Modal
+        document.querySelectorAll(".txn-type-select").forEach(btn => {
+            btn.addEventListener("click", function() {
+                document.querySelectorAll(".txn-type-select").forEach(b => b.classList.remove("active"));
+                this.classList.add("active");
+                modalTxnType.value = this.getAttribute("data-type");
+            });
+        });
+
+        // Form Submit
+        if (recordForm) {
+            recordForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+
+                const desc = document.getElementById("modal-txn-desc").value.trim();
+                const amount = parseFloat(document.getElementById("modal-txn-amount").value);
+                const category = document.getElementById("modal-txn-category").value;
+                const mode = document.getElementById("modal-txn-mode").value;
+                const ref = document.getElementById("modal-txn-ref").value.trim();
+                const type = modalTxnType.value || "sale";
+
+                if (!desc || !amount || isNaN(amount) || amount <= 0) {
+                    showToast("Please enter a valid description and positive amount!", "error");
+                    return;
+                }
+
+                const newTxn = {
+                    id: "txn_" + Date.now(),
+                    date: new Date().toISOString(),
+                    desc: desc,
+                    category: category,
+                    mode: mode,
+                    type: type,
+                    amount: amount,
+                    ref: ref || `TXN-${Math.floor(1000 + Math.random() * 9000)}`
+                };
+
+                transactions.unshift(newTxn);
+                saveTransactions(transactions);
+                updateMetrics();
+                renderTable();
+                closeRecordModal();
+
+                showToast(`Recorded: ${formatINR(amount)} added to ${type.toUpperCase()}!`, "success");
+            });
+        }
+
+        // ================= EXPORT CSV =================
+        const exportCsvBtn = document.getElementById("export-csv-btn");
+        if (exportCsvBtn) {
+            exportCsvBtn.addEventListener("click", function() {
+                if (transactions.length === 0) {
+                    showToast("No transactions available to export!", "error");
+                    return;
+                }
+
+                let csv = "ID,Date,Description,Category,Payment_Mode,Flow_Type,Amount_INR,Reference\n";
+                transactions.forEach(t => {
+                    const row = [
+                        `"${t.id}"`,
+                        `"${t.date}"`,
+                        `"${t.desc.replace(/"/g, '""')}"`,
+                        `"${t.category}"`,
+                        `"${t.mode}"`,
+                        `"${t.type}"`,
+                        t.amount,
+                        `"${t.ref || ''}"`
+                    ];
+                    csv += row.join(",") + "\n";
+                });
+
+                const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.setAttribute("href", url);
+                link.setAttribute("download", `Samarth_Digital_Khata_${new Date().toISOString().slice(0, 10)}.csv`);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast("Digital Khata statement downloaded as CSV!", "success");
+            });
+        }
+
+        // Initialize on load
+        updateMetrics();
+        renderTable();
+    </script>
+</body>
+</html>
