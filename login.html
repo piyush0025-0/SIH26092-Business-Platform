@@ -526,7 +526,7 @@
                 signinForm.classList.remove("shake");
 
                 if (!enteredId || !enteredPass) {
-                    showAlert("<strong>Kripya sabhi details bharein!</strong> Login ID aur Password dono required hain.", "error");
+                    showAlert("<strong>Please enter all credentials!</strong> Both Login ID and Password are required.", "error");
                     if (!enteredId) authEmail.classList.add("input-error");
                     if (!enteredPass) authPassword.classList.add("input-error");
                     signinForm.classList.add("shake");
@@ -548,7 +548,7 @@
                     signinForm.classList.add("shake");
                     setTimeout(() => signinForm.classList.remove("shake"), 500);
 
-                    showAlert("<strong>Galat Login ID ya Password!</strong><br>Kripya apna sahi Username aur 8-digit Password enter karein.", "error");
+                    showAlert("<strong>Invalid Login ID or Password!</strong><br>Please enter your authorized Username and 8-digit Password.", "error");
                     showToast("Invalid credentials! Please try again.", "error");
                     authPassword.value = "";
                     authPassword.focus();
@@ -573,7 +573,7 @@
 
                 // Validation 1: All required
                 if (!name || !username || !bizName || !mobile || !password || !confirmPassword) {
-                    showAlert("<strong>Sabhi details bharein!</strong> Name, Username, Business Name, Mobile aur Password sabhi zaroori hain.", "error");
+                    showAlert("<strong>Please complete all fields!</strong> Name, User ID, Enterprise Name, Mobile Number, and Password are all required.", "error");
                     registerForm.classList.add("shake");
                     setTimeout(() => registerForm.classList.remove("shake"), 500);
                     return;
@@ -581,28 +581,28 @@
 
                 // Validation 2: Username format (alphanumeric, min 3 chars)
                 if (!/^[a-zA-Z0-9_]{3,25}$/.test(username)) {
-                    showAlert("<strong>User ID Invalid!</strong> Login ID kam se kam 3 characters ka hona chahiye (letters aur numbers, bina space).", "error");
+                    showAlert("<strong>Invalid User ID!</strong> User ID must be at least 3 characters long (letters and numbers only, no spaces).", "error");
                     document.getElementById("reg-username").focus();
                     return;
                 }
 
                 // Validation 3: 10-digit mobile number
                 if (!/^[0-9]{10}$/.test(mobile)) {
-                    showAlert("<strong>Mobile Number Galat Hai!</strong> Kripya 10-digit valid mobile number enter karein.", "error");
+                    showAlert("<strong>Invalid Mobile Number!</strong> Please enter a valid 10-digit mobile number.", "error");
                     document.getElementById("reg-mobile").focus();
                     return;
                 }
 
                 // Validation 4: Password min 8 digits/characters
                 if (password.length < 8) {
-                    showAlert("<strong>Password Chota Hai!</strong> Password kam se kam 8 digit ya characters ka hona anivarya hai.", "error");
+                    showAlert("<strong>Password Too Short!</strong> Password must contain at least 8 digits or characters.", "error");
                     document.getElementById("reg-password").focus();
                     return;
                 }
 
                 // Validation 5: Password confirmation match
                 if (password !== confirmPassword) {
-                    showAlert("<strong>Password Match Nahi Hua!</strong> Dono password fields me same password enter karein.", "error");
+                    showAlert("<strong>Passwords Do Not Match!</strong> Both password fields must be identical.", "error");
                     document.getElementById("reg-confirm-password").focus();
                     return;
                 }
@@ -611,7 +611,7 @@
                 const users = getRegisteredUsers();
                 const alreadyExists = users.some(u => u.username.toLowerCase() === username.toLowerCase());
                 if (alreadyExists) {
-                    showAlert(`<strong>User ID '${username}' pehle se maujood hai!</strong> Kripya koi dusra User ID choose karein.`, "error");
+                    showAlert(`<strong>User ID '${username}' is already registered!</strong> Please choose a different User ID.`, "error");
                     document.getElementById("reg-username").focus();
                     return;
                 }
@@ -642,7 +642,7 @@
                 };
                 localStorage.setItem("samarth_profile_data", JSON.stringify(profileData));
 
-                showToast(`Congratulations ${name}! Account ban gaya hai.`, "success");
+                showToast(`Congratulations ${name}! Your account has been created successfully.`, "success");
 
                 // Switch to Sign In view, prefill credentials
                 switchView("signin");
@@ -650,7 +650,7 @@
                 authPassword.value = "";
                 authPassword.focus();
 
-                showAlert(`<strong>Account Ban Gaya! 🎉</strong> Aapka User ID <strong>${username}</strong> successfully register ho gaya hai. Ab apna 8-digit password daal kar sign in karein.`, "success");
+                showAlert(`<strong>Account Created Successfully! 🎉</strong> Your User ID <strong>${username}</strong> has been registered. Please enter your 8-digit password to sign in.`, "success");
             });
         }
 
@@ -669,14 +669,14 @@
                 forgotVerifyForm.classList.remove("shake");
 
                 if (!enteredUser || !enteredMobile) {
-                    showAlert("<strong>Kripya sabhi details bharein!</strong> Login ID aur Registered Mobile Number dono required hain.", "error");
+                    showAlert("<strong>Please enter all details!</strong> Both Login ID and Registered Mobile Number are required.", "error");
                     forgotVerifyForm.classList.add("shake");
                     setTimeout(() => forgotVerifyForm.classList.remove("shake"), 500);
                     return;
                 }
 
                 if (!/^[0-9]{10}$/.test(enteredMobile)) {
-                    showAlert("<strong>Mobile Number Galat Hai!</strong> 10-digit valid mobile number enter karein.", "error");
+                    showAlert("<strong>Invalid Mobile Number!</strong> Please enter a valid 10-digit mobile number.", "error");
                     return;
                 }
 
@@ -698,7 +698,7 @@
                 } else {
                     forgotVerifyForm.classList.add("shake");
                     setTimeout(() => forgotVerifyForm.classList.remove("shake"), 500);
-                    showAlert("<strong>Details Match Nahi Hui!</strong> Diya gaya Login ID aur Registered Mobile Number match nahi ho rahe. Kripya check karke dubara try karein.", "error");
+                    showAlert("<strong>Verification Failed!</strong> The provided Login ID and registered mobile number do not match our records. Please verify and try again.", "error");
                 }
             });
         }
@@ -709,7 +709,7 @@
                 e.preventDefault();
 
                 if (!currentVerifiedUser) {
-                    showAlert("Session expire ho gaya. Kripya step 1 dubara verify karein.", "error");
+                    showAlert("Session expired. Please complete Step 1 identity verification again.", "error");
                     switchView("forgot");
                     return;
                 }
@@ -720,20 +720,20 @@
                 forgotResetForm.classList.remove("shake");
 
                 if (!newPass || !confirmNewPass) {
-                    showAlert("<strong>Naya password enter karein!</strong> Dono fields required hain.", "error");
+                    showAlert("<strong>Please enter a new password!</strong> Both password fields are required.", "error");
                     forgotResetForm.classList.add("shake");
                     setTimeout(() => forgotResetForm.classList.remove("shake"), 500);
                     return;
                 }
 
                 if (newPass.length < 8) {
-                    showAlert("<strong>Password Chota Hai!</strong> Naya password kam se kam 8 digit ya characters ka hona chahiye.", "error");
+                    showAlert("<strong>Password Too Short!</strong> New password must contain at least 8 digits or characters.", "error");
                     document.getElementById("forgot-new-password").focus();
                     return;
                 }
 
                 if (newPass !== confirmNewPass) {
-                    showAlert("<strong>Passwords Match Nahi Hue!</strong> Dono password fields identical honi chahiye.", "error");
+                    showAlert("<strong>Passwords Do Not Match!</strong> Both password fields must be identical.", "error");
                     document.getElementById("forgot-confirm-password").focus();
                     return;
                 }
@@ -759,9 +759,9 @@
                     authPassword.value = "";
                     authPassword.focus();
 
-                    showAlert(`<strong>Password Badal Diya Gaya Hai! ✅</strong> Account <strong>@${resetUsername}</strong> ka password safalta-purvak update ho gaya hai. Ab naye 8-digit password se sign in karein.`, "success");
+                    showAlert(`<strong>Password Reset Successfully! ✅</strong> Password for account <strong>@${resetUsername}</strong> has been updated. Please sign in with your new 8-digit password.`, "success");
                 } else {
-                    showAlert("User database error. Kripya dubara koshish karein.", "error");
+                    showAlert("User database error. Please try again.", "error");
                 }
             });
         }
